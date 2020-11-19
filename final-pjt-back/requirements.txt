@@ -7,3 +7,4 @@ PyJWT==1.7.1
 pytz==2020.4
 sqlparse==0.4.1
 psycopg2==2.8.6
+django-extensions==3.0.9

@@ -1,3 +1,33 @@
 from django.shortcuts import render
 
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .serializers import MovieSerializer
+from .models import Movie, Genre
+
+
 # Create your views here.
+@api_view(['POST'])
+def createMovie(request):
+    movies = request.data
+    serializer_data = []
+    # for movie in movies:
+    #     temp = movie["genres"]
+    #     movie["genres"] = []
+    #     for i in temp :
+    #         mygenre = Genre.objects.get(pk=i)
+    #         movie["genres"].append(mygenre.name)
+    #     print(movie["genres"], ',')
+        
+    #
+    #     serializer = MovieSerializer(data=movie)
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer_data.append(serializer.data)
+    # print("="*50)
+    # print(serializer_data)
+    # print("="*50)
+
+
+    return Response()

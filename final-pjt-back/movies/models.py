@@ -12,6 +12,6 @@ class Movie(models.Model):
   overview = models.TextField()
   vote_count = models.IntegerField(default=0)
   rate = models.FloatField(default=0.0)
-  genres = ArrayField(models.IntegerField())
+  genres = models.ManyToManyField()
   status = models.BooleanField(default=False)
   admin_reg = models.BooleanField(default=False)

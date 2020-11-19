@@ -1,17 +1,76 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <span v-if="login">
+        <router-link @click.native="logout" to="#">Logout</router-link>       
+      </span>
+      <span v-else>
+        <router-link :to="{ name: 'Signup' }">Signup</router-link> |
+        <router-link :to="{ name: 'Login' }">Login</router-link> 
+      </span>
     </div>
-    <router-view/>
+    <router-view @login="login = true"/>
   </div>
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
   name: 'App',
-  
+  data: function () {
+    return {
+      login: false,
+    }
+  },
+  methods: {
+    logout: function () {
+      localStorage.removeItem('jwt')
+      this.login = false
+      this.$router.push({ name: 'Login' })
+    }
+  },
+  created: function () {
+    // 로그인
+    const token = localStorage.getItem('jwt')
+
+    if (token) {
+      this.login = true
+    }
+
+    // DB
+    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=e8067ff017c9f1acd66ea2924205aae6&language=ko-KR')
+      .then( (res) => {
+        // console.log(res.data.results)
+        const movies = res.data.results
+        const movieList = []
+        for (const movie of movies) {
+          // console.log(movie)
+          const movieInfo = {
+            title: movie.title,
+            release_date: movie.release_date,
+            poster_path: movie.poster_path,
+            adult: movie.adult,
+            overview: movie.overview,
+            genres: movie.genre_ids
+          }
+          movieList.push(movieInfo)
+        }
+        console.log(movieList)
+        axios.post('http://127.0.0.1:8000/movies/', movieList)
+          .then( (res) => {
+            console.log(res)
+          })
+          .catch( (err) => {
+            console.log(err)
+          })
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+
+  }
 }
 </script>
 
