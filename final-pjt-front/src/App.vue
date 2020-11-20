@@ -40,36 +40,42 @@ export default {
     }
 
     // DB
-    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=e8067ff017c9f1acd66ea2924205aae6&language=ko-KR')
+    // axios.get('https://api.themoviedb.org/3/movie/popular?api_key=e8067ff017c9f1acd66ea2924205aae6&language=ko-KR')
+    //   .then( (res) => {
+    //     // console.log(res.data.results)
+    //     const movies = res.data.results
+    //     const movieList = []
+    //     for (const movie of movies) {
+    //       // console.log(movie)
+    //       const movieInfo = {
+    //         title: movie.title,
+    //         release_date: movie.release_date,
+    //         poster_path: movie.poster_path,
+    //         adult: movie.adult,
+    //         overview: movie.overview,
+    //         genres: movie.genre_ids
+    //       }
+    //       movieList.push(movieInfo)
+    //     }
+    //     console.log(movieList)
+    //     axios.post('http://127.0.0.1:8000/movies/', movieList)
+    //       .then( (res) => {
+    //         console.log(res)
+    //       })
+    //       .catch( (err) => {
+    //         console.log(err)
+    //       })
+    //   })
+    //   .catch( (err) => {
+    //     console.log(err)
+    //   })
+    axios.get('http://127.0.0.1:8000/movies/')
       .then( (res) => {
-        // console.log(res.data.results)
-        const movies = res.data.results
-        const movieList = []
-        for (const movie of movies) {
-          // console.log(movie)
-          const movieInfo = {
-            title: movie.title,
-            release_date: movie.release_date,
-            poster_path: movie.poster_path,
-            adult: movie.adult,
-            overview: movie.overview,
-            genres: movie.genre_ids
-          }
-          movieList.push(movieInfo)
-        }
-        console.log(movieList)
-        axios.post('http://127.0.0.1:8000/movies/', movieList)
-          .then( (res) => {
-            console.log(res)
-          })
-          .catch( (err) => {
-            console.log(err)
-          })
+        console.log(res)
       })
       .catch( (err) => {
         console.log(err)
       })
-
   }
 }
 </script>
