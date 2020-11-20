@@ -29,11 +29,10 @@ def getMovies(request):
             adult= movie['adult'],
             overview= movie['overview'],
         )
-        movie_new.save(commit=False)
+        movie_new.save()
 
         for genre in movie['genre_ids']:
             movie_new.genres.add(genre)
-        movie_new.save()
     completed_movies = Movie.objects.all()
     serialzed_movies = MovieSerializer(completed_movies, many=True)
     
