@@ -42,3 +42,13 @@ def manage_members(request):
         serializer = UserSerializer(members, many=True)
         return Response(serializer.data)
     return Response(False)
+
+
+@api_view(['POST'])
+def delete_members(request, member_id):
+    manager = get_user_model().objects.get(username=request.data['username'])
+    if manager.is_superuser :
+        member = get_user_model().objects.get(pk=member_id)
+        member.delete()
+        return Response({'who': member_id})
+    return Response(False)
