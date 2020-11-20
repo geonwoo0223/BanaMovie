@@ -11,7 +11,7 @@
       </span>
 
       <span v-if="admin">
-        <p>관리자페이지</p>
+        <router-link :to="{ name: 'AdminPage' }">관리자</router-link> 
       </span>
       
     </div>
@@ -46,6 +46,8 @@ export default {
     if (token) {
       this.login = true
     }
+    // this.admin = this.$store.state.is_admin
+    // console.log(this.admin)
 
     axios.get('http://127.0.0.1:8000/movies/')
       .then( (res) => {
@@ -56,6 +58,7 @@ export default {
       .catch( (err) => {
         console.log(err)
       })
+    
   }
 }
 </script>

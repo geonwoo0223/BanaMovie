@@ -37,23 +37,25 @@ export default {
     login: function () {
       axios.post(`${SERVER_URL}/accounts/api-token-auth/`, this.credentials)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           localStorage.setItem('jwt', res.data.token)
           this.$emit('login')
-          console.log(res)
-          this.$router.push({ name: 'MovieList' })
+          // console.log(res)
 
           axios.post(`${SERVER_URL}/accounts/is-admin/`, this.credentials)
-          .then(() => {
+          .then((res) => {
+            console.log(res)
+            if (res.data) {
+              // this.$store.state.is_admin = true
               this.$emit('admin')
-
+            }
           })
           .catch((err) => {
             console.log("관리자확인요청에러났다!!!!!!!!!!!!")
             console.log(err)
-          
           })
 
+          this.$router.push({ name: 'MovieList' })
         })
         .catch((err) => {
           console.log(err)
