@@ -8,8 +8,5 @@ pytz==2020.4
 sqlparse==0.4.1
 psycopg2==2.8.6
 django-extensions==3.0.9
-<<<<<<< HEAD
-jsonfield==3.1.0
-=======
 requests==2.25.0
->>>>>>> 231d395a907c645004ca190b10baad2cc2b5a7c9
+django-jsonfield==1.4.1
