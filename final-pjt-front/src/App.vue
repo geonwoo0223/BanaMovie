@@ -10,7 +10,7 @@
         <router-link :to="{ name: 'Login' }">Login</router-link> 
       </span>
       <span v-if="is_admin">
-        | <router-link :to="{ name: 'AdminPage' }">관리자</router-link> 
+        | <router-link :to="{ name: 'AddMovie' }">영화추가</router-link> 
       </span>
       
     </div>

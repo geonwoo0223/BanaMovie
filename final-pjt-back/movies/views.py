@@ -1,13 +1,12 @@
 import requests
 
 from django.shortcuts import get_object_or_404
-from django.core import serializers
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import MovieSerializer
+from .serializers import MovieSerializer, GenreSerializer
 from .models import Movie, Genre, UserGenre
 
 
@@ -40,7 +39,14 @@ def getMovies(request):
     serialzed_movies = MovieSerializer(completed_movies, many=True)
     
     return Response(serialzed_movies.data)
-    
+
+@api_view(['GET'])
+def getGenre(request):
+    genres = Genre.objects.all()
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def recommendMovie(request):
     # 로그인 되어있는 유저
@@ -60,3 +66,7 @@ def recommendMovie(request):
     serialzed_movies = MovieSerializer(recommended, many=True)
     
     return Response(serialzed_movies.data)
+
+@api_view(['POST'])
+def addMovie(request):
+    pass

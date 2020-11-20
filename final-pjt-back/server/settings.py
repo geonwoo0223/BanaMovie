@@ -142,5 +142,10 @@ FIXTURE_DIRS = (
 
 STATIC_URL = '/static/'
 
+import datetime
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+}
+
 
 AUTH_USER_MODEL = 'accounts.User'
