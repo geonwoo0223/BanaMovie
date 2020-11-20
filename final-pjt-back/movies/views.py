@@ -6,8 +6,12 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import MovieSerializer, GenreSerializer
-from .models import Movie, Genre, UserGenre
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
+from .serializers import MovieSerializer, GenreSerializer, ReviewSerializer
+from .models import Movie, Genre, UserGenre, Review
 
 
 @api_view(['GET'])
@@ -93,3 +97,29 @@ def movieDetail(request, movie_id):
     movie = get_object_or_404(Movie, movie_no=movie_id)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
+
+
+@api_view(['GET','POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_add_Review(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.method == 'GET':
+        pass
+    else:
+        print("나는리퀘점다타다",request.data)
+        serializer = ReviewSerializer(data=request.data)
+        print("나는시리어라이저다",serializer)
+        # if serializer.is_valid(raise_exception=True):
+        #     print("통과")
+        #     serializer.save(user=request.user, movie=movie)
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # else:
+        #     print("노통과", serializer.errors)
+        serializer.is_valid()
+        print("노통과", serializer.errors)
+        serializer.save(user=request.user, movie=movie)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+

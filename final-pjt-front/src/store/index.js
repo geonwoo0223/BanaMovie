@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     movie_list: [],
+    login: false,
     is_admin: '',
     movie_count: 50000000,
     movie_selected: '',

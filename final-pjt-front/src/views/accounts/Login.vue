@@ -40,6 +40,7 @@ export default {
           // console.log(res)
           localStorage.setItem('jwt', res.data.token)
           this.$emit('login')
+          this.$store.state.login = true
           // console.log(res)
 
           axios.post(`${SERVER_URL}/accounts/is-admin/`, this.credentials)
