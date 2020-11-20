@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class Genre(models.Model):
   name = models.CharField(max_length=50)
@@ -15,3 +16,8 @@ class Movie(models.Model):
   genres = models.ManyToManyField(Genre, related_name='movie_genres')
   status = models.BooleanField(default=False)
   admin_reg = models.BooleanField(default=False)
+
+class UserGenre(models.Model):
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+  genre_count = models.IntegerField(default=0)

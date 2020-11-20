@@ -3,7 +3,6 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
@@ -15,8 +14,13 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
     execute_from_command_line(sys.argv)
 
+    # migrate 하면 자동으로 장르 데이터 load
+    from django.core.management import execute_from_command_line
+    if len(sys.argv) == 2 and sys.argv[1] == 'migrate':
+        execute_from_command_line(['manage.py', "loaddata","initial_data.json"])
 
 if __name__ == '__main__':
     main()

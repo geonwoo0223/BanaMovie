@@ -19,8 +19,11 @@ def getMovies(request):
     }
     r = requests.get(url, params=payload)
     movies = r.json()
-    original_data = Movie.objects.all()
+    # original_data = Movie.objects.all().filter
     for movie in movies['results']:
+        # 존재하는 영화는 다시 pass
+        if Movie.objects.all().filter(movie_no=movie['id']).exists():
+            continue
         movie_new = Movie(
             movie_no= movie['id'],
             title= movie['title'],
@@ -39,3 +42,5 @@ def getMovies(request):
     return Response(serialzed_movies.data)
     
 
+def recommendMovie(request):
+    pass
