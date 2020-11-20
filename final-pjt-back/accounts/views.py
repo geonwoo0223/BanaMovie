@@ -32,6 +32,7 @@ def signup(request):
 def is_admin(request):
     print(request.data)
     user = get_user_model().objects.get(username=request.data["username"])
+    # user = request.user
     if user.is_superuser : 
         print("hello admin!")
         return Response(True, status=status.HTTP_202_ACCEPTED)
