@@ -1,5 +1,4 @@
 from django.db import models
-import jsonfield
 
 class Genre(models.Model):
   name = models.CharField(max_length=50)
