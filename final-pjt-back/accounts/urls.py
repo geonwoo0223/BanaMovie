@@ -8,5 +8,6 @@ urlpatterns = [
     path('signup/', views.signup),
     path('api-token-auth/', obtain_jwt_token),
     path('is-admin/', views.is_admin),
+    path('manage_members/', views.manage_members),
 
 ]

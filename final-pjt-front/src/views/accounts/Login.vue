@@ -55,6 +55,7 @@ export default {
           })
 
           this.$router.push({ name: 'MovieList' })
+          this.$store.state.username = this.credentials.username
         })
         .catch((err) => {
           console.log(err)

@@ -39,3 +39,14 @@ def is_admin(request):
     else : 
         print("not admin....")
         return Response(False)
+
+
+@api_view(['POST'])
+def manage_members(request):
+    print("리퀘아이디", request.data)
+    manager = get_user_model().objects.get(username=request.data['username'])
+    if manager.is_superuser : 
+        members = get_user_model().objects.all()
+        serializer = UserSerializer(members, many=True)
+        return Response(serializer.data)
+    return Response(False)
