@@ -9,18 +9,17 @@
         <router-link :to="{ name: 'Signup' }">Signup</router-link> |
         <router-link :to="{ name: 'Login' }">Login</router-link> 
       </span>
-
-      <span v-if="admin">
-        <router-link :to="{ name: 'AdminPage' }">관리자</router-link> 
+      <span v-if="is_admin">
+        | <router-link :to="{ name: 'AdminPage' }">관리자</router-link> 
       </span>
       
     </div>
-    <router-view @login="login = true" @admin="admin = true"/>
+    <router-view @login="login = true" />
   </div>
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -28,14 +27,13 @@ export default {
   data: function () {
     return {
       login: false,
-      admin: false,
     }
   },
   methods: {
     logout: function () {
       localStorage.removeItem('jwt')
       this.login = false
-      this.admin = false
+      this.$store.state.is_admin = false
       this.$router.push({ name: 'Login' })
     }
   },
@@ -46,19 +44,21 @@ export default {
     if (token) {
       this.login = true
     }
-    // this.admin = this.$store.state.is_admin
-    // console.log(this.admin)
 
     axios.get('http://127.0.0.1:8000/movies/')
       .then( (res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.$store.dispatch('getMovie', res.data)
 
       })
       .catch( (err) => {
         console.log(err)
       })
-    
+  },
+  computed : {
+    ...mapState([
+      'is_admin'
+    ])
   }
 }
 </script>

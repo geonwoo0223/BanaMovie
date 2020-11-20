@@ -22,7 +22,7 @@ export default {
 
     this.movies = this.$store.state.movie_list
 
-    console.log(this.movies)
+    // console.log(this.movies)
 
   }
 }

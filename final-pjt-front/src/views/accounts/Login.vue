@@ -44,11 +44,10 @@ export default {
 
           axios.post(`${SERVER_URL}/accounts/is-admin/`, this.credentials)
           .then((res) => {
-            console.log(res)
-            if (res.data) {
-              // this.$store.state.is_admin = true
-              this.$emit('admin')
-            }
+            // console.log(res)
+            this.$store.state.is_admin = res.data
+            console.log('나나나나',this.$store.state.is_admin)
+            // this.$emit('admin')
           })
           .catch((err) => {
             console.log("관리자확인요청에러났다!!!!!!!!!!!!")
