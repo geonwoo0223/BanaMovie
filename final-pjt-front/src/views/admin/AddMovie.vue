@@ -17,7 +17,7 @@
     <div>
       <label for="status">Status: </label>
       <input type="checkbox" id="status" checked="true" v-model="status">
-      <label for="status">성인영화</label>
+      <label for="status">상영중</label>
     </div>
     <div>
       <label for="overview">Overview: </label>
@@ -58,7 +58,7 @@ export default {
   created: function () {
     axios.get(`${SERVER_URL}/movies/genre/`)
       .then( (res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.genres = res.data
       })
       .catch( (err) => {
@@ -87,18 +87,16 @@ export default {
         status: this.status,
         admin_reg: true,
       }
-
-      if ('' in movieItem.value() ){
-        console.log("안돼")
-      } else {
-        axios.post(`${SERVER_URL}/movies/add/`, movieItem)
+      console.log(movieItem)
+      axios.post(`${SERVER_URL}/movies/add/`, movieItem)
         .then( (res) => {
           console.log(res)
         })
         .catch( (err) => {
           console.log(err)
         })
-      }
+      
+      this.$store.state.movie_count++
 
     }
   }
