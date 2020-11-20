@@ -36,6 +36,7 @@ export default {
     logout: function () {
       localStorage.removeItem('jwt')
       this.login = false
+      this.$store.state.login = false
       this.$store.state.is_admin = false
       this.$router.push({ name: 'Login' })
     }
