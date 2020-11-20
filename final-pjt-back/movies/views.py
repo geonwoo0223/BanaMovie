@@ -52,21 +52,21 @@ def getMovies(request):
             overview= movie['overview'],
             # genres= movie['genre_ids']
         )
-        movie_new.save(commit=False)
-        print(movie_new)
-        print(movie_new.id)
+        movie_new.save()
+        # print(movie_new)
+        # print(movie_new.id)
+
         for genre in movie['genre_ids']:
-            genre_new = Genre(name=Genre.objects.get(pk=genre).name)
-            genre_new.save()
+            movie_new.genres.add(genre)
         
-        movie_genre = Genre.objects.fliter(movie_id=movie_new.id)
-        movie_new.genres.set(movie_genre)
+        # movie_genre = Genre.objects.fliter(movie_id=movie_new.id)
+        # movie_new.genres.set(movie_genre)
         
-        if movie_new.is_valid():
+        # if movie_new.is_valid():
             # movie_temp = movie_new.save(commit=False)
             # movie_temp.genres = movie_genres.objects.all().filter(movie_id=movie_new_pk)
             # movie_temp.save()
-            movie_new.save()
+            # movie_new.save()
     
         
 
