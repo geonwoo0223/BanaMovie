@@ -107,17 +107,18 @@ def get_add_Review(request, movie_pk):
     if request.method == 'GET':
         pass
     else:
-        print("==============리퀘점다타다",request.data)
-        serializer = ReviewSerializer(data=request.data)
-        print("==================시리어라이저다",serializer)
-        
-        if serializer.is_valid():
-            print("-.-.-.-.-.-.-.-.-ㅇ뉴효성 통과")
-            serializer.save(user=request.user, movie=movie)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ노통과", serializer.errors)
-        # serializer.is_valid()
-        # print("노통과", serializer.errors)
-        # serializer.save(user=request.user, movie=movie)
+        review = request.data
+        review_new = Review(
+            content=review['content'],
+            rate=review['rate'],
+            like=review['like']
+        )
+        review_new.save()
+        review_new.user.add(request.user)
+        review_new.movie.add(movie)
+        serializer = ReviewSerializer(review_new)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+
+
+
