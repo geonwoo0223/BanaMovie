@@ -36,10 +36,19 @@ def is_admin(request):
 
 @api_view(['POST'])
 def manage_members(request):
-    print("리퀘아이디", request.data)
     manager = get_user_model().objects.get(username=request.data['username'])
     if manager.is_superuser : 
         members = get_user_model().objects.all()
         serializer = UserSerializer(members, many=True)
         return Response(serializer.data)
+    return Response(False)
+
+
+@api_view(['POST'])
+def delete_members(request, member_id):
+    manager = get_user_model().objects.get(username=request.data['username'])
+    if manager.is_superuser :
+        member = get_user_model().objects.get(pk=member_id)
+        member.delete()
+        return Response({'who': member_id})
     return Response(False)
