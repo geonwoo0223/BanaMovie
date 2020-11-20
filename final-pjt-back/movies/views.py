@@ -69,7 +69,8 @@ def recommendMovie(request):
 
 @api_view(['POST'])
 def addMovie(request):
-    serializer = MovieSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # serializer = MovieSerializer(data=request.data)
+    # if serializer.is_valid(raise_exception=True):
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response({ 'detail': '왔어'})
