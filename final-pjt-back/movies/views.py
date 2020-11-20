@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .serializers import MovieSerializer
-from .models import Movie, Genre
+from .models import Movie, Genre, UserGenre
 
 
 @api_view(['GET'])
@@ -41,6 +41,22 @@ def getMovies(request):
     
     return Response(serialzed_movies.data)
     
-
+@api_view(['GET'])
 def recommendMovie(request):
-    pass
+    # 로그인 되어있는 유저
+    login_user = request.user
+
+    # 해당 유저가 어떤 장르의 영화를 좋아했는지
+    genre_status = get_object_or_404(UserGenre, user_id=login_user.id)
+    
+    best = max(genre_status, key=lambda x: genre_status.genre_count)
+    
+    # 모든 영화를 받아온다
+    movies = Movie.objects.all()
+
+    # 그 중 해당 장르를 포함한 영화만
+
+    recommended = Movie.movie_genres.all().filter(genre_id=best.genre_id)
+    serialzed_movies = MovieSerializer(recommended, many=True)
+    
+    return Response(serialzed_movies.data)
