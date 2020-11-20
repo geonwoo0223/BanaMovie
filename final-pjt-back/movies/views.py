@@ -42,3 +42,5 @@ def getMovies(request):
     return Response(serialzed_movies.data)
     
 
+def recommendMovie(request):
+    pass

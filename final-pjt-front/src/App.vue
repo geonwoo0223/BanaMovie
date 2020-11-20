@@ -9,6 +9,7 @@
         <router-link :to="{ name: 'Signup' }">Signup</router-link> |
         <router-link :to="{ name: 'Login' }">Login</router-link> 
       </span>
+
     </div>
     <router-view @login="login = true"/>
   </div>
