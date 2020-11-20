@@ -77,26 +77,31 @@ export default {
       }
 
       const movieItem = {
+        movieInfo: {
         movie_no: temp_number,
         title: this.title,
         release_date: this.release_date,
         poster_path: this.poster_path,
         adult: this.adult,
         overview: this.overview,
-        genres: this.checked_genres,
         status: this.status,
         admin_reg: true,
-      }
+      }, genreInfo: {
+        genres: this.checked_genres
+      }}
       console.log(movieItem)
+
       axios.post(`${SERVER_URL}/movies/add/`, movieItem)
-        .then( (res) => {
-          console.log(res)
+        .then( () => {
+          // console.log(res)
+          this.$store.state.movie_count++
+          this.$store.state.movie_selected = movieItem.movieInfo.movie_no
+          this.$router.push({ name: 'MovieDetail' })
         })
         .catch( (err) => {
           console.log(err)
         })
       
-      this.$store.state.movie_count++
 
     }
   }

@@ -11,7 +11,7 @@
       </span>
       <span v-if="is_admin">
         | <router-link :to="{ name: 'AddMovie' }">영화추가</router-link> |
-        | <router-link :to="{ name: 'AdminManagement' }">관리자</router-link> 
+        <router-link :to="{ name: 'AdminManagement' }">관리자</router-link> 
       </span>
       
     </div>

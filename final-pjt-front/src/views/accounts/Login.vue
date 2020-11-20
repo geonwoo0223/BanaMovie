@@ -46,11 +46,8 @@ export default {
           .then((res) => {
             // console.log(res)
             this.$store.state.is_admin = res.data
-            console.log('나나나나',this.$store.state.is_admin)
-            // this.$emit('admin')
           })
           .catch((err) => {
-            console.log("관리자확인요청에러났다!!!!!!!!!!!!")
             console.log(err)
           })
 

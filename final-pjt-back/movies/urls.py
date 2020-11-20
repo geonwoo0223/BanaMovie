@@ -6,5 +6,6 @@ urlpatterns = [
     path('genre/', views.getGenre),
     path('recommend/', views.recommendMovie),
     path('add/', views.addMovie),
+    path('<int:movie_id>/', views.movieDetail),
     
 ]

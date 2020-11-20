@@ -69,8 +69,27 @@ def recommendMovie(request):
 
 @api_view(['POST'])
 def addMovie(request):
-    # serializer = MovieSerializer(data=request.data)
-    # if serializer.is_valid(raise_exception=True):
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response({ 'detail': '왔어'})
+    # print(request.data)
+    movieInfo = request.data['movieInfo']
+    genres = request.data['genreInfo']
+    movie_new = Movie(
+        movie_no= movieInfo['movie_no'],
+        title= movieInfo['title'],
+        release_date= movieInfo['release_date'],
+        poster_path= movieInfo['poster_path'],
+        adult= movieInfo['adult'],
+        overview= movieInfo['overview'],
+        status= movieInfo['status'],
+        admin_reg= movieInfo['admin_reg']
+    )
+    movie_new.save()
+    for genre in genres['genres']:
+        movie_new.genres.add(genre)
+    serializer = MovieSerializer(movie_new)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def movieDetail(request, movie_id):
+    movie = get_object_or_404(Movie, movie_no=movie_id)
+    serializer = MovieSerializer(movie)
+    return Response(serializer.data)
