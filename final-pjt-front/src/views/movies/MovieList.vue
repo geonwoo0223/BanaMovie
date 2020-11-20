@@ -1,7 +1,10 @@
 <template>
   <div>
     <ul>
-      <li v-for="(movie,idx) in movies" :key="idx">{{ movie.title }}</li>
+      <li v-for="(movie,idx) in movies" :key="idx">
+        {{ movie.title }}
+        <button @click="movieDetail(movie)">임시디테일</button>
+      </li>
     </ul>
 
   </div>
@@ -16,6 +19,12 @@ export default {
   data: function () {
     return {
       movies: '',
+    }
+  },
+  methods: {
+    movieDetail: function (movie) {
+      this.$store.state.movie_selected = movie.movie_no
+      this.$router.push({ name: 'MovieDetail' })
     }
   },
   created: function () {
