@@ -11,6 +11,7 @@
       </span>
       <span v-if="is_admin">
         | <router-link :to="{ name: 'AdminPage' }">관리자</router-link> 
+        | <router-link :to="{ name: 'AdminManagement' }">관리자</router-link> 
       </span>
       
     </div>
@@ -19,6 +20,8 @@
 </template>
 
 <script>
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
+
 import { mapState } from 'vuex'
 import axios from 'axios'
 
@@ -45,7 +48,7 @@ export default {
       this.login = true
     }
 
-    axios.get('http://127.0.0.1:8000/movies/')
+    axios.get(`${SERVER_URL}/movies/`)
       .then( (res) => {
         // console.log(res.data)
         this.$store.dispatch('getMovie', res.data)

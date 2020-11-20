@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     movie_list: [],
     is_admin: '',
+    username: '', 
   },
   getters: {
 

@@ -4,6 +4,7 @@ import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import MovieList from '@/views/movies/MovieList'
 import AdminPage from '@/views/admin/AdminPage'
+import AdminManagement from '@/views/admin/AdminManagement'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/admin',
     name: 'AdminPage',
     component: AdminPage,
+  },
+  {
+    path: '/management',
+    name: 'AdminManagement',
+    component: AdminManagement,
   },
 
 ]
