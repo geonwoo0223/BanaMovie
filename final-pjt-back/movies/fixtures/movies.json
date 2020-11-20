@@ -1,0 +1,19 @@
+[
+  {
+    "model": "movies.movie",
+    "fields": {
+      "title": "Dedicada a mi ex",
+      "release_date": "2019-11-01",
+      "vote_count": 246,
+      "rate": 8.8,
+      "overview": "",
+      "poster_path": "https://image.tmdb.org/t/p/w500/riAooJrFvVhotyaOgoI0WR7okSe.jpg",
+      "genres": 
+        [
+          35,
+          18
+        ]
+      
+    }
+  }
+]
