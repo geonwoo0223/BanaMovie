@@ -3,7 +3,8 @@
     <div id="nav">
         <router-link :to="{ name: 'MovieList' }">Movies</router-link> |
       <span v-if="login">
-        <router-link @click.native="logout" to="#">Logout</router-link>       
+        <router-link @click.native="logout" to="#">Logout</router-link> |      
+        <router-link :to="{ name: 'Board' }">Board</router-link>     
       </span>
       <span v-else>
         <router-link :to="{ name: 'Signup' }">Signup</router-link> |

@@ -6,6 +6,9 @@ import MovieList from '@/views/movies/MovieList'
 import MovieDetail from '@/views/movies/MovieDetail'
 import AddMovie from '@/views/admin/AddMovie'
 import AdminManagement from '@/views/admin/AdminManagement'
+import Board from '@/views/community/Board'
+import CreateBoard from '@/views/community/CreateBoard'
+import BoardDetail from '@/views/community/BoardDetail'
 
 
 Vue.use(VueRouter)
@@ -41,6 +44,21 @@ const routes = [
     path: '/management',
     name: 'AdminManagement',
     component: AdminManagement,
+  },
+  {
+    path: '/board',
+    name: 'Board',
+    component: Board,
+  },
+  {
+    path: '/createboard',
+    name: 'CreateBoard',
+    component: CreateBoard,
+  },
+  {
+    path: '/boarddetail',
+    name: 'BoardDetail',
+    component: BoardDetail,
   },
 
 ]

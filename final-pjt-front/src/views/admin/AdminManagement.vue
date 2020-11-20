@@ -20,7 +20,7 @@
         <th>{{ member.email }}</th>
         <th v-if="member.is_superuser">관리자</th>
         <th v-else>일반회원</th>
-        <th>{{ member.last_login }}</th>
+        <th>{{ $moment(member.last_login).format('YYYY-MM-DD hh:mm:ss') }}</th>
         <th v-if="member.is_superuser"></th>
         <th v-else><button @click="deleteMember(member)">삭제</button></th>
       </tr>
