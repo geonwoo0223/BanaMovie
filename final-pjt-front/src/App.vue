@@ -10,8 +10,12 @@
         <router-link :to="{ name: 'Login' }">Login</router-link> 
       </span>
 
+      <span v-if="admin">
+        <p>관리자페이지</p>
+      </span>
+      
     </div>
-    <router-view @login="login = true"/>
+    <router-view @login="login = true" @admin="admin = true"/>
   </div>
 </template>
 
@@ -24,12 +28,14 @@ export default {
   data: function () {
     return {
       login: false,
+      admin: false,
     }
   },
   methods: {
     logout: function () {
       localStorage.removeItem('jwt')
       this.login = false
+      this.admin = false
       this.$router.push({ name: 'Login' })
     }
   },

@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer
+from django.contrib.auth import get_user_model
 
 
 @api_view(['POST'])
@@ -27,3 +28,14 @@ def signup(request):
     # password는 직렬화 과정에는 포함 되지만 → 표현(response)할 때는 나타나지 않는다.
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+@api_view(['POST'])
+def is_admin(request):
+    print(request.data)
+    user = get_user_model().objects.get(username=request.data["username"])
+    if user.is_superuser : 
+        print("hello admin!")
+        return Response(True, status=status.HTTP_202_ACCEPTED)
+    else : 
+        print("not admin....")
+        return Response(False)

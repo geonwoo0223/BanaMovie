@@ -21,8 +21,7 @@
 <script>
 import axios from 'axios'
 
-//const SERVER_URL = process.env.VUE_APP_SERVER_URL
-const SERVER_URL="http://127.0.0.1:8000"
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'Login',
@@ -41,7 +40,19 @@ export default {
           // console.log(res)
           localStorage.setItem('jwt', res.data.token)
           this.$emit('login')
+          console.log(res)
           this.$router.push({ name: 'MovieList' })
+
+          axios.post(`${SERVER_URL}/accounts/is-admin/`, this.credentials)
+          .then(() => {
+              this.$emit('admin')
+
+          })
+          .catch((err) => {
+            console.log("관리자확인요청에러났다!!!!!!!!!!!!")
+            console.log(err)
+          
+          })
 
         })
         .catch((err) => {
