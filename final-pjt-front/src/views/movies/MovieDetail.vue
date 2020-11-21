@@ -5,34 +5,35 @@
     <p>{{movie.id}}</p>
     <div v-if="login">
       <div v-if="reviewer[movie.id] && reviewer[movie.id].includes(login_user)">
-        <h1>이미작성한 유저</h1>
+        <h1>이미작성한 유저는 수정 버튼을 보여준다</h1>
+        <button @click="[getReview(movie), show]">수정</button>
       </div>
       <div v-else>
         <button @click="show">리뷰작성</button>
-        <modal name="reviewCreateForm">
-          <h2>리뷰 작성</h2>
-          <div>
-            <label for="rate">평점</label>
-            <input type="range" min="1" max="10" step="1" value="5" v-model="selected_rate">
-            <select id="rate" v-model="selected_rate">
-              <option v-for="(n, idx) in rate_options" :key="idx">{{n}}</option>
-            </select>
-          </div>
-          <div>
-            <label for="like">좋아요?</label>
-            <input type="checkbox" id="like" checked="true" v-model="like">
-            <label for="like">추천</label>
-          </div>
-          <div>
-            <label for="review"></label>
-            <textarea id="review" cols="60" rows="5" v-model.trim="review" placeholder="감상평을 남겨주세요."></textarea>
-          </div>
-          <div>
-            <button @click="addReview(movie)">확인</button>
-            <button @click="hide">취소</button>
-          </div>
-        </modal>
       </div>
+      <modal name="reviewCreateForm">
+        <h2>리뷰 작성</h2>
+        <div>
+          <label for="rate">평점</label>
+          <input type="range" min="1" max="10" step="1" value="5" v-model="selected_rate">
+          <select id="rate" v-model="selected_rate">
+            <option v-for="(n, idx) in rate_options" :key="idx">{{n}}</option>
+          </select>
+        </div>
+        <div>
+          <label for="like">좋아요?</label>
+          <input type="checkbox" id="like" checked="true" v-model="like">
+          <label for="like">추천</label>
+        </div>
+        <div>
+          <label for="review"></label>
+          <textarea id="review" cols="60" rows="5" v-model.trim="review" placeholder="감상평을 남겨주세요."></textarea>
+        </div>
+        <div>
+          <button @click="addReview(movie)">확인</button>
+          <button @click="hide">취소</button>
+        </div>
+      </modal>
     </div>
   </div>
 </template>
@@ -83,7 +84,7 @@ export default {
         reviewer_id: this.$store.state.login_user
       }
       this.$store.dispatch('checkReviewer', reviewerInfo)
-      console.log('디스패치이후',this.$store.state.reviewer)
+      // console.log('디스패치이후',this.$store.state.reviewer)
       const reviewInfo = {
         content: this.review,
         rate: this.selected_rate,
@@ -100,6 +101,18 @@ export default {
         .catch( (err) => {
           console.log(err)
         })
+    },
+    getReview: function (movie) {
+      const config = this.setToken()
+      axios.get(`${SERVER_URL}/movies/${movie.id}/review/`, config)
+        .then( (res) => {
+          console.log(res)
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+
+
     }
   },
   created: function () {
@@ -114,7 +127,7 @@ export default {
       })
     
     this.rate_options = _.range(0,11)
-    console.log('들어오면',this.$store.state.reviewer)
+    // console.log('들어오면',this.$store.state.reviewer)
 
   },
   computed: {

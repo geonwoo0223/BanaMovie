@@ -105,7 +105,10 @@ def movieDetail(request, movie_id):
 def get_add_Review(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
-        pass
+        print(request.user.id, movie_pk)
+        # review = Review.objects.filter(Review.movie_set.pk=movie_pk).filter(Review.user_set.id=request.user.pk)
+        # print(review)
+        return Response(True)
     else:
         review = request.data
         review_new = Review(
