@@ -112,13 +112,13 @@ def get_add_Review(request, movie_pk):
             content=review['content'],
             rate=review['rate'],
             like=review['like'],
-            movie=movie,
-            user=request.user
+            # movie=movie,
+            # user=request.user
         )
         review_new.save()
         # 아래 방식 대신 Review 객체에 movie와 user를 직접 매핑
-        # review_new.user.add(request.user)
-        # review_new.movie.add(movie)
+        review_new.user.add(request.user)
+        review_new.movie.add(movie)
         #print(review_new)
         serializer = ReviewSerializer(review_new)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

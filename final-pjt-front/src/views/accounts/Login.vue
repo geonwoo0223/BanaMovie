@@ -34,6 +34,17 @@ export default {
     }
   },
   methods: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+
+      const config = {
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      }
+      return config
+    },
+
     login: function () {
       axios.post(`${SERVER_URL}/accounts/api-token-auth/`, this.credentials)
         .then((res) => {
@@ -42,6 +53,15 @@ export default {
           this.$emit('login')
           this.$store.state.login = true
           // console.log(res)
+          const config = this.setToken()
+          axios.get(`${SERVER_URL}/accounts/user/`, config)
+            .then( (res) => {
+              // console.log(res.data)
+              this.$store.state.login_user = res.data
+            })
+            .catch( (err) => {
+              console.log(err)
+            })
 
           axios.post(`${SERVER_URL}/accounts/is-admin/`, this.credentials)
           .then((res) => {

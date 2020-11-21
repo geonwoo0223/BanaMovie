@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Movie, Genre, Review
+from accounts.serializers import UserSerializer
 
 
 class GenreSerializer(serializers.ModelSerializer):

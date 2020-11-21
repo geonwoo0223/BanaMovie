@@ -39,8 +39,9 @@ export default {
       this.login = false
       this.$store.state.login = false
       this.$store.state.is_admin = false
+      this.$store.state.login_user = ''
       this.$router.push({ name: 'Login' })
-    }
+    },
   },
   created: function () {
     // 로그인
