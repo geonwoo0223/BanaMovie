@@ -95,9 +95,8 @@ export default {
     }
   },
   created: function () {
-    const movie_no = this.$store.state.movie_selected
-    // console.log(movie_no)
-    axios.get(`${SERVER_URL}/movies/${movie_no}`)
+    const movie_id = this.$route.params.id
+    axios.get(`${SERVER_URL}/movies/${movie_id}`)
       .then( (res) => {
         // console.log(res.data)
         this.movie = res.data

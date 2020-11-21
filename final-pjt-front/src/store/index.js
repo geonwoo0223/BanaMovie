@@ -9,7 +9,6 @@ export default new Vuex.Store({
     login: false,
     is_admin: '',
     movie_count: 50000000,
-    movie_selected: '',
     username: '', 
   },
   getters: {

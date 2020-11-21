@@ -94,7 +94,7 @@ def addMovie(request):
 
 @api_view(['GET'])
 def movieDetail(request, movie_id):
-    movie = get_object_or_404(Movie, movie_no=movie_id)
+    movie = get_object_or_404(Movie, pk=movie_id)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
 

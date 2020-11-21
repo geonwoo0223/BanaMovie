@@ -23,8 +23,7 @@ export default {
   },
   methods: {
     movieDetail: function (movie) {
-      this.$store.state.movie_selected = movie.movie_no
-      this.$router.push({ name: 'MovieDetail' })
+      this.$router.push({ name: 'MovieDetail', params: {'id':movie.id} })
     }
   },
   created: function () {
