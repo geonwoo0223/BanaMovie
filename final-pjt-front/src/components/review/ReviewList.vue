@@ -1,11 +1,8 @@
 <template>
   <div>
-    <h1>리뷰리스트</h1>
-    <h3> {{ movie.title }} </h3>
-    <ul>
+   <ul>
       <li v-for="(review,idx) in reviews" :key="idx"> 
         {{ review.content }}
-        <!-- <button v-if="">수정</button> -->
 
       </li>
     </ul>
