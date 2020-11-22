@@ -30,7 +30,7 @@
     </div>
     <div>
       <h3>댓글 목록</h3>
-      <CommentList :board="board" :comments="all_comments" />
+      <CommentList :board="board" />
     </div>
   </div>
 

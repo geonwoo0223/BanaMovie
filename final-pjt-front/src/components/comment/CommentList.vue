@@ -11,11 +11,9 @@
         <!--단, 관리자의 경우 삭제 버튼 활성화 -->
         <button v-if="comment.user.id === login_user" >댓글 수정</button>
 
-        <button v-if="is_admin" >댓글 삭제</button>
-        <button v-else-if="comment.user.id === login_user" >댓글 삭제</button>
-        <!-- <button >글 수정</button>
-
-        <button >글 삭제</button> -->
+        <button v-if="is_admin" @click="deleteComment(comment)" >댓글 삭제</button>
+        <button v-else-if="comment.user.id === login_user" @click="deleteComment(comment)" >댓글 삭제</button>
+        
       </div>
       <hr>
     </div>
@@ -24,6 +22,9 @@
 
 
 <script>
+  const SERVER_URL = process.env.VUE_APP_SERVER_URL
+  import axios from 'axios'
+
   import {
     mapState
   } from 'vuex'
@@ -42,6 +43,35 @@
       board: [Object, String],
       comments: [Array, String],
     },
+    methods: {
+      setToken: function () {
+        const token = localStorage.getItem('jwt')
+
+        const config = {
+          headers: {
+            Authorization: `JWT ${token}`
+          }
+        }
+        return config
+      },
+
+      deleteComment: function (comment) {
+       const config = this.setToken()
+       axios.delete(`${SERVER_URL}/community/${this.board.id}/comment/${comment.id}`, config)
+        .then( (res) => {
+          //console.log(res)
+          const targetCommentIdx = this.comments.findIndex((comment) => {
+            return comment.id === res.data.id
+          })
+          this.$store.state.comments.splice(targetCommentIdx, 1)
+        
+          
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+    }
+    },
     created: function () {
       // if (login) {
       //   this.username = this.$store.state.username
@@ -54,7 +84,8 @@
         'login',
         'login_user',
         'username',
-        'is_admin'
+        'is_admin',
+        'comments',
       ])
     }
 

@@ -93,3 +93,27 @@ def comment_create(request, board_pk):
     comment.save()
     serializer = BoardCommentUserSerializer(comment)
     return Response(serializer.data)
+
+@api_view(['DELETE', 'PUT'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def comment_update_delete(request, board_pk, comment_pk):
+    board = get_object_or_404(Board, pk=board_pk)
+    comment = get_object_or_404(BoardComment, pk=comment_pk)
+    commentId = comment.id
+    if request.method == 'DELETE' :
+        print("delete요청")
+        serializer = BoardCommentSerializer(comment)
+        if request.user.is_superuser or board.user == request.user :
+            comment.delete()
+        return Response({'id':commentId})
+    # else :
+    #     if board.user == request.user : 
+    #         request.data['user'] = request.user.pk
+    #         serializer = BoardSerializer(board, data=request.data)
+    #         if serializer.is_valid(raise_exception=True):
+    #             serializer.save()
+    #         else : 
+    #             print("----update error", serializer.errors)
+    #         return Response(serializer.data)
+

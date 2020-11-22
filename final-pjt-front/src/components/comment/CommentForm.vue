@@ -43,7 +43,7 @@
         }
         //console.log(this.board)
         const boardId = this.board.id
-        axios.post(`${SERVER_URL}/community/${boardId}/comment_create/`, commentItem, config)
+        axios.delete(`${SERVER_URL}/community/${boardId}/comment_create/`, commentItem, config)
           .then((res) => {
             //console.log(res)
             this.$store.state.comments.unshift(res.data)
