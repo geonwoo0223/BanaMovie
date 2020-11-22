@@ -126,9 +126,9 @@ export default {
   },
   created: function () {
     console.log(this.review)
-    this.selected_rate= this.review['selected_rate']
-    this.like= this.review['like']
-    this.content= this.review['content']
+    this.selected_rate= this.review.selected_rate
+    this.like= this.review.like
+    this.content= this.review.content
   },
   computed: {
     ...mapState([
