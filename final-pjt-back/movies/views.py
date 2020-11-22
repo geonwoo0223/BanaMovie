@@ -94,7 +94,7 @@ def addMovie(request):
 
 @api_view(['GET'])
 def movieDetail(request, movie_id):
-    movie = get_object_or_404(Movie, movie_no=movie_id)
+    movie = get_object_or_404(Movie, pk=movie_id)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
 
@@ -105,20 +105,23 @@ def movieDetail(request, movie_id):
 def get_add_Review(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
-        pass
+        print(request.user.id, movie_pk)
+        # review = Review.objects.filter(Review.movie_set.pk=movie_pk).filter(Review.user_set.id=request.user.pk)
+        # print(review)
+        return Response(True)
     else:
         review = request.data
         review_new = Review(
             content=review['content'],
             rate=review['rate'],
             like=review['like'],
-            movie=movie,
-            user=request.user
+            # movie=movie,
+            # user=request.user
         )
         review_new.save()
         # 아래 방식 대신 Review 객체에 movie와 user를 직접 매핑
-        # review_new.user.add(request.user)
-        # review_new.movie.add(movie)
+        review_new.user.add(request.user)
+        review_new.movie.add(movie)
         #print(review_new)
         serializer = ReviewSerializer(review_new)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
