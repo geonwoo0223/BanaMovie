@@ -44,7 +44,8 @@
       },
       createBoard: function () {
         this.$router.push({
-          name: 'CreateBoard'
+          name: 'CreateBoard',
+          params: {'purpose':'create'}
         })
       },
       boardDetail: function (board) {

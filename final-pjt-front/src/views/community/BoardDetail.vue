@@ -17,10 +17,10 @@
   <div>
     <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
     <!--단, 관리자의 경우 삭제 버튼 활성화 -->
-    <button v-if="boardUsername === this.$store.state.username">글 수정</button>
+    <button v-if="boardUsername === this.$store.state.username" @click="updateBoard(board)">글 수정</button>
 
-    <button v-if="this.$store.state.is_admin">글 삭제</button>
-    <button v-else-if="boardUsername === this.$store.state.username">글 삭제</button>
+    <button v-if="this.$store.state.is_admin" @click="deleteBoard(board)">글 삭제</button>
+    <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
   </div>
 </div>
 
@@ -42,9 +42,41 @@ export default {
     }
   },
   methods: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+
+      const config = {
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      }
+      return config
+    },
     backToBoard: function () {
       this.$router.push({name:'Board'})
+    },
+    deleteBoard: function (board) {
+      const config = this.setToken()
+       axios.delete(`${SERVER_URL}/community/board_delete_update/${board.id}/`, config)
+        .then( () => {
+          this.$router.push({name:'BoardDetail'})
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+    },
+    updateBoard: function (board) {
+      const boardItem = {
+        id :board.id,
+        purpose:'update',
+        title: board.title,
+        content: board.content
+        }
+      this.$router.push({ name: 'CreateBoard', params:boardItem })
+      //console.log(board.id)
+
     }
+
   },
   created: function() {
     this.boardItem = this.$route.params.id
@@ -52,8 +84,6 @@ export default {
     axios.get(`${SERVER_URL}/community/${this.boardItem}`)
     .then((res => {
       this.board = res.data
-      //console.log(this.board)
-      //console.log(typeof(this.board.user.username))
       this.boardUsername = this.board.user.username
 
     }))
