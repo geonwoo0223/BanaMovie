@@ -10,7 +10,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from .serializers import MovieSerializer, GenreSerializer, ReviewSerializer
+from .serializers import MovieSerializer, GenreSerializer, ReviewSerializer, ReviewUserSerializer
 from .models import Movie, Genre, UserGenre, Review
 
 
@@ -102,30 +102,36 @@ def movieDetail(request, movie_id):
 @api_view(['GET','POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def get_add_Review(request, movie_pk):
+def get_add_review(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
-        print(request.user.id, movie_pk)
-        # review = Review.objects.filter(Review.movie_set.pk=movie_pk).filter(Review.user_set.id=request.user.pk)
-        # print(review)
-        return Response(True)
+        review = Review.objects.filter(movie_id=movie_pk, user_id=request.user.id)
+        temp = list(review.values())
+        new = temp[0]
+        new['user'] = request.user
+        new['movie'] = movie
+        serializer = ReviewSerializer(new)
+
+
+
+        return Response(serializer.data)
     else:
         review = request.data
         review_new = Review(
             content=review['content'],
             rate=review['rate'],
             like=review['like'],
-            # movie=movie,
-            # user=request.user
+            movie=movie,
+            user=request.user
         )
         review_new.save()
-        # 아래 방식 대신 Review 객체에 movie와 user를 직접 매핑
-        review_new.user.add(request.user)
-        review_new.movie.add(movie)
-        #print(review_new)
         serializer = ReviewSerializer(review_new)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
+@api_view(['PUT','DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def update_delete_review(request, movie_pk):
 
-
+    return Response(True)

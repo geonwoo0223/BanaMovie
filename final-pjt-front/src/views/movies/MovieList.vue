@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     movieDetail: function (movie) {
-      this.$router.push({ name: 'MovieDetail', params: {'id':movie.id} })
+      this.$router.push({ name: 'MovieDetail', params: {'movie': movie} })
     }
   },
   created: function () {

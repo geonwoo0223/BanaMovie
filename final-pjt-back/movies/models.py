@@ -23,8 +23,8 @@ class UserGenre(models.Model):
   genre_count = models.IntegerField(default=0)
 
 class Review(models.Model):
-  user = models.CharField(settings.AUTH_USER_MODEL)
-  movie = models.ManyToManyField(Movie)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
   content = models.TextField()
   rate = models.IntegerField(default=0)
   like = models.BooleanField(default=False)
