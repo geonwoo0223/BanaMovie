@@ -1,8 +1,8 @@
 <template>
   <modal name="reviewCreateForm">
-    <dive>
+    <div>
       <h2>리뷰</h2>
-    </dive>
+    </div>
     <div>
       <label for="rate">평점</label>
       <input type="range" min="1" max="10" step="1" v-model="selected_rate">
@@ -43,9 +43,6 @@ export default {
   name: 'ReviewForm',
   data: function () {
     return {
-      // selected_rate: this.review['selected_rate'],
-      // like: this.review['like'],
-      // content: this.review['content'],
       selected_rate: '',
       like: false,
       content: '',
@@ -73,11 +70,6 @@ export default {
     },
     addReview: function (movie) {
       const config = this.setToken()
-      const reviewerInfo = {
-        movie_id: this.movie.id,
-        reviewer_id: this.$store.state.login_user
-      }
-      this.$store.dispatch('checkReviewer', reviewerInfo)
       const reviewInfo = {
         content: this.content,
         rate: this.selected_rate,
@@ -116,18 +108,13 @@ export default {
       // console.log(reviewInfo)
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
         .then( () => {
+          this.$emit('getAllReview')
           this.hide()
         })
         .catch( (err) => {
           console.log(err)
         })
     },
-  },
-  created: function () {
-    
-    this.selected_rate= this.review.selected_rate
-    this.like= this.review.like
-    this.content= this.review.content
   },
   computed: {
     ...mapState([
