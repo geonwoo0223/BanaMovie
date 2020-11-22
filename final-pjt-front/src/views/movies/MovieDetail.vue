@@ -42,8 +42,8 @@
       </modal>
     </div>
 
-    <ReviewList />
-    
+    <ReviewList :movie="movie" :reviews="all_reviews"/>
+
   </div>
 </template>
 
@@ -54,7 +54,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { mapState } from 'vuex'
 
-import ReviewList from '@/components/ReviewList'
+import ReviewList from '@/components/review/ReviewList'
 
 export default {
   name: 'MovieDetail',
@@ -68,6 +68,7 @@ export default {
       rate_options:'',
       review: '',
       like: false,
+      all_reviews: '',
     }
   },
   methods: {
@@ -88,7 +89,18 @@ export default {
       }
       return config
     },
-
+    getAllReview: function () {
+      axios.get(`${SERVER_URL}/movies/${this.movie.id}/reviews/`)
+        .then( (res) => {
+          // console.log(res.data)
+          if (res.data) {
+            this.all_reviews = res.data
+          }
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+    },
     addReview: function (movie) {
       // console.log(movie)
       const config = this.setToken()
@@ -110,6 +122,8 @@ export default {
           this.review = ''
           this.selected_rate = ''
           this.hide()
+          this.getAllReview()
+
         })
         .catch( (err) => {
           console.log(err)
@@ -119,7 +133,7 @@ export default {
       const config = this.setToken()
       axios.get(`${SERVER_URL}/movies/${movie.id}/review/`, config)
         .then( (res) => {
-          console.log(res.data)
+          // console.log(res.data)
           this.review = res.data['content']
           this.selected_rate = res.data['rate']
           this.like = res.data['like']
@@ -139,6 +153,8 @@ export default {
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
         .then( (res) => {
           console.log(res)
+          this.hide()
+          this.getAllReview()
         })
         .catch( (err) => {
           console.log(err)
@@ -147,8 +163,8 @@ export default {
   },
   created: function () {
     this.movie = this.$route.params.movie
-    
     this.rate_options = _.range(0,11)
+    this.getAllReview()
   },
   computed: {
     ...mapState([
@@ -156,7 +172,8 @@ export default {
       'login_user',
       'reviewer',
     ])
-  }
+  },
+
 }
 </script>
 
