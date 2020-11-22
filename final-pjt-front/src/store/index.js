@@ -39,7 +39,7 @@ export default new Vuex.Store({
         state.user_movie[`${reviewer_id}`] = [movie_id]
       }
       console.log("{유저:[영화]", state.user_movie)
-    },
+  },
   },
   actions: {
     getMovie: function ({commit}, movies) {

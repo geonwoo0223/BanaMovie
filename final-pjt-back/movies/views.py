@@ -149,7 +149,7 @@ def update_delete_review(request, movie_pk):
             return Response(serializer.data)
         else:
             print("----update error", serializer.errors)
-    else:
+    else : 
         movie = get_object_or_404(Movie, pk=movie_pk)
         review = Review.objects.filter(movie_id=movie_pk).filter(user_id=request.user.id)
         temp = list(review.values())

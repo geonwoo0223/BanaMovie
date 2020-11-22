@@ -22,7 +22,7 @@
       }
     },
     props: {
-      board: Object,
+      board: [Object, String],
     },
     methods: {
       setToken: function () {
@@ -45,7 +45,7 @@
         const boardId = this.board.id
         axios.post(`${SERVER_URL}/community/${boardId}/comment_create/`, commentItem, config)
           .then((res) => {
-            console.log(res)
+            //console.log(res)
             this.$store.state.comments.unshift(res.data)
             this.content = ''
           })
@@ -53,7 +53,11 @@
             console.log(err)
           })
       },
-    }
+  
+    },
+    created: function () {
+    console.log(typeof(this.board))
+  },
   }
 </script>
 

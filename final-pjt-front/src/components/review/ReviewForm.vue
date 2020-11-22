@@ -43,6 +43,9 @@ export default {
   name: 'ReviewForm',
   data: function () {
     return {
+      // selected_rate: this.review['selected_rate'],
+      // like: this.review['like'],
+      // content: this.review['content'],
       selected_rate: '',
       like: false,
       content: '',
@@ -56,9 +59,6 @@ export default {
   },
   methods: {
     hide: function () {
-      this.content = ''
-      this.selected_rate = ''
-      this.like = false
       this.$modal.hide('reviewCreateForm')
     },
     setToken: function () {
@@ -73,7 +73,11 @@ export default {
     },
     addReview: function (movie) {
       const config = this.setToken()
-
+      const reviewerInfo = {
+        movie_id: this.movie.id,
+        reviewer_id: this.$store.state.login_user
+      }
+      this.$store.dispatch('checkReviewer', reviewerInfo)
       const reviewInfo = {
         content: this.content,
         rate: this.selected_rate,
@@ -106,14 +110,12 @@ export default {
         user: this.login_user,
         movie: movie.id,
         content: this.content,
+        rate: this.selected_rate,
         like: this.like,
-        selected_rate: this.selected_rate
       }
       // console.log(reviewInfo)
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
         .then( () => {
-          // console.log(res.data)
-          this.$emit('getAllReview')
           this.hide()
         })
         .catch( (err) => {
@@ -122,6 +124,10 @@ export default {
     },
   },
   created: function () {
+    
+    this.selected_rate= this.review.selected_rate
+    this.like= this.review.like
+    this.content= this.review.content
   },
   computed: {
     ...mapState([
