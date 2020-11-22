@@ -25,6 +25,10 @@
     </div>
     <hr :style="{'margin':'5px 30px'}">
     <div>
+      <CommentForm v-if="this.$store.state.login" :board="board" @getAllComment="getAllComment" />
+      <p v-else>댓글을 작성하려면 로그인이 필요합니다. </p>
+    </div>
+    <div>
       <h3>댓글 목록</h3>
       <CommentList :board="board" :comments="all_comments" />
     </div>
@@ -38,11 +42,13 @@
   import axios from 'axios'
 
   import CommentList from '@/components/comment/CommentList'
+  import CommentForm from '@/components/comment/CommentForm'
 
   export default {
     name: 'MovieDetail',
     components: {
       CommentList,
+      CommentForm,
     },
     data: function () {
       return {
