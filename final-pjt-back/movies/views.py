@@ -118,7 +118,7 @@ def get_add_review(request, movie_pk):
         new = temp[0]
         new['user'] = request.user
         new['movie'] = movie
-        serializer = ReviewSerializer(new)
+        serializer = ReviewUserSerializer(new)
         return Response(serializer.data)
     else:
         review = request.data
@@ -130,24 +130,32 @@ def get_add_review(request, movie_pk):
             user=request.user
         )
         review_new.save()
-        serializer = ReviewSerializer(review_new)
+        serializer = ReviewUserSerializer(review_new)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
-@api_view(['PUT','POST'])
+@api_view(['PUT','DELETE'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def update_delete_review(request, movie_pk):
-    print(request.data)
-    review = get_object_or_404(Review, pk=request.data['id'])
+    # print(request.data)
 
     if request.method == 'PUT':
+        review = get_object_or_404(Review, pk=request.data['id'])
         serializer = ReviewSerializer(review, data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
             print("----update error", serializer.errors)
     else:
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        review = Review.objects.filter(movie_id=movie_pk).filter(user_id=request.user.id)
+        temp = list(review.values())
+        new = temp[0]
+        new['user'] = request.user
+        new['movie'] = movie
+        serializer = ReviewUserSerializer(new)
         review.delete()
-        return Response({ 'id': request.data['id'] })
+        return Response(serializer.data)
