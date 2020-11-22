@@ -80,7 +80,7 @@
         axios.delete(`${SERVER_URL}/community/board_delete_update/${board.id}/`, config)
           .then(() => {
             this.$router.push({
-              name: 'BoardDetail'
+              name: 'Board'
             })
           })
           .catch((err) => {
@@ -117,7 +117,7 @@
     },
     created: function () {
       this.boardItem = this.$route.params.id
-      console.log(this.boardItem)
+      //console.log(this.boardItem)
       axios.get(`${SERVER_URL}/community/${this.boardItem}`)
         .then((res => {
           this.board = res.data

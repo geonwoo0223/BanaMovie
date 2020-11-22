@@ -8,7 +8,7 @@ export default new Vuex.Store({
     movie_list: [],
     login: false,
     login_user: '',
-    is_admin: '',
+    is_admin: false,
     movie_count: 50000000,
     username: '', 
     reviewer: {},
