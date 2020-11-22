@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>게시판</h1>
-    <button @click="createBoard()">글 작성하기</button>
+    <button v-if="this.$store.state.login" @click="createBoard()">글 작성하기</button>
+    <p v-else>게시글을 작성하려면 로그인이 필요합니다. </p>
     <table border=1>
       <tr>
         <th>No</th>

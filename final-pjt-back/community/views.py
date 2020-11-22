@@ -77,4 +77,19 @@ def comment_list(request, board_pk):
     comments = BoardComment.objects.order_by('-pk').filter(board_id=board_pk)
     serializer = BoardCommentUserSerializer(comments, many=True)
     return Response(serializer.data)
-    
+
+
+@api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def comment_create(request, board_pk):
+    board = get_object_or_404(Board, pk=board_pk)
+    commentItem = request.data
+    comment = BoardComment(
+        board = board,
+        user = request.user,
+        content = commentItem['content'],
+    )
+    comment.save()
+    serializer = BoardCommentUserSerializer(comment)
+    return Response(serializer.data)

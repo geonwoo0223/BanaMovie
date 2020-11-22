@@ -97,8 +97,6 @@
                 'id': res.data.id
               }
             })
-
-
           })
           .catch((err) => {
             console.log(err)
