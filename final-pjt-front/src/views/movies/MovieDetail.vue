@@ -11,17 +11,17 @@
       <div v-else>
         <button @click="show">리뷰작성</button>
       </div>
-      <ReviewForm @getAllReview="getAllReview"
+      <ReviewForm @getAllReview="getAllReview(movie)"
         :movie="movie" 
         :rate_options="rate_options"
-        :review="review"
+        :edit="edit"
         />
     </div>
 
     <div>
       <h1>리뷰리스트</h1>
       <ReviewList :movie="movie" 
-      v-for="(review, idx) in all_reviews"
+      v-for="(review, idx) in review_list"
       :key="idx" :review="review"
       />
     </div>
@@ -47,7 +47,7 @@ export default {
   },
   data: function () {
     return {
-      review: '',
+      edit: {},
       movie: '',
       rate_options:'',
       all_reviews: '',
@@ -71,14 +71,12 @@ export default {
       }
       return config
     },
-
-    getAllReview: function () {
-      axios.get(`${SERVER_URL}/movies/${this.movie.id}/reviews/`)
+    
+    getAllReview: function (movie) {
+      axios.get(`${SERVER_URL}/movies/${movie.id}/reviews/`)
         .then( (res) => {
           // console.log(res.data)
-          if (res.data) {
-            this.all_reviews = res.data
-          }
+          this.$store.state.review_list = res.data
         })
         .catch( (err) => {
           console.log(err)
@@ -89,27 +87,27 @@ export default {
       const config = this.setToken()
       axios.get(`${SERVER_URL}/movies/${movie.id}/review/`, config)
         .then( (res) => {
-          this.review = res.data
-          // this.$store.dispatch('getUpdateReviewInfo', this.review)
+          // console.log(res.data)
+          this.edit = res.data
           this.show()
         })
         .catch( (err) => {
           console.log(err)
         })
     },
+
     deleteReview: function (movie) {
-      this.getReview(movie)
-      this.hide()
       const config = this.setToken()
       
-      axios.post(`${SERVER_URL}/movies/${movie.id}/review/update/`, this.review ,config)
-        .then( () => {
-          for (const idx in this.$store.state.user_movie[movie.id]) {
-            if (this.$store.state.user_movie[movie.id][idx] === this.login_user) {
-              this.$store.state.user_movie[movie.id].splice(idx,1)
-            }
-          }
-          this.getAllReview()
+      axios.delete(`${SERVER_URL}/movies/${movie.id}/review/update/`, config)
+        .then( (res) => {
+          console.log(res)
+          const idx1 = this.review_list.indexOf(res.data.id)
+          this.$store.state.review_list.splice(idx1,1)
+
+          const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
+          this.$store.state.user_movie[this.login_user].splice(idx2,1)
+
         })
         .catch( (err) => {
           console.log(err)
@@ -120,7 +118,7 @@ export default {
   created: function () {
     this.movie = this.$route.params.movie
     this.rate_options = _.range(0,11)
-    this.getAllReview()
+    this.getAllReview(this.movie)
   },
   computed: {
     ...mapState([
@@ -130,10 +128,6 @@ export default {
       'review_list',
     ])
   },
-  watch: {
-    // 'getReview': 'getAllReview',
-    // 'deleteReview': 'getAllReview'
-  }
 
 }
 </script>

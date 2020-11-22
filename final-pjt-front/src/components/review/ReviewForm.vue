@@ -1,10 +1,7 @@
 <template>
   <modal name="reviewCreateForm">
-    <div v-if="user_movie[login_user] && user_movie[login_user].includes(movie.id)">
-      <h2>리뷰 수정</h2>
-    </div>
-    <div v-else>
-      <h2>리뷰 작성</h2>
+    <div>
+      <h2>리뷰</h2>
     </div>
     <div>
       <label for="rate">평점</label>
@@ -46,9 +43,6 @@ export default {
   name: 'ReviewForm',
   data: function () {
     return {
-      // selected_rate: this.review['selected_rate'],
-      // like: this.review['like'],
-      // content: this.review['content'],
       selected_rate: '',
       like: false,
       content: '',
@@ -57,7 +51,7 @@ export default {
   },
   props: {
     movie: Object,
-    review: Object,
+    edit: Object,
     rate_options: Array,
   },
   methods: {
@@ -75,14 +69,7 @@ export default {
       return config
     },
     addReview: function (movie) {
-      // console.log(movie)
       const config = this.setToken()
-      const reviewerInfo = {
-        movie_id: this.movie.id,
-        reviewer_id: this.$store.state.login_user
-      }
-      this.$store.dispatch('checkReviewer', reviewerInfo)
-      // console.log('디스패치이후',this.$store.state.reviewer)
       const reviewInfo = {
         content: this.content,
         rate: this.selected_rate,
@@ -96,13 +83,13 @@ export default {
             movie_id: this.movie.id,
             reviewer_id: this.$store.state.login_user
           }
-          this.$store.dispatch('addReview', res.data)
+
+          this.$store.state.review_list.unshift(res.data)
           this.$store.dispatch('checkReviewer', reviewerInfo)
           this.content = ''
           this.selected_rate = ''
           this.like = false
           this.hide()
-          this.$emit('getAllReview')
         })
         .catch( (err) => {
           console.log(err)
@@ -111,33 +98,30 @@ export default {
     updateReview: function (movie) {
       const config = this.setToken()
       const reviewInfo = {
+        id: this.edit.id,
+        user: this.login_user,
+        movie: movie.id,
         content: this.content,
         rate: this.selected_rate,
         like: this.like,
       }
+      // console.log(reviewInfo)
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
-        .then( (res) => {
-          console.log(res)
-          this.hide()
+        .then( () => {
           this.$emit('getAllReview')
-
+          this.hide()
         })
         .catch( (err) => {
           console.log(err)
         })
     },
   },
-  created: function () {
-    
-    this.selected_rate= this.review.selected_rate
-    this.like= this.review.like
-    this.content= this.review.content
-  },
   computed: {
     ...mapState([
       'login_user',
       'user_movie',
-    ])
+      'review_list'
+    ]),
   },
 }
 </script>
