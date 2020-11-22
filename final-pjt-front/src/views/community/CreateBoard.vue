@@ -14,6 +14,7 @@
           <label for="content">Content: </label>
           <input type="text" id="content" v-model="content">
         </div>
+        <button type="submit">등록하기</button>
       </form>
 
       <form v-if="this.purpose == 'update'" v-on:submit.prevent="updateBoardForm">
