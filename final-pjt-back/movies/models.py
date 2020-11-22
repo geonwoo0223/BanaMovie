@@ -23,7 +23,7 @@ class UserGenre(models.Model):
   genre_count = models.IntegerField(default=0)
 
 class Review(models.Model):
-  user = models.ManyToManyField(settings.AUTH_USER_MODEL)
+  user = models.CharField(settings.AUTH_USER_MODEL)
   movie = models.ManyToManyField(Movie)
   content = models.TextField()
   rate = models.IntegerField(default=0)
