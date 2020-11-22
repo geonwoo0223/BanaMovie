@@ -3,21 +3,27 @@
     <h1>Title: {{ movie.title }}</h1>
     <h3>Overview: {{ movie.overview}}</h3>
     <div v-if="login">
-      <div v-if="reviewer[movie.id] && reviewer[movie.id].includes(login_user)">
+      <div v-if="user_movie[login_user] && user_movie[login_user].includes(movie.id)">
         <h1>이미작성한 유저는 수정 버튼을 보여준다</h1>
         <button @click="getReview(movie)">수정</button>
+        <button @click="deleteReview(movie)">삭제</button>
       </div>
       <div v-else>
         <button @click="show">리뷰작성</button>
       </div>
-      <ReviewForm 
-        @getAllReview="getAllReview" 
-        :movie="movie" :review="review" :rate_options="rate_options"/>
+      <ReviewForm @getAllReview="getAllReview"
+        :movie="movie" 
+        :rate_options="rate_options"
+        :review="review"
+        />
     </div>
 
     <div>
       <h1>리뷰리스트</h1>
-      <ReviewList :movie="movie" :reviews="all_reviews"/>
+      <ReviewList :movie="movie" 
+      v-for="(review, idx) in all_reviews"
+      :key="idx" :review="review"
+      />
     </div>
 
   </div>
@@ -50,6 +56,9 @@ export default {
   methods: {
     show: function () {
       this.$modal.show('reviewCreateForm')
+    },
+    hide: function () {
+      this.$modal.hide('reviewCreateForm')
     },
 
     setToken: function () {
@@ -88,6 +97,25 @@ export default {
           console.log(err)
         })
     },
+    deleteReview: function (movie) {
+      this.getReview(movie)
+      this.hide()
+      const config = this.setToken()
+      
+      axios.post(`${SERVER_URL}/movies/${movie.id}/review/update/`, this.review ,config)
+        .then( () => {
+          for (const idx in this.$store.state.user_movie[movie.id]) {
+            if (this.$store.state.user_movie[movie.id][idx] === this.login_user) {
+              this.$store.state.user_movie[movie.id].splice(idx,1)
+            }
+          }
+          this.getAllReview()
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+
+    }
   },
   created: function () {
     this.movie = this.$route.params.movie
@@ -98,9 +126,14 @@ export default {
     ...mapState([
       'login',
       'login_user',
-      'reviewer',
+      'user_movie',
+      'review_list',
     ])
   },
+  watch: {
+    // 'getReview': 'getAllReview',
+    // 'deleteReview': 'getAllReview'
+  }
 
 }
 </script>

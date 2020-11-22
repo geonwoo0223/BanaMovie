@@ -73,7 +73,6 @@ def recommendMovie(request):
 
 @api_view(['POST'])
 def addMovie(request):
-    # print(request.data)
     movieInfo = request.data['movieInfo']
     genres = request.data['genreInfo']
     movie_new = Movie(
@@ -135,11 +134,11 @@ def get_add_review(request, movie_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
-@api_view(['PUT','DELETE'])
+@api_view(['PUT','POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def update_delete_review(request, movie_pk):
-    print("여기도??????")
+    print(request.data)
     review = get_object_or_404(Review, pk=request.data['id'])
 
     if request.method == 'PUT':
@@ -150,6 +149,5 @@ def update_delete_review(request, movie_pk):
         else:
             print("----update error", serializer.errors)
     else:
-        print("qwkdopqjkgopwjqpodwkqopwkd")
         review.delete()
         return Response({ 'id': request.data['id'] })
