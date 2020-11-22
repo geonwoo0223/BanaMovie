@@ -93,10 +93,19 @@ def addMovie(request):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
-def movieDetail(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
+def movieDetail(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getAllReviews(request, movie_pk):
+    reviews = Review.objects.all().filter(movie_id=movie_pk)
+    serializer = ReviewUserSerializer(reviews, many=True)
+    return Response(serializer.data)
+
+
 
 
 @api_view(['GET','POST'])
@@ -111,9 +120,6 @@ def get_add_review(request, movie_pk):
         new['user'] = request.user
         new['movie'] = movie
         serializer = ReviewSerializer(new)
-
-
-
         return Response(serializer.data)
     else:
         review = request.data
