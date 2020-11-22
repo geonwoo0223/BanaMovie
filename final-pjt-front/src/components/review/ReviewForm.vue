@@ -25,7 +25,7 @@
     <div>
       <div v-if="reviewer[movie.id] && reviewer[movie.id].includes(login_user)">
         <button @click="updateReview(movie)">수정</button>
-        <button @click="temp">삭제</button>
+        <button @click="deleteReview(movie)">삭제</button>
         <button @click="hide">취소</button>
       </div>
       <div v-else>
@@ -47,21 +47,24 @@ export default {
   name: 'ReviewForm',
   data: function () {
     return {
-      // selected_rate: this.review['selected_rate'],
-      // like: this.review['like'],
-      // content: this.review['content'],
       selected_rate: '',
-      like: false,
+      like: '',
       content: '',
+      // selected_rate: this.$store.state.update_review_info.selected_rate,
+      // like: this.$store.state.update_review_info.like,
+      // content: this.$store.state.update_review_info.content,
     }
   },
   props: {
     movie: Object,
-    review: Object,
+    review: [Object,String],
     rate_options: Array,
   },
   methods: {
     hide: function () {
+      this.content = ''
+      this.selected_rate = ''
+      this.like = false
       this.$modal.hide('reviewCreateForm')
     },
     setToken: function () {
@@ -77,11 +80,7 @@ export default {
     addReview: function (movie) {
       // console.log(movie)
       const config = this.setToken()
-      const reviewerInfo = {
-        movie_id: this.movie.id,
-        reviewer_id: this.$store.state.login_user
-      }
-      this.$store.dispatch('checkReviewer', reviewerInfo)
+
       // console.log('디스패치이후',this.$store.state.reviewer)
       const reviewInfo = {
         content: this.content,
@@ -92,6 +91,11 @@ export default {
       axios.post(`${SERVER_URL}/movies/${movie.id}/review/`, reviewInfo, config)
         .then( () => {
           // console.log(res.data)
+          const reviewerInfo = {
+            movie_id: this.movie.id,
+            reviewer_id: this.$store.state.login_user
+          }
+          this.$store.dispatch('checkReviewer', reviewerInfo)
           this.content = ''
           this.selected_rate = ''
           this.like = false
@@ -105,13 +109,17 @@ export default {
     updateReview: function (movie) {
       const config = this.setToken()
       const reviewInfo = {
+        ...this.review,
         content: this.content,
-        rate: this.selected_rate,
         like: this.like,
+        selected_rate: this.selected_rate
       }
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
         .then( (res) => {
           console.log(res)
+          // this.$store.state.update_review_info.selected_rate = ''
+          // this.$store.state.update_review_info.like = false
+          // this.$store.state.update_review_info.content = ''
           this.hide()
           this.$emit('getAllReview')
 
@@ -120,21 +128,28 @@ export default {
           console.log(err)
         })
     },
-    temp: function () {
-      console.log(this.review)
+    deleteReview: function (movie) {
+      
+      const config = this.setToken()
+      
+      axios.delete(`${SERVER_URL}/movies/${movie.id}/review/update/`, this.review ,config)
+        .then( (res) => {
+          console.log(res)
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+
     }
   },
   created: function () {
-    console.log(this.review)
-    this.selected_rate= this.review.selected_rate
-    this.like= this.review.like
-    this.content= this.review.content
   },
   computed: {
     ...mapState([
       'login_user',
       'reviewer',
-    ])
+      // 'update_review_info'
+    ]),
   },
 }
 </script>

@@ -12,6 +12,11 @@ export default new Vuex.Store({
     movie_count: 50000000,
     username: '', 
     reviewer: {},
+    // update_review_info: {
+    //   selected_rate: '',
+    //   content: '',
+    //   like: false,
+    // },
   },
   getters: {
 
@@ -30,7 +35,10 @@ export default new Vuex.Store({
       } else {
         state.reviewer[`${movie_id}`] = [reviewer_id]
       }
-    }
+    },
+    // GET_UPDATE_REVIEW_INFO: function (state, review_info) {
+    //   state.update_review_info = review_info
+    // }
   },
   actions: {
     getMovie: function ({commit}, movies) {
@@ -39,6 +47,9 @@ export default new Vuex.Store({
     checkReviewer: function ({commit}, reviewerInfo) {
       commit('CHECK_REVIEWER', reviewerInfo)
     },
+    // getUpdateReviewInfo: function ({commit}, review_info) {
+    //   commit('GET_UPDATE_REVIEW_INFO', review_info)
+    // }
 
   },
 })

@@ -139,5 +139,17 @@ def get_add_review(request, movie_pk):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def update_delete_review(request, movie_pk):
+    print("여기도??????")
+    review = get_object_or_404(Review, pk=request.data['id'])
 
-    return Response(True)
+    if request.method == 'PUT':
+        serializer = ReviewSerializer(review, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            print("----update error", serializer.errors)
+    else:
+        print("qwkdopqjkgopwjqpodwkqopwkd")
+        review.delete()
+        return Response({ 'id': request.data['id'] })

@@ -41,11 +41,7 @@ export default {
   },
   data: function () {
     return {
-      review: {
-        selected_rate: '',
-        content: '',
-        like: false,
-      },
+      review: '',
       movie: '',
       rate_options:'',
       all_reviews: '',
@@ -84,11 +80,8 @@ export default {
       const config = this.setToken()
       axios.get(`${SERVER_URL}/movies/${movie.id}/review/`, config)
         .then( (res) => {
-          // console.log(res.data)
-          this.review['content'] = res.data['content']
-          this.review['selected_rate'] = res.data['rate']
-          this.review['like'] = res.data['like']
-          console.log("디테일에서",this.review)
+          this.review = res.data
+          // this.$store.dispatch('getUpdateReviewInfo', this.review)
           this.show()
         })
         .catch( (err) => {
