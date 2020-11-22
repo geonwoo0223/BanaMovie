@@ -12,6 +12,7 @@ export default new Vuex.Store({
     movie_count: 50000000,
     username: '', 
     reviewer: {},
+    comments: [],
   },
   getters: {
 

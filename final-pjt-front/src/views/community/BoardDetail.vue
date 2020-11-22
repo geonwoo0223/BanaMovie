@@ -25,7 +25,7 @@
     </div>
     <hr :style="{'margin':'5px 30px'}">
     <div>
-      <CommentForm v-if="this.$store.state.login" :board="board" @getAllComment="getAllComment" />
+      <CommentForm v-if="this.$store.state.login" :board="board" />
       <p v-else>댓글을 작성하려면 로그인이 필요합니다. </p>
     </div>
     <div>
@@ -105,7 +105,8 @@
         axios.get(`${SERVER_URL}/community/${this.boardItem}/comments/`)
           .then((res) => {
             if (res.data) {
-              this.all_comments = res.data
+              this.$store.state.comments = res.data
+              this.all_comments = this.$store.state.comments
             }
           })
           .catch((err) => {

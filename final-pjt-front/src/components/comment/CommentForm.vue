@@ -46,6 +46,7 @@
         axios.post(`${SERVER_URL}/community/${boardId}/comment_create/`, commentItem, config)
           .then((res) => {
             console.log(res)
+            this.$store.state.comments.unshift(res.data)
             this.content = ''
           })
           .catch((err) => {
