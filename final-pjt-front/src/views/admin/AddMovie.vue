@@ -27,10 +27,13 @@
       <label for="poster_path">Poster path: </label>
       <input type="text" id="poster_path" v-model.trim="poster_path">
     </div>
-    <div v-for="(genre,idx) in genres" :key="idx">
-      <input type="checkbox" :id="genre.name" :value="genre.id" v-model="checked_genres">
-      <label :for="genre.name">{{ genre.name }}</label>
+    <div class="genre">
+      <div v-for="(genre,idx) in genres" :key="idx">
+        <input type="checkbox" :id="genre.name" :value="genre.id" v-model="checked_genres">
+        <label :for="genre.name">{{ genre.name }}</label>
+      </div>
     </div>
+    <br>
     <button @click="addingMovie">Add</button>
   </div>
 </template>
@@ -67,7 +70,6 @@ export default {
   },
   methods: {
 
-    
     addingMovie: function () {
       const temp_number = this.$store.state.movie_count
 
@@ -89,14 +91,17 @@ export default {
       }, genreInfo: {
         genres: this.checked_genres
       }}
-      console.log(movieItem)
+      // console.log(movieItem)
 
       axios.post(`${SERVER_URL}/movies/add/`, movieItem)
-        .then( () => {
-          // console.log(res)
+        .then( (res) => {
+          console.log(res)
           this.$store.state.movie_count++
-          this.$store.state.movie_selected = movieItem.movieInfo.movie_no
-          this.$router.push({ name: 'MovieDetail' })
+          // 영화를 만들면 자동으로 vuex에서 관리하는 영화목록에 추가
+          this.$store.state.movie_list.push(res.data)
+
+          // 영화 만들면 detail 페이지로 
+          this.$router.push({ name: 'MovieDetail', params: {'movie':res.data} })
         })
         .catch( (err) => {
           console.log(err)
@@ -108,6 +113,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.genre {
+  display: inline-block;
+}
 </style>

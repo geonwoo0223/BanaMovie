@@ -1,6 +1,6 @@
 <template>
   <modal name="reviewCreateForm">
-    <div v-if="reviewer[movie.id] && reviewer[movie.id].includes(login_user)">
+    <div v-if="user_movie[login_user] && user_movie[login_user].includes(movie.id)">
       <h2>리뷰 수정</h2>
     </div>
     <div v-else>
@@ -23,9 +23,8 @@
       <textarea id="content" cols="60" rows="5" v-model.trim="content" placeholder="감상평을 남겨주세요."></textarea>
     </div>
     <div>
-      <div v-if="reviewer[movie.id] && reviewer[movie.id].includes(login_user)">
+      <div v-if="user_movie[login_user] && user_movie[login_user].includes(movie.id)">
         <button @click="updateReview(movie)">수정</button>
-        <button @click="temp">삭제</button>
         <button @click="hide">취소</button>
       </div>
       <div v-else>
@@ -53,6 +52,7 @@ export default {
       selected_rate: '',
       like: false,
       content: '',
+
     }
   },
   props: {
@@ -90,8 +90,14 @@ export default {
       }
 
       axios.post(`${SERVER_URL}/movies/${movie.id}/review/`, reviewInfo, config)
-        .then( () => {
+        .then( (res) => {
           // console.log(res.data)
+          const reviewerInfo = {
+            movie_id: this.movie.id,
+            reviewer_id: this.$store.state.login_user
+          }
+          this.$store.dispatch('addReview', res.data)
+          this.$store.dispatch('checkReviewer', reviewerInfo)
           this.content = ''
           this.selected_rate = ''
           this.like = false
@@ -120,9 +126,6 @@ export default {
           console.log(err)
         })
     },
-    temp: function () {
-      console.log(this.review)
-    }
   },
   created: function () {
     
@@ -133,7 +136,7 @@ export default {
   computed: {
     ...mapState([
       'login_user',
-      'reviewer',
+      'user_movie',
     ])
   },
 }

@@ -1,11 +1,8 @@
 <template>
   <div>
-   <ul>
-      <li v-for="(review,idx) in reviews" :key="idx"> 
-        {{ review.content }}
-
-      </li>
-    </ul>
+   <div>
+    유저 {{ review.user.username }}이/가 작성한 리뷰 "{{ review.content }}" 평점: {{review.rate}}
+   </div>
   </div>
 </template>
 
@@ -18,20 +15,22 @@ export default {
   name: 'ReviewList',
   data: function () {
     return {
+      reviews: '',
     }
   },
   props: {
     movie: Object,
-    reviews: [Array, String],
+    review: Object,
   },
-  created: function () {
+  mounted: function () {
+    this.reviews = this.review_list[this.movie.id]
   },
   computed: {
     ...mapState([
-      'login',
       'login_user',
+      'review_list'
     ])
-  }
+  },
 }
 
 </script>
