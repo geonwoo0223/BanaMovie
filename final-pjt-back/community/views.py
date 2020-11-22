@@ -72,3 +72,9 @@ def board_delete_update(request, board_pk):
             return Response(serializer.data)
 
 
+@api_view(['GET'])
+def comment_list(request, board_pk):
+    comments = BoardComment.objects.order_by('-pk').filter(board_id=board_pk)
+    serializer = BoardCommentUserSerializer(comments, many=True)
+    return Response(serializer.data)
+    
