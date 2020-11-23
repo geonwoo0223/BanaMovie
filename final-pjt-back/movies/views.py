@@ -144,9 +144,19 @@ def get_add_review(request, movie_pk):
 @permission_classes([IsAuthenticated])
 def update_delete_review(request, movie_pk):
     # print(request.data)
+    movie = get_object_or_404(Movie, pk=movie_pk)
 
     if request.method == 'PUT':
         review = get_object_or_404(Review, pk=request.data['id'])
+        movie.rate -= review.rate
+        movie.rate += int(request.data['rate'])
+        if review.like:
+            if not request.data['like']:
+                movie.vote_count -= 1
+        else:
+            if request.data['like']:
+                movie.vote_count += 1
+        movie.save()
         serializer = ReviewSerializer(review, data=request.data)
         
         if serializer.is_valid():
@@ -155,7 +165,6 @@ def update_delete_review(request, movie_pk):
         else:
             print("----update error", serializer.errors)
     else : 
-        movie = get_object_or_404(Movie, pk=movie_pk)
         review = Review.objects.filter(movie_id=movie_pk).filter(user_id=request.user.id)
         temp = list(review.values())
         new = temp[0]
