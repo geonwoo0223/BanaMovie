@@ -56,7 +56,8 @@
   
     },
     created: function () {
-    console.log(typeof(this.board))
+    console.log("board타입은?"+typeof(this.board))
+    console.log(this.board)
   },
   }
 </script>

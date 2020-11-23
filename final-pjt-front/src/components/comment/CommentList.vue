@@ -7,15 +7,15 @@
       <p>{{ $moment(comment.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
       <p>{{ $moment(comment.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
       <div v-if="updateTrigger === comment.id">
-        <UpdateForm :updateCommentItem="updateCommentItem" :board="board"/>
+        <UpdateForm :updateCommentItem="updateCommentItem" :board="board" @trigger="changeTrigger"/>
       </div>
       <div>
         <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
         <!--단, 관리자의 경우 삭제 버튼 활성화 -->
         <button v-if="comment.user.id === login_user && updateTrigger === false" @click="updateBoardForm(comment)" >댓글 수정</button>
 
-        <button v-if="is_admin" @click="deleteComment(comment)" >댓글 삭제</button>
-        <button v-else-if="comment.user.id === login_user" @click="deleteComment(comment)" >댓글 삭제</button>
+        <button v-if="is_admin && updateTrigger === false" @click="deleteComment(comment)"  >댓글 삭제</button>
+        <button v-else-if="comment.user.id === login_user && updateTrigger === false" @click="deleteComment(comment)" >댓글 삭제</button>
         
       </div>
       
@@ -92,6 +92,9 @@
         //console.log(board.id)
 
       },
+      changeTrigger: function () {
+        this.updateTrigger = false
+      }
 
     },
     created: function () {

@@ -111,12 +111,16 @@ def comment_update_delete(request, board_pk, comment_pk):
         print("put 요청이 들어왔나?")
         if comment.user == request.user : 
             request.data['user'] = request.user.pk
-            serializer = BoardCommentSerializer(board, data=request.data)
-            if serializer.is_valid():
+            serializer = BoardCommentSerializer(comment, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                
                 print("d유효?")
+                print(serializer)
                 serializer.save()
+                return Response(serializer.data)
             else : 
                 print("안유효")
                 print("----update error", serializer.errors)
-            return Response(serializer.data)
+                return Response(False)
+            
 

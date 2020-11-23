@@ -37,16 +37,17 @@
         }
         return config
       },
-      updateComment: function (board) {
+      updateComment: function () {
         const config = this.setToken()
         const updateItem = {
           ...this.updateCommentItem,
           board : this.board.id,
           content : this.content
         }
-        axios.put(`${SERVER_URL}/community/${board.id}/comment/${this.updateCommentItem.id}`,updateItem, config)
+        axios.put(`${SERVER_URL}/community/${this.board.id}/comment/${this.updateCommentItem.id}`,updateItem, config)
         .then( (res) => {
           console.log(res)
+          this.$emit("trigger")
           const targetCommentIdx = this.comments.findIndex((comment) => {
             return comment.id === res.data.id
           })
