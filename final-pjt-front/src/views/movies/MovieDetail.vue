@@ -89,6 +89,7 @@ export default {
         .then( (res) => {
           // console.log(res.data)
           this.edit = res.data
+          console.log(res.data)
           this.show()
         })
         .catch( (err) => {

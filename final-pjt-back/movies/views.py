@@ -1,6 +1,7 @@
 import requests
 
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -53,10 +54,38 @@ def getGenre(request):
 
 @api_view(['GET'])
 def recommendMovie(request, user_pk):
-    print(request.data)
-    print(request.user)
+    if Review.objects.all().filter(user_id=user_pk).exists():
+        user = get_user_model().objects.get(pk=user_pk)
+        usergenre = UserGenre.objects.get(user_id=user_pk)
+        movies = Movie.objects.all()
+        rate_dict = {
+            '28': usergenre.action, '12': usergenre.adventure, 
+            '16': usergenre.animation, '35': usergenre.comedy,
+            '80': usergenre.crime, '99': usergenre.documentary, 
+            '18': usergenre.drama, '10751': usergenre.family,
+            '14': usergenre.fantasy, '36': usergenre.history, 
+            '27': usergenre.horror, '10402': usergenre.music,
+            '9648': usergenre.mystery, '10749': usergenre.romance, 
+            '878': usergenre.science_fiction, '10770': usergenre.tv_movie,
+            '53': usergenre.thriller, '10752': usergenre.war, 
+            '37': usergenre.western
+        }
+        rate_sorted_list = sorted(rate_dict.keys(), key=lambda k: rate_dict[k], reverse=True)
+        
+        recommend = []
+        for movie in movies:
+            genres = list(movie.genres.all().values())
+            for genre in genres:
+                if genre['id'] == int(rate_sorted_list[0]):
+                    recommend.append(movie)
+                    continue
+            if len(recommend)==5:
+                break
+        serializer = MovieSerializer(recommend, many=True)
+        return Response(serializer.data)
+    else:
+        return Response({'Detail':'리뷰데이터가없음'})
 
-    return Response(True)
 
 @api_view(['POST'])
 def addMovie(request):

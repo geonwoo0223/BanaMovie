@@ -105,6 +105,8 @@ export default {
         })
         .catch( (err) => {
           console.log(err)
+          this.poster_path = ''
+          alert("한번 더 확인 후 제출바랍니다.")
         })
       
 

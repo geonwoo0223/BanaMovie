@@ -2,6 +2,12 @@
   <div>
     <div v-if="login && recommend_list.length > 0">
       <h2>영화 추천 목록</h2>
+      <ul>
+        <li v-for="(recommend,idx) in recommend_list" :key="idx">
+          {{ recommend.title }}
+          <button @click="movieDetail(recommend)">임시디테일</button>
+        </li>
+      </ul>
     </div>
     <div>
       <h2>전체 영화 목록</h2>
@@ -33,7 +39,7 @@ export default {
   },
   created: function () {
     this.movies = this.$store.state.movie_list
-    if (this.login) {
+    if (this.login && this.is_admin === false) {
       this.$store.dispatch('recommendMovie')
     }
   },
@@ -41,6 +47,7 @@ export default {
     ...mapState([
       'login',
       'login_user',
+      'is_admin',
       'recommend_list',
     ])
   }

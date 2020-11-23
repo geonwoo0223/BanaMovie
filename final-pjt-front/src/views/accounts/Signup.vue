@@ -60,6 +60,7 @@ export default {
         })
         .catch((err) => {
           console.log(err)
+          alert("회원가입 정보가 틀렸습니다.")
         })
     }
   }

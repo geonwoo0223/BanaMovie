@@ -78,6 +78,7 @@
           })
           .catch((err) => {
             console.log(err)
+            alert("잘못된 정보를 입력했습니다.")
           })
       },
       updateBoard: function () {
