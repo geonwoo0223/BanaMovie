@@ -5,69 +5,75 @@
         <label for="content">Content: </label>
         <input type="text" id="content" v-model="content">
       </div>
-      <button type="submit">수정완료</button>
+      <button type="submit" @click="updateComment(board)">수정완료</button>
     </form>
   </div>
 </template>
 
 <script>
-//   const SERVER_URL = process.env.VUE_APP_SERVER_URL
-//   import axios from 'axios'
+    const SERVER_URL = process.env.VUE_APP_SERVER_URL
+    import axios from 'axios'
 
   export default {
     name: 'UpdateForm',
     data: function () {
       return {
         content: '',
+        comments: '',
       }
     },
-    // props: {
-    //   updateCommentItem: [Object, String],
-    // },
-    // methods: {
-    //   setToken: function () {
-    //     const token = localStorage.getItem('jwt')
+    props: {
+      updateCommentItem: [Object, String],
+      board: [Object, String],
+    },
+    methods: {
+      setToken: function () {
+        const token = localStorage.getItem('jwt')
 
-    //     const config = {
-    //       headers: {
-    //         Authorization: `JWT ${token}`
-    //       }
-    //     }
-    //     return config
-    //   },
-    //   updateComment: function () {
-    //     const config = this.setToken()
+        const config = {
+          headers: {
+            Authorization: `JWT ${token}`
+          }
+        }
+        return config
+      },
+      updateComment: function (board) {
+        const config = this.setToken()
+        const updateItem = {
+          ...this.updateCommentItem,
+          board : this.board.id,
+          content : this.content
+        }
+        axios.put(`${SERVER_URL}/community/${board.id}/comment/${this.updateCommentItem.id}`,updateItem, config)
+        .then( (res) => {
+          console.log(res)
+          const targetCommentIdx = this.comments.findIndex((comment) => {
+            return comment.id === res.data.id
+          })
+          this.$store.state.comments[targetCommentIdx].content = this.content
 
-    //     const commentItem = {
-    //       content: this.content
-    //     }
-    //     //console.log(this.board)
-    //     const boardId = this.board.id
-    //     axios.delete(`${SERVER_URL}/community/${boardId}/comment/${comment.id}`, commentItem, config)
-    //       .then((res) => {
-    //         console.log(res)
-    //         // this.$store.state.comments.unshift(res.data)
-    //         // this.content = ''
-    //       })
-    //       .catch((err) => {
-    //         console.log(err)
-    //       })
-    //   },
-  
-    //},
+          
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+
+
+      },
+    },
     created: function () {
-    //console.log(typeof(this.board))
-  },
+      this.content = this.updateCommentItem.content
+      this.comments = this.$store.state.comments
+    },
   }
 </script>
 
 <style scoped>
-#updatedDiv {
+  #updatedDiv {
     display: inline;
-}
+  }
 
-form {
+  form {
     display: inline;
-}
-
+  }
 </style>

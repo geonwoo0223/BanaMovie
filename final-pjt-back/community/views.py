@@ -107,13 +107,16 @@ def comment_update_delete(request, board_pk, comment_pk):
         if request.user.is_superuser or board.user == request.user :
             comment.delete()
         return Response({'id':commentId})
-    # else :
-    #     if board.user == request.user : 
-    #         request.data['user'] = request.user.pk
-    #         serializer = BoardSerializer(board, data=request.data)
-    #         if serializer.is_valid(raise_exception=True):
-    #             serializer.save()
-    #         else : 
-    #             print("----update error", serializer.errors)
-    #         return Response(serializer.data)
+    else :
+        print("put 요청이 들어왔나?")
+        if comment.user == request.user : 
+            request.data['user'] = request.user.pk
+            serializer = BoardCommentSerializer(board, data=request.data)
+            if serializer.is_valid():
+                print("d유효?")
+                serializer.save()
+            else : 
+                print("안유효")
+                print("----update error", serializer.errors)
+            return Response(serializer.data)
 

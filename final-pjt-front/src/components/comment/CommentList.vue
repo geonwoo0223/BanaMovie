@@ -7,7 +7,7 @@
       <p>{{ $moment(comment.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
       <p>{{ $moment(comment.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
       <div v-if="updateTrigger === comment.id">
-        <UpdateForm />
+        <UpdateForm :updateCommentItem="updateCommentItem" :board="board"/>
       </div>
       <div>
         <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
@@ -78,6 +78,7 @@
     updateBoardForm: function (comment) {
       this.updateTrigger = comment.id
       this.updateCommentItem = comment
+
         // const boardItem = {
         //   id: board.id,
         //   purpose: 'update',
