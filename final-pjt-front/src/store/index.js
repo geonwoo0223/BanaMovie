@@ -34,13 +34,20 @@ export default new Vuex.Store({
   },
   mutations: {
     IS_ADMIN: function (state, status) {
-      console.log(status)
+      // console.log(status)
       state.is_admin = status
     },
-    GET_MOVIE: function (state, movies) {
-      for (const movie of movies) {
-        state.movie_list.push(movie)
-      }
+    GET_MOVIE: function (state) {
+      axios.get(`${SERVER_URL}/movies/`)
+        .then( (res) => {
+          const movies = res.data
+            for (const movie of movies) {
+              state.movie_list.push(movie)
+            }
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
     },
     CHECK_REVIEWER: function (state, reviewerInfo) {
       const movie_id = reviewerInfo['movie_id']
@@ -50,7 +57,8 @@ export default new Vuex.Store({
       } else {
         state.user_movie[`${reviewer_id}`] = [movie_id]
       }
-      // console.log("{유저:[영화]", state.user_movie)
+      console.log("{유저:[영화]", state.user_movie)
+      console.log(state.review_list)
     },
     RECOMMEND_MOVIE: function (state, id) {
       // console.log(state.is_admin)
@@ -65,7 +73,7 @@ export default new Vuex.Store({
             .then( (res) => {
               // console.log(res)
               state.recommend_list = res.data
-              console.log(state.recommend_list)
+              // console.log(state.recommend_list)
             })
             .catch( (err) => {
               console.log(err)
@@ -78,8 +86,8 @@ export default new Vuex.Store({
     isAdmin: function ({commit}, status) {
       commit('IS_ADMIN', status)
     },
-    getMovie: function ({commit}, movies) {
-      commit('GET_MOVIE', movies)
+    getMovie: function ({commit}) {
+      commit('GET_MOVIE')
     },
     checkReviewer: function ({commit}, reviewerInfo) {
       commit('CHECK_REVIEWER', reviewerInfo)

@@ -1,36 +1,47 @@
 <template>
   <div>
-    <div v-if="login && recommend_list.length > 0">
+    <div class="container" v-if="login && recommend_list.length > 0">
       <h2>영화 추천 목록</h2>
-      <ul>
-        <li v-for="(recommend,idx) in recommend_list" :key="idx">
-          {{ recommend.title }}
-          <button @click="movieDetail(recommend)">임시디테일</button>
-        </li>
-      </ul>
+      <div class="row">
+        <MovieListItem 
+          v-for="(movie,idx) in recommend_list"
+          :key="idx"
+          :movie="movie"
+          class="col-3"
+        /> 
+      </div>
     </div>
     <div>
       <h2>전체 영화 목록</h2>
     </div>
-    <ul>
-      <li v-for="(movie,idx) in movies" :key="idx">
-        {{ movie.title }}
-        <button @click="movieDetail(movie)">임시디테일</button>
-      </li>
-    </ul>
+    <div class="container">
+      <div class="row">
+        <MovieListItem 
+          v-for="(movie,idx) in movie_list"
+          :key="idx"
+          :movie="movie"
+          class="col-3"
+        /> 
+      </div>
+    </div>
 
   </div>
 </template>
 
 <script>
+
 import { mapState } from 'vuex'
+
+import MovieListItem from '@/components/movie/MovieListItem'
 
 export default {
   name: 'MovieList',
   data: function () {
     return {
-      movies: '',
     }
+  },
+  components: {
+    MovieListItem,
   },
   methods: {
     movieDetail: function (movie) {
@@ -38,7 +49,7 @@ export default {
     },
   },
   created: function () {
-    this.movies = this.$store.state.movie_list
+    this.$store.dispatch('getMovie')
     if (this.login && this.is_admin === false) {
       this.$store.dispatch('recommendMovie')
     }
@@ -48,8 +59,9 @@ export default {
       'login',
       'login_user',
       'is_admin',
+      'movie_list',
       'recommend_list',
-    ])
+    ]),
   }
 }
 </script>

@@ -24,10 +24,10 @@
 </template>
 
 <script>
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+// const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 import { mapState } from 'vuex'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'App',
@@ -54,15 +54,15 @@ export default {
       this.login = true
     }
 
-    axios.get(`${SERVER_URL}/movies/`)
-      .then( (res) => {
-        // console.log(res.data)
-        this.$store.dispatch('getMovie', res.data)
+    // axios.get(`${SERVER_URL}/movies/`)
+    //   .then( (res) => {
+    //     // console.log(res.data)
+    //     this.$store.dispatch('getMovie', res.data)
 
-      })
-      .catch( (err) => {
-        console.log(err)
-      })
+    //   })
+    //   .catch( (err) => {
+    //     console.log(err)
+    //   })
 
     // this.$router.push({name: 'MovieList'})
   },

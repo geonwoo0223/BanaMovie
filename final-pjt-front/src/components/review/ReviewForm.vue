@@ -1,5 +1,8 @@
 <template>
-  <modal name="reviewCreateForm">
+<div>
+  
+</div>
+  <!-- <modal name="">
     <div>
       <h2>리뷰</h2>
     </div>
@@ -29,7 +32,7 @@
         <button @click="hide">취소</button>
       </div>
     </div>
-  </modal>
+  </modal> -->
 </template>
 
 <script>
@@ -43,10 +46,12 @@ export default {
   name: 'ReviewForm',
   data: function () {
     return {
-      selected_rate: '',
+      selected_rate: null,
       like: false,
-      content: '',
-
+      content: null,
+      // selected_rate: this.$store.state.rate,
+      // like: this.$store.state.like,
+      // content: this.$store.state.content,
     }
   },
   props: {
@@ -57,6 +62,10 @@ export default {
   methods: {
     hide: function () {
       this.$modal.hide('reviewCreateForm')
+      this.$store.state.content = null
+      this.$store.state.rate = null
+      this.$store.state.like = false
+
     },
     setToken: function () {
       const token = localStorage.getItem('jwt')
@@ -86,9 +95,10 @@ export default {
 
           this.$store.state.review_list.unshift(res.data)
           this.$store.dispatch('checkReviewer', reviewerInfo)
-          this.content = ''
-          this.selected_rate = ''
+          this.content = null
+          this.selected_rate = null
           this.like = false
+
           this.hide()
         })
         .catch( (err) => {
@@ -109,6 +119,9 @@ export default {
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
         .then( () => {
           this.$emit('getAllReview')
+          this.$store.state.content = null
+          this.$store.state.rate = null
+          this.$store.state.like = false
           this.hide()
         })
         .catch( (err) => {

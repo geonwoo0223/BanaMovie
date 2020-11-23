@@ -32,7 +32,7 @@ def getMovies(request):
             movie_no= movie['id'],
             title= movie['title'],
             release_date= movie['release_date'],
-            poster_path= movie['poster_path'],
+            poster_path= "http://image.tmdb.org/t/p/w185" + movie['poster_path'],
             adult= movie['adult'],
             overview= movie['overview'],
         )
