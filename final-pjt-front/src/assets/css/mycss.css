@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Poor+Story&family=Slabo+27px&display=swap');
+    /* Do Hyeon Jua Poor Story */
+
+.padding-30{
+    padding: 30px;
+}
+
+.nav-dark{
+   background-color: #070720;
+}
+
+.font-jua{
+    font-family: 'Jua';
+}
+
+.font-do{
+    font-family: 'Do Hyeon';
+}
+
+.font-poor{
+    font-family: 'Poor Story';
+}
+
+.main-nav{
+    background-color: #070720;
+    font-family: 'Poor Story';
+    font-size: 30px;
+}
+
+.nav-margin{
+    margin: 5px 10px;
+}

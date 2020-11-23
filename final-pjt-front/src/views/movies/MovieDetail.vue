@@ -87,9 +87,11 @@ export default {
       const config = this.setToken()
       axios.get(`${SERVER_URL}/movies/${movie.id}/review/`, config)
         .then( (res) => {
-          // console.log(res.data)
+          console.log("영화정보를받와왔너?"+res.data)
           this.edit = res.data
           console.log(res.data)
+          this.$store.state.review_update = res.data
+          console.log(this.$store.state.review_update.content)
           this.show()
         })
         .catch( (err) => {

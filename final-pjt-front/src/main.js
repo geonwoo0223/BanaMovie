@@ -6,6 +6,7 @@ import VueMoment from 'vue-moment'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VModal from 'vue-js-modal'
 
+import './assets/css/mycss.css'
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
@@ -23,3 +24,4 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+

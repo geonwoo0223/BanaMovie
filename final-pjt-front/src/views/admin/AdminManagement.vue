@@ -9,7 +9,6 @@
         <th>생일</th>
         <th>이메일</th>
         <th>등급</th>
-        <th>최근접속일</th>
         <th>관리</th>
       </tr>
       <tr v-for="(member,idx) in members" :key="idx" >
@@ -20,7 +19,6 @@
         <th>{{ member.email }}</th>
         <th v-if="member.is_superuser">관리자</th>
         <th v-else>일반회원</th>
-        <th>{{ $moment(member.last_login).format('YYYY-MM-DD hh:mm:ss') }}</th>
         <th v-if="member.is_superuser"></th>
         <th v-else><button @click="deleteMember(member)">삭제</button></th>
       </tr>

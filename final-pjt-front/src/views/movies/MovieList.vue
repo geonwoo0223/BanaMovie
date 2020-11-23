@@ -18,6 +18,8 @@
         <button @click="movieDetail(movie)">임시디테일</button>
       </li>
     </ul>
+  
+
 
   </div>
 </template>
