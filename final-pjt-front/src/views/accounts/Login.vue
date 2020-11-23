@@ -58,7 +58,9 @@ export default {
           axios.get(`${SERVER_URL}/accounts/user/`, config)
             .then( (res) => {
               // console.log(res.data)
-              this.$store.state.login_user = res.data
+              const id = res.data
+              this.$store.state.login_user = id
+              this.$store.dispatch('recommendMovie', id)
               // console.log(this.$store.state.login_user)
             })
             .catch( (err) => {

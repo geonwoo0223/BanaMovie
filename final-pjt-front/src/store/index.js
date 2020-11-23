@@ -13,11 +13,16 @@ export default new Vuex.Store({
     recommend_list: [],
     movie_count: 50000000,
     user_movie: {},
+    // 리뷰 관련
+    content: '',
+    like: false,
+    rate: '',
 
     // 로그인 관련
     login: false,
     login_user: '',
     is_admin: false,
+    username: '',
     
     // 커뮤니티 관련
     comments: [],
@@ -43,16 +48,21 @@ export default new Vuex.Store({
       }
       // console.log("{유저:[영화]", state.user_movie)
     },
-    RECOMMEND_MOVIE: function (state) {
-      axios.get(`${SERVER_URL}/movies/recommend/`)
-        .then( (res) => {
-          console.log(res)
-        })
-        .catch( (err) => {
-          console.log(err)
-        })
-      console.log(state.login_user)
-      console.log(state.login)
+    RECOMMEND_MOVIE: function (state, id) {
+      if (!id) {
+        id = state.login_user
+      }
+      if (state.login_user) {
+        axios.get(`${SERVER_URL}/movies/recommend/${id}/`)
+          .then( (res) => {
+            // console.log(res)
+            state.recommend_list = res.data
+            console.log(state.recommend_list)
+          })
+          .catch( (err) => {
+            console.log(err)
+          })
+      }
     }
   },
   actions: {
@@ -62,8 +72,8 @@ export default new Vuex.Store({
     checkReviewer: function ({commit}, reviewerInfo) {
       commit('CHECK_REVIEWER', reviewerInfo)
     },
-    recommendMovie: function ({commit}) {
-      commit('RECOMMEND_MOVIE')
+    recommendMovie: function ({commit}, id) {
+      commit('RECOMMEND_MOVIE', id)
     }
   },
 
