@@ -8,7 +8,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-
+from movies.models import UserGenre
 
 @api_view(['POST'])
 def signup(request):
@@ -24,6 +24,11 @@ def signup(request):
         user = serializer.save()
         user.set_password(request.data.get('password'))
         user.save()
+        temp_user = get_user_model().objects.get(pk=user.id)
+        usergenre = UserGenre(
+            user=temp_user
+        )
+        usergenre.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

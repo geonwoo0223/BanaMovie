@@ -14,7 +14,6 @@
         | <router-link :to="{ name: 'AddMovie' }">영화추가</router-link> |
         <router-link :to="{ name: 'AdminManagement' }">관리자</router-link> 
       </span>
-      
     </div>
     <router-view @login="login = true" />
   </div>
@@ -60,10 +59,12 @@ export default {
       .catch( (err) => {
         console.log(err)
       })
+
+    // this.$router.push({name: 'MovieList'})
   },
   computed : {
     ...mapState([
-      'is_admin'
+      'is_admin',
     ])
   }
 }

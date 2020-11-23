@@ -118,7 +118,7 @@
     created: function () {
       this.boardItem = this.$route.params.id
       //console.log(this.boardItem)
-      axios.get(`${SERVER_URL}/community/${this.boardItem}`)
+      axios.get(`${SERVER_URL}/community/${this.boardItem}/`)
         .then((res => {
           this.board = res.data
           this.boardUsername = this.board.user.username

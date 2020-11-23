@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 Vue.use(Vuex)
 
@@ -8,6 +10,7 @@ export default new Vuex.Store({
     // 영화 관련
     movie_list: [],
     review_list: [],
+    recommend_list: [],
     movie_count: 50000000,
     user_movie: {},
 
@@ -38,8 +41,19 @@ export default new Vuex.Store({
       } else {
         state.user_movie[`${reviewer_id}`] = [movie_id]
       }
-      console.log("{유저:[영화]", state.user_movie)
-  },
+      // console.log("{유저:[영화]", state.user_movie)
+    },
+    RECOMMEND_MOVIE: function (state) {
+      axios.get(`${SERVER_URL}/movies/recommend/`)
+        .then( (res) => {
+          console.log(res)
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+      console.log(state.login_user)
+      console.log(state.login)
+    }
   },
   actions: {
     getMovie: function ({commit}, movies) {
@@ -48,6 +62,9 @@ export default new Vuex.Store({
     checkReviewer: function ({commit}, reviewerInfo) {
       commit('CHECK_REVIEWER', reviewerInfo)
     },
+    recommendMovie: function ({commit}) {
+      commit('RECOMMEND_MOVIE')
+    }
   },
 
 })

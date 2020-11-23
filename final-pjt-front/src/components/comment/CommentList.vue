@@ -63,7 +63,7 @@
 
       deleteComment: function (comment) {
        const config = this.setToken()
-       axios.delete(`${SERVER_URL}/community/${this.board.id}/comment/${comment.id}`, config)
+       axios.delete(`${SERVER_URL}/community/${this.board.id}/comment/${comment.id}/`, config)
         .then( (res) => {
           //console.log(res)
           const targetCommentIdx = this.comments.findIndex((comment) => {

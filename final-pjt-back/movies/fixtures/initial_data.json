@@ -124,5 +124,12 @@
     "fields": {
       "name": "전쟁"
     }
+  },
+  {
+    "model": "movies.genre",
+    "pk": 37,
+    "fields": {
+      "name": "웨스턴"
+    }
   }
 ]

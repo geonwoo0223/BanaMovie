@@ -52,24 +52,11 @@ def getGenre(request):
 
 
 @api_view(['GET'])
-def recommendMovie(request):
-    # 로그인 되어있는 유저
-    login_user = request.user
+def recommendMovie(request, user_pk):
+    print(request.data)
+    print(request.user)
 
-    # 해당 유저가 어떤 장르의 영화를 좋아했는지
-    genre_status = get_object_or_404(UserGenre, user_id=login_user.id)
-    
-    best = max(genre_status, key=lambda x: genre_status.genre_count)
-    
-    # 모든 영화를 받아온다
-    movies = Movie.objects.all()
-
-    # 그 중 해당 장르를 포함한 영화만
-
-    recommended = Movie.movie_genres.all().filter(genre_id=best.genre_id)
-    serialzed_movies = MovieSerializer(recommended, many=True)
-    
-    return Response(serialzed_movies.data)
+    return Response(True)
 
 @api_view(['POST'])
 def addMovie(request):
@@ -125,7 +112,6 @@ def get_add_review(request, movie_pk):
         movie.rate += int(review['rate'])
         if review['like']:
             movie.vote_count += 1
-        
         movie.save()
         review_new = Review(
             content=review['content'],
@@ -136,6 +122,55 @@ def get_add_review(request, movie_pk):
         )
         review_new.save()
         serializer = ReviewUserSerializer(review_new)
+
+        # print(request.user.id)          # 1
+        # print(request.data)             # 'rate': '5'
+        # print(list(movie.genres.all().values())) #[{'id': 18, 'name': '드라마'}, {'id': 53, 'name': '스릴러'}, {'id': 878, 'name': 'SF'}]
+        # print(movie.rate)                 # 8.0
+        
+        genres = list(movie.genres.all().values())
+        usergenre = UserGenre.objects.get(user_id=request.user.id)
+        for genre in genres:
+            temp = genre['name']
+            if temp == '액션':
+                usergenre.action += int(request.data['rate'])
+            elif temp == '모험':
+                usergenre.adventure += int(request.data['rate'])
+            elif temp == '애니메이션':
+                usergenre.animation += int(request.data['rate'])
+            elif temp == '코미디':
+                usergenre.comedy += int(request.data['rate'])
+            elif temp == '범죄':
+                usergenre.crime += int(request.data['rate'])
+            elif temp == '다큐멘터리':
+                usergenre.documentary += int(request.data['rate'])
+            elif temp == '드라마':
+                usergenre.drama += int(request.data['rate'])
+            elif temp == '가족':
+                usergenre.family += int(request.data['rate'])
+            elif temp == '판타지':
+                usergenre.fantasy += int(request.data['rate'])
+            elif temp == '역사':
+                usergenre.history += int(request.data['rate'])
+            elif temp == '공포':
+                usergenre.horror += int(request.data['rate'])
+            elif temp == '음악':
+                usergenre.music += int(request.data['rate'])
+            elif temp == '미스터리':
+                usergenre.mystery += int(request.data['rate'])
+            elif temp == '로맨스':
+                usergenre.romance += int(request.data['rate'])
+            elif temp == 'SF':
+                usergenre.science_fiction += int(request.data['rate'])
+            elif temp == 'TV 영화':
+                usergenre.tv_movie += int(request.data['rate'])
+            elif temp == '스릴러':
+                usergenre.thriller += int(request.data['rate'])
+            elif temp == '전쟁':
+                usergenre.war += int(request.data['rate'])
+            elif temp == '웨스턴':
+                usergenre.western += int(request.data['rate'])
+        usergenre.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
@@ -145,9 +180,13 @@ def get_add_review(request, movie_pk):
 def update_delete_review(request, movie_pk):
     # print(request.data)
     movie = get_object_or_404(Movie, pk=movie_pk)
+    genres = list(movie.genres.all().values())
+    usergenre = UserGenre.objects.get(user_id=request.user.id)
 
     if request.method == 'PUT':
         review = get_object_or_404(Review, pk=request.data['id'])
+
+
         movie.rate -= review.rate
         movie.rate += int(request.data['rate'])
         if review.like:
@@ -157,6 +196,69 @@ def update_delete_review(request, movie_pk):
             if request.data['like']:
                 movie.vote_count += 1
         movie.save()
+
+
+        for genre in genres:
+            temp = genre['name']
+            if temp == '액션':
+                usergenre.action -= review.rate
+                usergenre.action += int(request.data['rate'])
+            elif temp == '모험':
+                usergenre.adventure -= review.rate
+                usergenre.adventure += int(request.data['rate'])
+            elif temp == '애니메이션':
+                usergenre.animation -= review.rate
+                usergenre.animation += int(request.data['rate'])
+            elif temp == '코미디':
+                usergenre.comedy -= review.rate
+                usergenre.comedy += int(request.data['rate'])
+            elif temp == '범죄':
+                usergenre.crime -= review.rate
+                usergenre.crime += int(request.data['rate'])
+            elif temp == '다큐멘터리':
+                usergenre.documentary -= review.rate
+                usergenre.documentary += int(request.data['rate'])
+            elif temp == '드라마':
+                usergenre.drama -= review.rate
+                usergenre.drama += int(request.data['rate'])
+            elif temp == '가족':
+                usergenre.family -= review.rate
+                usergenre.family += int(request.data['rate'])
+            elif temp == '판타지':
+                usergenre.fantasy -= review.rate
+                usergenre.fantasy += int(request.data['rate'])
+            elif temp == '역사':
+                usergenre.history -= review.rate
+                usergenre.history += int(request.data['rate'])
+            elif temp == '공포':
+                usergenre.horror -= review.rate
+                usergenre.horror += int(request.data['rate'])
+            elif temp == '음악':
+                usergenre.music -= review.rate
+                usergenre.music += int(request.data['rate'])
+            elif temp == '미스터리':
+                usergenre.mystery -= review.rate
+                usergenre.mystery += int(request.data['rate'])
+            elif temp == '로맨스':
+                usergenre.romance -= review.rate
+                usergenre.romance += int(request.data['rate'])
+            elif temp == 'SF':
+                usergenre.science_fiction -= review.rate
+                usergenre.science_fiction += int(request.data['rate'])
+            elif temp == 'TV 영화':
+                usergenre.tv_movie -= review.rate
+                usergenre.tv_movie += int(request.data['rate'])
+            elif temp == '스릴러':
+                usergenre.thriller -= review.rate
+                usergenre.thriller += int(request.data['rate'])
+            elif temp == '전쟁':
+                usergenre.war -= review.rate
+                usergenre.war += int(request.data['rate'])
+            elif temp == '웨스턴':
+                usergenre.western -= review.rate
+                usergenre.western += int(request.data['rate'])
+        usergenre.save()
+
         serializer = ReviewSerializer(review, data=request.data)
         
         if serializer.is_valid():
@@ -166,10 +268,53 @@ def update_delete_review(request, movie_pk):
             print("----update error", serializer.errors)
     else : 
         review = Review.objects.filter(movie_id=movie_pk).filter(user_id=request.user.id)
-        temp = list(review.values())
-        new = temp[0]
+        new = list(review.values())[0]
         movie.rate -= new['rate']
         movie.save()
+
+        for genre in genres:
+            temp = genre['name']
+            if temp == '액션':
+                usergenre.action -= new['rate']
+            elif temp == '모험':
+                usergenre.adventure -= new['rate']
+            elif temp == '애니메이션':
+                usergenre.animation -= new['rate']
+            elif temp == '코미디':
+                usergenre.comedy -= new['rate']
+            elif temp == '범죄':
+                usergenre.crime -= new['rate']
+            elif temp == '다큐멘터리':
+                usergenre.documentary -= new['rate']
+            elif temp == '드라마':
+                usergenre.drama -= new['rate']
+            elif temp == '가족':
+                usergenre.family -= new['rate']
+            elif temp == '판타지':
+                usergenre.fantasy -= new['rate']
+            elif temp == '역사':
+                usergenre.history -= new['rate']
+            elif temp == '공포':
+                usergenre.horror -= new['rate']
+            elif temp == '음악':
+                usergenre.music -= new['rate']
+            elif temp == '미스터리':
+                usergenre.mystery -= new['rate']
+            elif temp == '로맨스':
+                usergenre.romance -= new['rate']
+            elif temp == 'SF':
+                usergenre.science_fiction -= new['rate']
+            elif temp == 'TV 영화':
+                usergenre.tv_movie -= new['rate']
+            elif temp == '스릴러':
+                usergenre.thriller -= new['rate']
+            elif temp == '전쟁':
+                usergenre.war -= new['rate']
+            elif temp == '웨스턴':
+                usergenre.western -= new['rate']
+        usergenre.save()
+
+
         new['user'] = request.user
         new['movie'] = movie
         serializer = ReviewUserSerializer(new)

@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     deleteMember: function (member) {
-       axios.post(`${SERVER_URL}/accounts/delete_members/${member.id}`,this.admin_info)
+       axios.post(`${SERVER_URL}/accounts/delete_members/${member.id}/`,this.admin_info)
         .then( (res) => {
           console.log(res)
           const targetMemberIdx = this.members.findIndex((member) => {

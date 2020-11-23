@@ -14,7 +14,6 @@ import BoardDetail from '@/views/community/BoardDetail'
 Vue.use(VueRouter)
 
 const routes = [
-  
   {
     path: '/signup',
     name: 'Signup',

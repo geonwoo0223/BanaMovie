@@ -52,12 +52,14 @@ export default {
           localStorage.setItem('jwt', res.data.token)
           this.$emit('login')
           this.$store.state.login = true
+
           // console.log(res)
           const config = this.setToken()
           axios.get(`${SERVER_URL}/accounts/user/`, config)
             .then( (res) => {
               // console.log(res.data)
               this.$store.state.login_user = res.data
+              // console.log(this.$store.state.login_user)
             })
             .catch( (err) => {
               console.log(err)
@@ -72,8 +74,8 @@ export default {
             console.log(err)
           })
 
-          this.$router.push({ name: 'MovieList' })
           this.$store.state.username = this.credentials.username
+          this.$router.push({ name: 'MovieList' })
         })
         .catch((err) => {
           console.log(err)

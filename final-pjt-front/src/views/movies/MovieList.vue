@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-if="login && recommend_list.length > 0">
+      <h2>영화 추천 목록</h2>
+    </div>
+    <div>
+      <h2>전체 영화 목록</h2>
+    </div>
     <ul>
       <li v-for="(movie,idx) in movies" :key="idx">
         {{ movie.title }}
@@ -11,8 +17,7 @@
 </template>
 
 <script>
-
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'MovieList',
@@ -24,14 +29,20 @@ export default {
   methods: {
     movieDetail: function (movie) {
       this.$router.push({ name: 'MovieDetail', params: {'movie': movie} })
-    }
+    },
   },
   created: function () {
-
     this.movies = this.$store.state.movie_list
-
-    // console.log(this.movies)
-
+    if (this.login) {
+      this.$store.dispatch('recommendMovie')
+    }
+  },
+  computed: {
+    ...mapState([
+      'login',
+      'login_user',
+      'recommend_list',
+    ])
   }
 }
 </script>
