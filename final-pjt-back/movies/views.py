@@ -107,6 +107,21 @@ def addMovie(request):
     serializer = MovieSerializer(movie_new)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(['PUT','DELETE'])
+def update_delete_movie(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+
+    if request.method == 'PUT':
+        serializer = MovieSerializer(movie, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    else:
+        movie.delete()
+        return Response({'id': movie_pk})
+
+
+
 @api_view(['GET'])
 def movieDetail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)

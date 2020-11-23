@@ -3,8 +3,7 @@ import VueRouter from 'vue-router'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import MovieList from '@/views/movies/MovieList'
-import MovieDetail from '@/views/movies/MovieDetail'
-import AddMovie from '@/views/admin/AddMovie'
+import ManageMovie from '@/views/admin/ManageMovie'
 import AdminManagement from '@/views/admin/AdminManagement'
 import Board from '@/views/community/Board'
 import CreateBoard from '@/views/community/CreateBoard'
@@ -30,14 +29,9 @@ const routes = [
     component: MovieList,
   },
   {
-    path: '/movie',
-    name: 'MovieDetail',
-    component: MovieDetail,
-  },
-  {
-    path: '/addmovie',
-    name: 'AddMovie',
-    component: AddMovie,
+    path: '/managemovie',
+    name: 'ManageMovie',
+    component: ManageMovie,
   },
   {
     path: '/management',

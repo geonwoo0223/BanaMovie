@@ -34,7 +34,8 @@
       </div>
     </div>
     <br>
-    <button @click="addingMovie">Add</button>
+    <button @click="addingMovie" :class="{ appear: !hideUpdate }">추가</button>
+    <button @click="updateMovie" :class="{ appear: hideUpdate }">수정</button>
   </div>
 </template>
 
@@ -48,15 +49,19 @@ export default {
   data: function () {
     return {
       genres: '',
-      title: '',
-      release_date: '',
-      adult: false,
-      status: false,
-      overview: '',
-      poster_path: '',
-      checked_genres: [],
-      
+      title: this.movie.title,
+      release_date: this.movie.release_date,
+      adult: this.movie.adult,
+      status: this.movie.status,
+      overview: this.movie.overview,
+      poster_path: this.movie.poster_path,
+      checked_genres: this.movie.checked_genres,
+      hideUpdate: !this.hideAdd
     }
+  },
+  props: {
+    hideAdd: Boolean,
+    movie: Object,
   },
   created: function () {
     axios.get(`${SERVER_URL}/movies/genre/`)
@@ -95,21 +100,51 @@ export default {
 
       axios.post(`${SERVER_URL}/movies/add/`, movieItem)
         .then( (res) => {
-          console.log(res)
+          // console.log(res)
           this.$store.state.movie_count++
           // 영화를 만들면 자동으로 vuex에서 관리하는 영화목록에 추가
           this.$store.state.movie_list.push(res.data)
+          
+          this.$emit('triggerAdd')
 
-          // 영화 만들면 detail 페이지로 
-          this.$router.push({ name: 'MovieDetail', params: {'movie':res.data} })
         })
         .catch( (err) => {
           console.log(err)
           this.poster_path = ''
           alert("한번 더 확인 후 제출바랍니다.")
         })
-      
+    
+    },
+    updateMovie: function () {
+      console.log('hi')
+      const temp_number = this.$store.state.movie_count
 
+      const movieItem = {
+        movie_no: temp_number,
+        title: this.title,
+        release_date: this.release_date,
+        poster_path: this.poster_path,
+        adult: this.adult,
+        overview: this.overview,
+        status: this.status,
+        admin_reg: true,
+        genres: this.checked_genres
+      }
+
+      axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
+        .then( (res) => {
+          console.log(res)
+          const idx = this.movie_list.findIndex((movie) => {
+            return movie.id === res.data.id
+          })
+          this.movie_list[idx] = res.data
+
+        })
+        .catch( (err) => {
+          console.log(err)
+          this.poster_path = ''
+          alert("한번 더 확인 후 제출바랍니다.")
+        })
     }
   }
 }
@@ -118,5 +153,9 @@ export default {
 <style scoped>
 .genre {
   display: inline-block;
+}
+
+.appear {
+  display: none;
 }
 </style>
