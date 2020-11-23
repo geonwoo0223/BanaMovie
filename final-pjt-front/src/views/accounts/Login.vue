@@ -69,18 +69,21 @@ export default {
 
           axios.post(`${SERVER_URL}/accounts/is-admin/`, this.credentials)
           .then((res) => {
-            // console.log(res)
-            this.$store.state.is_admin = res.data
+            this.$store.dispatch('isAdmin', res.data)
           })
           .catch((err) => {
             console.log(err)
           })
-
           this.$store.state.username = this.credentials.username
-          this.$router.push({ name: 'MovieList' })
+          if (this.flag) {
+            this.$router.push({ name: 'AdminManagement' })
+          } else {
+            this.$router.push({ name: 'MovieList' })
+          }
         })
         .catch((err) => {
           console.log(err)
+          alert("로그인 정보가 틀렸습니다.")
         })
     }
   }

@@ -39,7 +39,7 @@ export default {
   },
   created: function () {
     this.movies = this.$store.state.movie_list
-    if (this.login) {
+    if (this.login && this.is_admin === false) {
       this.$store.dispatch('recommendMovie')
     }
   },
@@ -47,6 +47,7 @@ export default {
     ...mapState([
       'login',
       'login_user',
+      'is_admin',
       'recommend_list',
     ])
   }

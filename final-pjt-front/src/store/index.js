@@ -14,15 +14,15 @@ export default new Vuex.Store({
     movie_count: 50000000,
     user_movie: {},
     // 리뷰 관련
-    content: '',
+    content: null,
     like: false,
-    rate: '',
+    rate: null,
 
     // 로그인 관련
     login: false,
-    login_user: '',
+    login_user: null,
     is_admin: false,
-    username: '',
+    username: null,
     
     // 커뮤니티 관련
     comments: [],
@@ -33,6 +33,10 @@ export default new Vuex.Store({
 
   },
   mutations: {
+    IS_ADMIN: function (state, status) {
+      console.log(status)
+      state.is_admin = status
+    },
     GET_MOVIE: function (state, movies) {
       for (const movie of movies) {
         state.movie_list.push(movie)
@@ -49,23 +53,31 @@ export default new Vuex.Store({
       // console.log("{유저:[영화]", state.user_movie)
     },
     RECOMMEND_MOVIE: function (state, id) {
-      if (!id) {
-        id = state.login_user
-      }
-      if (state.login_user) {
-        axios.get(`${SERVER_URL}/movies/recommend/${id}/`)
-          .then( (res) => {
-            // console.log(res)
-            state.recommend_list = res.data
-            console.log(state.recommend_list)
-          })
-          .catch( (err) => {
-            console.log(err)
-          })
-      }
+      // console.log(state.is_admin)
+      if (state.is_admin) {
+        state.recommend_list = []
+      } else {
+        if (!id) {
+          id = state.login_user
+        }
+        if (state.login_user) {
+          axios.get(`${SERVER_URL}/movies/recommend/${id}/`)
+            .then( (res) => {
+              // console.log(res)
+              state.recommend_list = res.data
+              console.log(state.recommend_list)
+            })
+            .catch( (err) => {
+              console.log(err)
+            })
+        }
+      }        
     }
   },
   actions: {
+    isAdmin: function ({commit}, status) {
+      commit('IS_ADMIN', status)
+    },
     getMovie: function ({commit}, movies) {
       commit('GET_MOVIE', movies)
     },

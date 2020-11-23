@@ -90,10 +90,6 @@ export default {
           // console.log(res.data)
           this.edit = res.data
           console.log(res.data)
-          this.$store.state.content = res.data.content
-          this.$store.state.like = res.data.like
-          this.$store.state.rate = res.data.rate
-
           this.show()
         })
         .catch( (err) => {
