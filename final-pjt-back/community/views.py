@@ -113,9 +113,6 @@ def comment_update_delete(request, board_pk, comment_pk):
             request.data['user'] = request.user.pk
             serializer = BoardCommentSerializer(comment, data=request.data)
             if serializer.is_valid(raise_exception=True):
-                
-                print("d유효?")
-                print(serializer)
                 serializer.save()
                 return Response(serializer.data)
             else : 

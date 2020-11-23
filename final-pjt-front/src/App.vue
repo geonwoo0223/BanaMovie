@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
     <div id="nav">
         <router-link :to="{ name: 'MovieList' }">Movies</router-link> |
         <router-link :to="{ name: 'Board' }">Board</router-link> |   
@@ -8,12 +10,14 @@
       </span>
       <span v-else>
         <router-link :to="{ name: 'Signup' }">Signup</router-link> |
-        <router-link :to="{ name: 'Login' }">Login</router-link> 
+        <router-link :to="{ name: 'Login' }"> <button class="btn btn-primary">Login</button>
+        </router-link> 
       </span>
       <span v-if="is_admin">
         | <router-link :to="{ name: 'AddMovie' }">영화추가</router-link> |
         <router-link :to="{ name: 'AdminManagement' }">관리자</router-link> 
       </span>
+      
     </div>
     <router-view @login="login = true" />
   </div>
@@ -71,6 +75,7 @@ export default {
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -91,4 +96,10 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.btn-primary {
+    background-color: #7bc143 !important;
+    border-color: #7bc143 !important;
+    color: #FFF; }
+
 </style>
