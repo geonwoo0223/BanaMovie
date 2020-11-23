@@ -122,6 +122,11 @@ def get_add_review(request, movie_pk):
         return Response(serializer.data)
     else:
         review = request.data
+        movie.rate += int(review['rate'])
+        if review['like']:
+            movie.vote_count += 1
+        
+        movie.save()
         review_new = Review(
             content=review['content'],
             rate=review['rate'],
@@ -154,6 +159,8 @@ def update_delete_review(request, movie_pk):
         review = Review.objects.filter(movie_id=movie_pk).filter(user_id=request.user.id)
         temp = list(review.values())
         new = temp[0]
+        movie.rate -= new['rate']
+        movie.save()
         new['user'] = request.user
         new['movie'] = movie
         serializer = ReviewUserSerializer(new)
