@@ -52,7 +52,7 @@ export default {
           localStorage.setItem('jwt', res.data.token)
           this.$emit('login')
           this.$store.state.login = true
-
+          
           // console.log(res)
           const config = this.setToken()
           axios.get(`${SERVER_URL}/accounts/user/`, config)

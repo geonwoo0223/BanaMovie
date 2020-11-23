@@ -25,7 +25,6 @@
       :key="idx" :review="review"
       />
     </div>
-
   </div>
 </template>
 
@@ -90,8 +89,13 @@ export default {
           console.log("영화정보를받와왔너?"+res.data)
           this.edit = res.data
           console.log(res.data)
-          this.$store.state.review_update = res.data
-          console.log(this.$store.state.review_update.content)
+          this.$store.state.content = res.data.content
+          this.$store.state.like = res.data.like
+          this.$store.state.rate = res.data.rate
+          this.gcontent = res.data.content
+          this.glike = res.data.like
+          this.grate = res.data.rate
+
           this.show()
         })
         .catch( (err) => {
@@ -110,18 +114,24 @@ export default {
 
           const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
           this.$store.state.user_movie[this.login_user].splice(idx2,1)
-
+          this.$store.state.content = null
+          this.$store.state.rate = null
+          this.$store.state.like = false
         })
         .catch( (err) => {
           console.log(err)
         })
 
-    }
+  },
+    
   },
   created: function () {
     this.movie = this.$route.params.movie
     this.rate_options = _.range(0,11)
     this.getAllReview(this.movie)
+    this.$store.state.content = null
+    this.$store.state.rate = null
+    this.$store.state.like = false
   },
   computed: {
     ...mapState([
