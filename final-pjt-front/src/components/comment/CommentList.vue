@@ -6,8 +6,8 @@
       <p>{{comment.content}}</p>
       <p>{{ $moment(comment.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
       <p>{{ $moment(comment.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
-      <div v-if="updateTrigger">
-        <input type="text">
+      <div v-if="updateTrigger === comment.id">
+        <UpdateForm />
       </div>
       <div>
         <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
@@ -28,7 +28,7 @@
 <script>
   const SERVER_URL = process.env.VUE_APP_SERVER_URL
   import axios from 'axios'
-  // import UpdateForm from '@/components/comment/UpdateForm'
+  import UpdateForm from '@/components/comment/UpdateForm'
 
   import {
     mapState
@@ -36,9 +36,9 @@
 
   export default {
     name: 'CommentList',
-    // components: {
-    //   UpdateForm,
-    // },
+    components: {
+      UpdateForm,
+    },
     data: function () {
       return {
         updateTrigger: false,
@@ -48,7 +48,6 @@
     },
     props: {
       board: [Object, String],
-      comments: [Array, String],
     },
     methods: {
       setToken: function () {
@@ -77,7 +76,7 @@
         })
     },
     updateBoardForm: function (comment) {
-      this.updateTrigger = true
+      this.updateTrigger = comment.id
       this.updateCommentItem = comment
         // const boardItem = {
         //   id: board.id,
