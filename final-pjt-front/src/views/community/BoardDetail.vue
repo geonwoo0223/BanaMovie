@@ -18,7 +18,7 @@
     <div>
       <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
       <!--단, 관리자의 경우 삭제 버튼 활성화 -->
-      <button v-if="boardUsername === this.$store.state.username" @click="updateBoard(board)">글 수정</button>
+      <button v-if="boardUsername === this.$store.state.username" @click="updateBoardForm(board)">글 수정</button>
 
       <button v-if="this.$store.state.is_admin" @click="deleteBoard(board)">글 삭제</button>
       <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
@@ -87,7 +87,7 @@
             console.log(err)
           })
       },
-      updateBoard: function (board) {
+      updateBoardForm: function (board) {
         const boardItem = {
           id: board.id,
           purpose: 'update',

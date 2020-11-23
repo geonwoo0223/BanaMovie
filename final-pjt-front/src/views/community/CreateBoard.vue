@@ -17,7 +17,7 @@
         <button type="submit">등록하기</button>
       </form>
 
-      <form v-if="this.purpose == 'update'" v-on:submit.prevent="updateBoardForm">
+      <form v-if="this.purpose == 'update'" v-on:submit.prevent="updateBoard">
         <div>
           <label for="title">Title: </label>
           <input type="text" id="title" v-model.trim="title">
@@ -80,7 +80,7 @@
             console.log(err)
           })
       },
-      updateBoardForm: function () {
+      updateBoard: function () {
         const config = this.setToken()
 
         const boardItem = {
