@@ -27,12 +27,12 @@ export default {
     return {
       hideAdd: true,
       movie: {
-        title: '',
-        release_date: '',
+        title: null,
+        release_date: null,
         adult: false,
         status: false,
-        overview: '',
-        poster_path: '',
+        overview: null,
+        poster_path: null,
         checked_genres: [],
       },
     }

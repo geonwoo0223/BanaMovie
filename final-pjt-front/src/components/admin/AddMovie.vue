@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Add Movie</h2>
+    <!-- <h2>Add Movie</h2> -->
     <div>
       <label for="title" >Title: </label>
       <input type="text" id="title" v-model.trim="title">
@@ -49,7 +49,7 @@ export default {
   data: function () {
     return {
       genres: '',
-      title: this.movie.title,
+      title: null,
       release_date: this.movie.release_date,
       adult: this.movie.adult,
       status: this.movie.status,
@@ -64,6 +64,8 @@ export default {
     movie: Object,
   },
   created: function () {
+    this.title = this.movie.title
+  
     axios.get(`${SERVER_URL}/movies/genre/`)
       .then( (res) => {
         // console.log(res.data)
@@ -117,6 +119,7 @@ export default {
     },
     updateMovie: function () {
       console.log('hi')
+      console.log(this.movie)
       const temp_number = this.$store.state.movie_count
 
       const movieItem = {
@@ -131,20 +134,21 @@ export default {
         genres: this.checked_genres
       }
 
-      axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
-        .then( (res) => {
-          console.log(res)
-          const idx = this.movie_list.findIndex((movie) => {
-            return movie.id === res.data.id
-          })
-          this.movie_list[idx] = res.data
+      console.log(movieItem)
+      // axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
+      //   .then( (res) => {
+      //     console.log(res)
+      //     const idx = this.movie_list.findIndex((movie) => {
+      //       return movie.id === res.data.id
+      //     })
+      //     this.movie_list[idx] = res.data
 
-        })
-        .catch( (err) => {
-          console.log(err)
-          this.poster_path = ''
-          alert("한번 더 확인 후 제출바랍니다.")
-        })
+      //   })
+      //   .catch( (err) => {
+      //     console.log(err)
+      //     this.poster_path = ''
+      //     alert("한번 더 확인 후 제출바랍니다.")
+      //   })
     }
   }
 }
