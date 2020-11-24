@@ -2,11 +2,12 @@
   <div>
     <b-container>
       <b-row>
-
-  <b-button size="lg" block pill variant="light" @click="triggerAdd" :class="{ appear: !hideAdd }" class="my-5 font-do" >영화 추가</b-button>
-    <AddMovie :class="{ appear: hideAdd }" 
-      @triggerAdd="triggerAdd" :hideAdd="hideAdd" :movie="movie" 
-    />
+        <b-col sm='6'>
+          <b-button size="lg" block pill variant="light" @click="triggerAdd" :class="{ appear: !hideAdd }" class="my-5 font-do" >직접 추가</b-button>
+        </b-col>
+        <b-col sm='6'>
+          <b-button size="lg" block pill variant="light" @click="triggerSearch" :class="{ appear: !hideAdd }" class="my-5 font-do" >검색 추가</b-button>
+        </b-col>
       </b-row>
 
       <!-- <b-row> -->
@@ -20,9 +21,7 @@
 
 
 
-   
-
-
+  
   </div>
 </template>
 
@@ -46,6 +45,9 @@ export default {
   methods: {
     triggerAdd: function () {
       this.$router.push({name : 'MovieAddForm'})
+    },
+    triggerSearch: function () {
+      this.$router.push({name : 'MovieSearchForm'})
     },
     triggerUpdate: function (movie) {
       this.hideUpdate = false

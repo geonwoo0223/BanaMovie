@@ -164,9 +164,6 @@ export default {
 </script>
 
 <style scoped>
-.genre {
-  display: inline-block;
-}
 
 .appear {
   display: none;
