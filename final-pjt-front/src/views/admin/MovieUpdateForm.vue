@@ -70,18 +70,15 @@
         <b-col sm="2" offset="2">
           <label>Genres: </label>
         </b-col>
-        <p class="mr-3">기존 장르: </p>
-        <p class="mr-3" v-for="(genre, idx) of original_genres" :key="idx">{{ genre }}</p>
       </b-row>
 
-      <b-row class="my-3">
-        <b-col sm="4" offset="5">
-            <b-form-checkbox-group v-for="(genre,idx) in genres" :key="idx" inline >
-              <b-form-checkbox :id="genre.name" :value="genre.id" v-model="checked_genres" inline >{{ genre.name }}
-              </b-form-checkbox>
-            </b-form-checkbox-group>
-        </b-col>
-      </b-row>
+      <b-col sm="8" offset="3">
+        <b-form-group>
+          <b-form-checkbox-group id="genre" v-model="checked_genres" name="genre">
+            <b-form-checkbox v-for="(genre,idx) in genres" :key="idx" :value="genre.id">{{ genre.name }}</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+      </b-col>
 
       <br>
       <b-button variant="secondary" @click="back" class="my-5 mx-3">취소</b-button>
@@ -94,6 +91,7 @@
 <script>
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 
 export default {
@@ -109,9 +107,11 @@ export default {
       poster_path: null,
       checked_genres: [],
       original_genres: [],
+      movie: null,
     }
   },
   created: function () {
+    this.movie = this.$route.params.movie
     const movie = this.$route.params.movie
     this.title = movie.title
     this.release_date = movie.release_date
@@ -155,14 +155,15 @@ export default {
         status: this.status,
         genres: this.checked_genres
       }
-      console.log(movieItem)
+      // console.log(movieItem)
 
-      axios.post(`${SERVER_URL}/movies/add/`, movieItem)
+      axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
         .then( (res) => {
-          // console.log(res)
-          this.$store.state.movie_count++
-          // 영화를 만들면 자동으로 vuex에서 관리하는 영화목록에 추가
-          this.$store.state.movie_list.push(res.data)
+          // console.log(res.data)
+          const idx = this.movie_list.findIndex((movie) => {
+            return movie.id === res.data.id
+          })
+          this.movie_list[idx] = res.data
           this.$router.push({ name: 'ManageMovie' })
         
         })
@@ -171,6 +172,11 @@ export default {
           console.log(err)
         })
     },
+  },
+  computed: {
+    ...mapState([
+      'movie_list'
+    ])
   }
 }
 </script>
