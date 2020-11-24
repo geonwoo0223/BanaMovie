@@ -103,6 +103,7 @@ def addMovie(request):
     )
     movie_new.save()
     for genre in genres['genres']:
+        # print(genre)
         movie_new.genres.add(genre)
     serializer = MovieSerializer(movie_new)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -112,10 +113,24 @@ def update_delete_movie(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
 
     if request.method == 'PUT':
-        serializer = MovieSerializer(movie, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+        # print(movie.id)
+        new_movie = request.data
+        
+
+        movie.title = new_movie['title']
+        movie.overview = new_movie['overview']
+        movie.status = new_movie['status']
+        movie.adult = new_movie['adult']
+        movie.release_date = new_movie['release_date']
+        movie.poster_path = new_movie['poster_path']
+        for genre in movie.genres.all():
+            movie.genres.remove(genre.id)
+        for genre in new_movie['genres']:
+            movie.genres.add(genre)
+        
+        movie.save()
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
     else:
         movie.delete()
         return Response({'id': movie_pk})

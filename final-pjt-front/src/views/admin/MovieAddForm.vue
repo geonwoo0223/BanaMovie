@@ -72,14 +72,13 @@
         </b-col>
       </b-row>
 
-      <b-row class="my-3">
-        <b-col sm="4" offset="5">
-            <b-form-checkbox-group v-for="(genre,idx) in genres" :key="idx" inline >
-              <b-form-checkbox :id="genre.name" :value="genre.id" v-model="checked_genres" inline >{{ genre.name }}
-              </b-form-checkbox>
-            </b-form-checkbox-group>
-        </b-col>
-      </b-row>
+      <b-col sm="8" offset="3">
+        <b-form-group>
+          <b-form-checkbox-group id="genre" v-model="checked_genres" name="genre">
+            <b-form-checkbox v-for="(genre,idx) in genres" :key="idx" :value="genre.id">{{ genre.name }}</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+      </b-col>
 
       <br>
       <b-button variant="secondary" @click="back" class="my-5 mx-3">취소</b-button>
