@@ -13,44 +13,68 @@
 
     <!-- 영화눌렀을때 이게 보이게 한다 -->
     <b-modal
+      class="font-do"
       hide-footer 
       v-model="show"
-      :title="movie.title">
+      size="lg"
+      :title="movie.title"
+      :header-bg-variant="headerBgVariant"
+        
+      >
       <!-- 영화디테일 부분 -->
-      <img :src="movie.poster_path" alt="movie poster">
-      <h5>개봉: {{ movie.release_date }}</h5>
-      <h5 v-if="movie.overview">줄거리: {{ movie.overview }}</h5>
+      <div>
+      <img :src="movie.poster_path" alt="movie poster" id="movie-poster">
+      <h3 class="font-do">{{ movie.title }}</h3>
+      <h5 class="font-do">{{ movie.release_date }}</h5>
+      <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
+      <h5 else></h5>
+      <br/>
+      <h5 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview }}</h5>
+
+      <hr/>
+      </div>
+      <br>
+
+
       <!-- 리뷰부분 -->
       <div v-if="is_admin === false" :class="{ appear: showForm }">
         <div id="reviewForm">
           <div>
-            <label for="rate">평점</label>
+            <label for="rate" class="font-jua mr-1">평점 매기기</label>
             <input type="range" min="1" max="10" step="1" v-model="selected_rate">
             <select id="rate" v-model="selected_rate">
               <option v-for="(n, idx) in rate_options" :key="idx">{{n}}</option>
             </select>
           </div>
           <div>
-            <label for="like">좋아요?</label>
+            <label for="like" class="mr-2 font-jua" >이 영화를</label>
             <input type="checkbox" id="like" checked="true" v-model="like">
-            <label for="like">추천</label>
+            <label for="like" class="font-jua" >추천합니다</label>
           </div>
-          <div>
+
+
+          <div class="input-group">
             <label for="content"></label>
-            <textarea id="content" cols="60" rows="5" v-model.trim="content" placeholder="감상평을 남겨주세요."></textarea>
+            <textarea class="form-control  my-3" aria-label="With textarea" id="content" cols="60" rows="5" v-model.trim="content" placeholder="감상평을 남겨주세요."></textarea>
           </div>
+
+          
+
           <div>
-            <div>
-              <button :class="{ appear: showAdd }" @click="addReview(movie)">확인</button>
-              <button :class="{ appear: !showAdd }" @click="updateReview(movie)">수정</button>
-              <button @click="hideDetail">취소</button>
+            <div class="d-flex justify-content-center">
+              <!-- <b-button pill variant="warning" :class="{ appear: showAdd }" class="mr-1 ml-1" @click="addReview(movie)">확인</b-button>
+              <b-button pill variant="warning" :class="{ appear: !showAdd }" class="mr-1 ml-1" @click="updateReview(movie)">수정</b-button>
+              <b-button pill variant="outline-secondary" @click="hideDetail" class="mr-1 ml-1">취소</b-button> -->
+              <button  :class="{ appear: showAdd }" class="btn btn-pink mr-1 ml-1" @click="addReview(movie)">확인</button>
+              <button :class="{ appear: !showAdd }" class="btn btn-pink font-jua mr-1 ml-1" @click="updateReview(movie)">수정</button>
+              <button  @click="hideDetail" class="btn btn-secondary font-jua mr-1 ml-1">취소</button>
             </div>
           </div>
         </div>
       </div>
 
       <!-- 리뷰목록 -->
-      <h3>리뷰목록</h3>
+      <h3 class="font-do">리뷰목록</h3>
       <div v-for="(review,idx) in review_list" :key="idx">
         <div v-if="review.movie.id === movie.id || review.id === movie.id">
           유저 {{ review.user.username }}이/가 작성한 리뷰 "{{ review.content }}" 평점: {{review.rate}}
@@ -72,6 +96,8 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL
 import axios from 'axios'
 import _ from 'lodash'
 import { mapState } from 'vuex'
+
+
 
 export default {
   name: 'MovieListItem',
@@ -137,21 +163,22 @@ export default {
     },
     deleteReview: function (movie) {
       const config = this.setToken()
-      
-      axios.delete(`${SERVER_URL}/movies/${movie.id}/review/update/`, config)
-        .then( (res) => {
-          console.log(res)
-          const idx1 = this.review_list.indexOf(res.data.id)
-          this.$store.state.review_list.splice(idx1,1)
-
-          const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
-          this.$store.state.user_movie[this.login_user].splice(idx2,1)
-          this.showForm = false
-          this.showAdd = false
-        })
-        .catch( (err) => {
-          console.log(err)
-        })
+      if (confirm("이 리뷰를 삭제하겠습니까?")) {
+        axios.delete(`${SERVER_URL}/movies/${movie.id}/review/update/`, config)
+          .then( (res) => {
+            console.log(res)
+            const idx1 = this.review_list.indexOf(res.data.id)
+            this.$store.state.review_list.splice(idx1,1)
+  
+            const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
+            this.$store.state.user_movie[this.login_user].splice(idx2,1)
+            this.showForm = false
+            this.showAdd = false
+          })
+          .catch( (err) => {
+            console.log(err)
+          })        
+      }
 
     },
     updateReady: function (review) {
@@ -210,9 +237,35 @@ export default {
 </script>
 
 <style scoped>
+  /* @import './././assets/css/mycss.css'; */
+
 
 .appear {
   display: none;
+}
+
+#movie-poster {
+  width: 300px;
+  float: left;
+  margin-right: 20px;
+}
+
+.btn-pink{
+    font-family: Jua;
+    background-color: #DE5078;
+    color: aliceblue;
+}
+
+.font-jua{
+    font-family: 'Jua';
+}
+
+ .font-do{
+    font-family: 'Do Hyeon';
+}
+
+.font-poor{
+    font-family: 'Poor Story';
 }
 
 </style>
