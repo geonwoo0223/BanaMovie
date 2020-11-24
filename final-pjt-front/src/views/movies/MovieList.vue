@@ -9,7 +9,7 @@
           :movie="movie"
           class="col-3"
         /> 
-      </div>
+    </div>
     </div>
     <div>
       <h2>전체 영화 목록</h2>
@@ -24,6 +24,8 @@
         /> 
       </div>
     </div>
+  
+
 
   </div>
 </template>

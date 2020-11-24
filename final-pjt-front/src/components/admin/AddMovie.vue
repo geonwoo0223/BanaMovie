@@ -1,42 +1,98 @@
 <template>
   <div>
-    <!-- <h2>Add Movie</h2> -->
-    <div>
-      <label for="title" >Title: </label>
-      <input type="text" id="title" v-model.trim="title">
-    </div>
-    <div>
-      <label for="release_date">Release Date: </label>
-      <input type="date" id="release_date" v-model="release_date">
-    </div>
-    <div>
-      <label for="adult">Adult: </label>
-      <input type="checkbox" id="adult" checked="true" v-model="adult">
-      <label for="adult">성인영화</label>
-    </div>
-    <div>
-      <label for="status">Status: </label>
-      <input type="checkbox" id="status" checked="true" v-model="status">
-      <label for="status">상영중</label>
-    </div>
-    <div>
-      <label for="overview">Overview: </label>
-      <input type="text" id="overview" v-model.trim="overview">
-    </div>
-    <div>
-      <label for="poster_path">Poster path: </label>
-      <input type="text" id="poster_path" v-model.trim="poster_path">
-    </div>
-    <div class="genre">
-      <div v-for="(genre,idx) in genres" :key="idx">
-        <input type="checkbox" :id="genre.name" :value="genre.id" v-model="checked_genres">
-        <label :for="genre.name">{{ genre.name }}</label>
-      </div>
-    </div>
-    <br>
-    <button @click="addingMovie" :class="{ appear: !hideUpdate }">추가</button>
-    <button @click="updateMovie" :class="{ appear: hideUpdate }">수정</button>
+
+    <b-container>
+      <b-row>
+        <h2 class="my-3">Add Movie</h2>
+        
+      </b-row>
+
+
+
+      <b-row class="my-1">
+        <b-col sm="2" offset="2">
+          <label for="title">Title: </label>
+        </b-col>
+        <b-col sm="6">
+          <b-form-input id="title" v-model.trim="title"></b-form-input>
+        </b-col>
+      </b-row>
+
+      <b-row class="my-3">
+        <b-col sm="2" offset="2">
+          <label for="release_date">Release Date: </label>
+        </b-col>
+        <b-col sm="6">
+          <input type="date" id="release_date" v-model="release_date">
+        </b-col>
+      </b-row>
+
+
+      <b-row class="my-3">
+        <b-col sm="2" offset="2">
+          <label for="adult">Adult: </label>
+        </b-col>
+        <b-col sm="6">
+          <input type="checkbox" id="adult" checked="true" v-model="adult">
+          <label for="adult">성인영화</label>
+        </b-col>
+      </b-row>
+
+
+      <b-row class="my-3">
+        <b-col sm="2" offset="2">
+          <label for="status">Status: </label>
+        </b-col>
+        <b-col sm="6">
+          <input type="checkbox" id="status" checked="true" v-model="status">
+          <label for="status">상영중</label>
+        </b-col>
+      </b-row>
+
+
+      <b-row class="my-3">
+        <b-col sm="2" offset="2">
+          <label for="overview">Overview: </label>
+        </b-col>
+        <b-col sm="6">
+          <input type="text" id="overview" v-model.trim="overview">
+        </b-col>
+      </b-row>
+
+      <b-row class="my-3">
+        <b-col sm="2" offset="2">
+          <label for="poster_path">Poster path: </label>
+        </b-col>
+        <b-col sm="6">
+          <input type="text" id="poster_path" v-model.trim="poster_path">
+        </b-col>
+      </b-row>
+      <b-row class="my-3">
+        <b-col sm="2" offset="2">
+          <label>Genres: </label>
+        </b-col>
+      </b-row>
+
+      <b-row class="my-3">
+        <b-col sm="4" offset="5">
+            <b-form-checkbox-group v-for="(genre,idx) in genres" :key="idx" inline >
+              <b-form-checkbox :id="genre.name" :value="genre.id" v-model="checked_genres" inline >{{ genre.name }}
+              </b-form-checkbox>
+            </b-form-checkbox-group>
+        </b-col>
+      </b-row>
+      <!-- <div v-for="(genre,idx) in genres" :key="idx">
+          <input type="checkbox" :id="genre.name" :value="genre.id" v-model="checked_genres">
+          <label :for="genre.name">{{ genre.name }}</label>
+        </div> -->
+      <br>
+      <b-button variant="warning" @click="addingMovie" :class="{ appear: !hideUpdate }" class="my-5">추가</b-button>
+      <b-button variant="warning" @click="updateMovie" :class="{ appear: hideUpdate }" class="my-5">수정</b-button>
+
+    </b-container>
   </div>
+
+
 </template>
 
 <script>
@@ -110,10 +166,8 @@ export default {
           this.$emit('triggerAdd')
 
         })
-        .catch( (err) => {
+        .catch((err) => {
           console.log(err)
-          this.poster_path = ''
-          alert("한번 더 확인 후 제출바랍니다.")
         })
     
     },
@@ -162,4 +216,5 @@ export default {
 .appear {
   display: none;
 }
+
 </style>

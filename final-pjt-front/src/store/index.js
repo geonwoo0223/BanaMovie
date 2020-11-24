@@ -17,6 +17,7 @@ export default new Vuex.Store({
     content: null,
     like: false,
     rate: null,
+    review_update:'', 
 
     // 로그인 관련
     login: false,

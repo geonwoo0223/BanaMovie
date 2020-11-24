@@ -20,7 +20,7 @@
     </div>
     <div>
       <label for="content"></label>
-      <textarea id="content" cols="60" rows="5" v-model.trim="content" placeholder="감상평을 남겨주세요."></textarea>
+      <textarea id="content" cols="60" rows="5" v-model="content" placeholder="감상평을 남겨주세요."></textarea>
     </div>
     <div>
       <div v-if="user_movie[login_user] && user_movie[login_user].includes(movie.id)">
@@ -118,6 +118,7 @@ export default {
       // console.log(reviewInfo)
       axios.put(`${SERVER_URL}/movies/${movie.id}/review/update/`, reviewInfo, config)
         .then( () => {
+          
           this.$emit('getAllReview')
           this.$store.state.content = null
           this.$store.state.rate = null
@@ -136,6 +137,9 @@ export default {
       'review_list'
     ]),
   },
+  created: function () {
+
+  }
 }
 </script>
 
