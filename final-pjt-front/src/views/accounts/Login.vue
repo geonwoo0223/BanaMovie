@@ -1,24 +1,46 @@
 <template>
   <div>
+    <div class="container">
+      <div class="row">
+        <h1 class="font-do mt-5">Hello! :)</h1>
+      </div>
+      <div class="row">
+        <div class="col-6" id="rightline">
+          <div class="card text-white bg-dark mb-3 mt-5" style="max-width: 18rem;">
+            <h2 class="card-header font-do">로그인</h2>
+            <div class="card-body">
+              <div class="input-group-lg">
+              <h4 class="card-title font-do">아이디</h4>
+              <input type="text" id="username" class="font-poor form-control" v-model="credentials.username">
+              </div>
+              <br>
+              <br>
+              <div class="input-group-lg">
+              <h4 class="card-title font-do">비밀번호</h4>
+              <input type="password" id="password" class="font-poor form-control" v-model="credentials.password" @keypress.enter="login">
+              </div>
+              <br>
+              <button @click="login" class="btn btn-pink mt-3 font-1-5em btn-block">로그인</button>
+            </div>
 
-    <div class="card text-white bg-dark mb-3 mt-5" style="max-width: 18rem;">
-      <h2 class="card-header font-do">로그인</h2>
-      <div class="card-body">
-        <h5 class="card-title">아이디</h5>
-        <input type="text" id="username" v-model="credentials.username">
-      <br>
-      <br>
-      <h5 class="card-title">비밀번호</h5>
-      <input type="password" id="password" v-model="credentials.password" @keypress.enter="login">
-      <br>
-      <button @click="login" class="btn btn-pink">로그인</button>
+          </div>
+        </div>
+
+      <div class="col-6 d-flex align-items-center justify-content-center">
+        <div>
+        <h3 class="font-do">잠깐! :0 아직 회원이 아니신가요?</h3>
+        <div class="emptydiv"></div>
+        <router-link :to="{ name: 'Signup' }" class="btn btn-block btn-pink mr-auto nav-margin font-1-5em">회원 가입 하러가기</router-link>
+        <div class="emptydiv"></div>
+        </div>
+      </div>
+
+      </div>
+
+
+
+
     </div>
-
-
-
-  
-   
-  </div>
   </div>
 </template>
 
@@ -102,5 +124,14 @@
 </script>
 
 <style scoped>
-  
+
+#rightline{
+
+  border-right: dotted grey;
+}
+
+.emptydiv{
+  height: 50px;
+}
+
 </style>

@@ -32,12 +32,12 @@
 }
 
 .font-1em{
-    font-size: 1em;;
+    font-size: 1em !important;
 }
 
 
 .font-2em{
-    font-size: 2em;;
+    font-size: 2em !important;
 }
 
 .font-1-2em{
@@ -45,7 +45,7 @@
 }
 
 .font-1-5em{
-    font-size: 1.5em;;
+    font-size: 1.5em !important;
 }
 
 .font-1-8em{
@@ -54,8 +54,8 @@
 
 .btn-pink{
     font-family: Jua;
-    background-color: #DE5078;
-    color: aliceblue;
+    background-color: #DE5078 !important;
+    color: aliceblue !important;
 
 }
 

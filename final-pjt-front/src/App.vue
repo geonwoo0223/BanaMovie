@@ -9,7 +9,7 @@
     <div id="nav" class="p-2 main-nav">
       <b-navbar toggleable="lg" type="dark" id="navbar">
         <b-navbar-brand :style="{'font-size':'40px'}" class="nav-margin">
-          <router-link :to="{ name: 'MovieList' }" id="logo">바나무비</router-link>
+          <router-link :to="{ name: 'MovieList' }" id="logo" class="font-weight-bold">바나무비</router-link>
         </b-navbar-brand>
 
 
@@ -27,9 +27,10 @@
               <router-link @click.native="logout" to="#" class="nav-margin">Logout</router-link>
             </div>
             <div v-else class="mr-auto">
-              <router-link :to="{ name: 'Signup' }" class="mr-auto nav-margin">Signup</router-link>
+              <router-link :to="{ name: 'Signup' }" class="mr-auto nav-margin"><button
+                  class="btn btn-pink">Signup</button></router-link>
               <router-link :to="{ name: 'Login' }" class="mr-auto nav-margin "> <button
-                  class="btn btn-primary">Login</button>
+                  class="btn btn-pink">Login</button>
               </router-link>
 
             </div>
