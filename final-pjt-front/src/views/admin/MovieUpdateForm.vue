@@ -157,20 +157,20 @@ export default {
       }
       console.log(movieItem)
 
-      // axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
-      //   .then( (res) => {
-      //     // console.log(res.data)
-      //     const idx = this.movie_list.findIndex((movie) => {
-      //       return movie.id === res.data.id
-      //     })
-      //     this.movie_list[idx] = res.data
-      //     this.$router.push({ name: 'ManageMovie' })
+      axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
+        .then( (res) => {
+          // console.log(res.data)
+          const idx = this.movie_list.findIndex((movie) => {
+            return movie.id === res.data.id
+          })
+          this.movie_list[idx] = res.data
+          this.$router.push({ name: 'ManageMovie' })
         
-      //   })
-      //   .catch((err) => {
-      //     alert("모든 항목을 채워주세요.")
-      //     console.log(err)
-      //   })
+        })
+        .catch((err) => {
+          alert("모든 항목을 채워주세요.")
+          console.log(err)
+        })
     },
   },
   computed: {
