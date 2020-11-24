@@ -42,21 +42,30 @@
 </template>
 
 <script>
-
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
+import axios from 'axios'
 import { mapState } from 'vuex'
 
 export default {
   name: 'AdminMovieList',
-  data: function () {
-    return {
-      show: false
-    }
-  },
   methods: {
     updateMovie: function (movie) {
-      // console.log(movie.id)
-      this.$emit('triggerUpdate', movie)
+      this.$router.push( { name: 'MovieUpdateForm', params: {'movie': movie}})
     },
+    deleteMovie: function (movie) {
+      if (confirm("이 영화를 삭제하겠습니까?"))
+      axios.delete(`${SERVER_URL}/movies/${movie.id}/movie/`)
+        .then( (res) => {
+          const idx = this.movie_list.findIndex((movie) => {
+            return movie.id === res.data.id
+          })
+          this.movie_list.splice(idx,1)
+
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
+    }
   },
   computed: {
     ...mapState([
