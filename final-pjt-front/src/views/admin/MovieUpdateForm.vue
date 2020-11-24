@@ -118,7 +118,7 @@ export default {
     this.adult = movie.adult
     this.status = movie.status
     this.overview = movie.overview
-    this.poster_path = movie.poster_path
+    this.poster_path = movie.poster_path.substr(30,200)
     for (const genre of movie.genres) {
       this.checked_genres.push(genre.id)
       this.original_genres.push(genre.name)
@@ -155,22 +155,22 @@ export default {
         status: this.status,
         genres: this.checked_genres
       }
-      // console.log(movieItem)
+      console.log(movieItem)
 
-      axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
-        .then( (res) => {
-          // console.log(res.data)
-          const idx = this.movie_list.findIndex((movie) => {
-            return movie.id === res.data.id
-          })
-          this.movie_list[idx] = res.data
-          this.$router.push({ name: 'ManageMovie' })
+      // axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
+      //   .then( (res) => {
+      //     // console.log(res.data)
+      //     const idx = this.movie_list.findIndex((movie) => {
+      //       return movie.id === res.data.id
+      //     })
+      //     this.movie_list[idx] = res.data
+      //     this.$router.push({ name: 'ManageMovie' })
         
-        })
-        .catch((err) => {
-          alert("모든 항목을 채워주세요.")
-          console.log(err)
-        })
+      //   })
+      //   .catch((err) => {
+      //     alert("모든 항목을 채워주세요.")
+      //     console.log(err)
+      //   })
     },
   },
   computed: {
