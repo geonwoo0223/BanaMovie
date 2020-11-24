@@ -17,19 +17,24 @@
       hide-footer 
       v-model="show"
       size="lg"
-      :title="movie.title"
-      :header-bg-variant="headerBgVariant"
+      title="Movie information"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      body-text-variant="light"
+      footer-bg-variant="dark"
+      footer-text-variant="dark"
         
       >
       <!-- 영화디테일 부분 -->
-      <div>
+      <div class="detail-box">
       <img :src="movie.poster_path" alt="movie poster" id="movie-poster">
-      <h3 class="font-do">{{ movie.title }}</h3>
+      <h2 class="font-do">{{ movie.title }}</h2>
       <h5 class="font-do">{{ movie.release_date }}</h5>
       <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
       <h5 else></h5>
       <br/>
-      <h5 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview }}</h5>
+      <h4 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview }}</h4>
 
       <hr/>
       </div>
@@ -38,24 +43,28 @@
 
       <!-- 리뷰부분 -->
       <div v-if="is_admin === false" :class="{ appear: showForm }">
+        <h2 class="font-do">리뷰 작성하기</h2>
         <div id="reviewForm">
           <div>
-            <label for="rate" class="font-jua mr-1">평점 매기기</label>
-            <input type="range" min="1" max="10" step="1" v-model="selected_rate">
-            <select id="rate" v-model="selected_rate">
+            
+            <label for="rate" class="float-left font-jua font-1-5em ">별점</label> <p class="float-left font-jua font-1-5em mr-3">: {{ selected_rate }}점</p>
+            <input type="range" min="1" max="10" step="1" v-model="selected_rate" class="mt-2">
+            <select id="rate" v-model="selected_rate" class="ml-1" >
               <option v-for="(n, idx) in rate_options" :key="idx">{{n}}</option>
             </select>
+            <b-form-rating size="lg" id="rate" v-model="selected_rate" stars="10" ></b-form-rating>
+            
           </div>
-          <div>
-            <label for="like" class="mr-2 font-jua" >이 영화를</label>
-            <input type="checkbox" id="like" checked="true" v-model="like">
-            <label for="like" class="font-jua" >추천합니다</label>
+          <div class="mt-3">
+            <label for="like" class="mr-2 font-jua font-1-5em mr-1" >이 영화를</label>
+            <label for="like" class="font-jua font-1-5em mr-2" id="recommend-label" >추천합니다.</label>
+            <b-form-checkbox size="lg" id="like" checked="true" v-model="like" inline></b-form-checkbox>
           </div>
 
 
           <div class="input-group">
             <label for="content"></label>
-            <textarea class="form-control  my-3" aria-label="With textarea" id="content" cols="60" rows="5" v-model.trim="content" placeholder="감상평을 남겨주세요."></textarea>
+            <textarea class="form-control my-3 font-poor" aria-label="With textarea" id="content" cols="60" rows="5" v-model.trim="content" placeholder="감상평을 남겨주세요."></textarea>
           </div>
 
           
@@ -74,7 +83,7 @@
       </div>
 
       <!-- 리뷰목록 -->
-      <h3 class="font-do">리뷰목록</h3>
+      <h2 class="font-do">리뷰 목록</h2>
       <div v-for="(review,idx) in review_list" :key="idx">
         <div v-if="review.movie.id === movie.id || review.id === movie.id">
           유저 {{ review.user.username }}이/가 작성한 리뷰 "{{ review.content }}" 평점: {{review.rate}}
@@ -114,6 +123,7 @@ export default {
       showAdd: false,
       reviewId: null,
       rate_options: _.range(0,11),
+      variants: ["light", "dark"],
     }
   },
   methods: {
@@ -246,8 +256,18 @@ export default {
 
 #movie-poster {
   width: 300px;
+  min-height: 400px;
+  max-height: 500px;
   float: left;
   margin-right: 20px;
+}
+
+.detail-box{
+  height: 500px;
+}
+
+#recommend-label:hover{
+  color: #DE5078;
 }
 
 .btn-pink{
@@ -266,6 +286,27 @@ export default {
 
 .font-poor{
     font-family: 'Poor Story';
+}
+
+.font-1em{
+    font-size: 1em;;
+}
+
+
+.font-2em{
+    font-size: 2em;;
+}
+
+.font-1-2em{
+    font-size: 1.2em;
+}
+
+.font-1-5em{
+    font-size: 1.5em;;
+}
+
+.font-1-8em{
+    font-size: 1.8em;;
 }
 
 </style>
