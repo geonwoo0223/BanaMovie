@@ -154,7 +154,7 @@
     color: white;
     background-color: #0B0C2A;
   }
-
+  
   #navbar {
     background-color: #070720;
   }

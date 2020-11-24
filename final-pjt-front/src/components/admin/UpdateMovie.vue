@@ -3,7 +3,7 @@
 
     <b-container>
       <b-row>
-        <h2 class="my-3">영화 추가</h2>
+        <h2 class="my-3">영화 수정</h2>
         
       </b-row>
 
@@ -83,34 +83,34 @@
       </b-row>
 
       <br>
-      <b-button variant="warning" @click="addMovie" class="my-5">추가</b-button>
-
+      <b-button variant="warning" @click="updateMovie" class="my-5">수정</b-button>
     </b-container>
   </div>
-
-
 </template>
 
 <script>
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
-  name: 'AddMovie',
+  name: 'UpdateMovie',
   data: function () {
     return {
       genres: '',
-      title: null,
-      release_date: null,
+      title: this.temp.title,
+      release_date: '',
       adult: false,
       status: false,
-      overview: null,
-      poster_path: null,
+      overview: '',
+      poster_path: '',
       checked_genres: [],
     }
   },
   created: function () {
+    console.log("이거 언제 찍히지", this.temp)
+  
     axios.get(`${SERVER_URL}/movies/genre/`)
       .then( (res) => {
         // console.log(res.data)
@@ -122,17 +122,10 @@ export default {
   },
   methods: {
 
-    addMovie: function () {
-      const temp_number = this.$store.state.movie_count
-
-      // poster_path가 공란이면
-      if (this.poster_path === '') {
-        this.poster_path = "qwodkqowfkoq.jpg"
-      }
+    updateMovie: function () {
 
       const movieItem = {
-        movieInfo: {
-        movie_no: temp_number,
+        movie_no: '',
         title: this.title,
         release_date: this.release_date,
         poster_path: this.poster_path,
@@ -140,36 +133,39 @@ export default {
         overview: this.overview,
         status: this.status,
         admin_reg: true,
-      }, genreInfo: {
         genres: this.checked_genres
-      }}
-      // console.log(movieItem)
+      }
 
-      axios.post(`${SERVER_URL}/movies/add/`, movieItem)
-        .then( (res) => {
-          // console.log(res)
-          this.$store.state.movie_count++
-          // 영화를 만들면 자동으로 vuex에서 관리하는 영화목록에 추가
-          this.$store.state.movie_list.push(res.data)
-          
-          this.$emit('triggerAdd')
+      console.log(movieItem)
+    //   axios.put(`${SERVER_URL}/movies/${this.movie.id}/movie/`, movieItem)
+    //     .then( (res) => {
+    //       console.log(res)
+    //       const idx = this.movie_list.findIndex((movie) => {
+    //         return movie.id === res.data.id
+    //       })
+    //       this.movie_list[idx] = res.data
 
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+    //     })
+    //     .catch( (err) => {
+    //       console.log(err)
+    //       this.poster_path = ''
+    //       alert("한번 더 확인 후 제출바랍니다.")
+    //     })
+    }
+  },
+  computed :{
+    ...mapState([
+      'temp',
+    ])
+  },
+  watch: {
+    triggerUpdate: function () {
+      console.log("봤어?")
+    }
   }
 }
 </script>
 
-<style scoped>
-.genre {
-  display: inline-block;
-}
-
-.appear {
-  display: none;
-}
+<style>
 
 </style>

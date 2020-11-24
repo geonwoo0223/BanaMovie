@@ -18,7 +18,7 @@
         <th>{{ movie.rate }}</th>
         <th><button @click="updateMovie(movie)">수정</button></th>
         <th><button @click="deleteMovie(movie)">삭제</button></th>
-
+   
       </tr>
 
 
@@ -35,6 +35,11 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'AdminMovieList',
+  data: function () {
+    return {
+      show: false
+    }
+  },
   methods: {
     updateMovie: function (movie) {
       // console.log(movie.id)
@@ -58,7 +63,7 @@ export default {
     ...mapState([
       'movie_list',
     ])
-  }
+  },
 }
 </script>
 

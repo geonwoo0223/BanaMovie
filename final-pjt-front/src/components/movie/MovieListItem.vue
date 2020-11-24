@@ -125,6 +125,7 @@ export default {
 
           this.$store.state.review_list.unshift(res.data)
           this.$store.dispatch('checkReviewer', reviewerInfo)
+          this.$store.dispatch('recommendMovie')
           this.content = null
           this.selected_rate = null
           this.like = false

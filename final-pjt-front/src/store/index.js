@@ -13,6 +13,16 @@ export default new Vuex.Store({
     recommend_list: [],
     movie_count: 50000000,
     user_movie: {},
+    temp: {
+      title: '',
+      release_date: '',
+      adult: false,
+      status: false,
+      overview: '',
+      poster_path: '',
+      genres: [],
+    },
+
     // 리뷰 관련
     content: null,
     like: false,

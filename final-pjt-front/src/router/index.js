@@ -8,7 +8,8 @@ import AdminManagement from '@/views/admin/AdminManagement'
 import Board from '@/views/community/Board'
 import CreateBoard from '@/views/community/CreateBoard'
 import BoardDetail from '@/views/community/BoardDetail'
-
+import MovieAddForm from '@/views/admin/MovieAddForm'
+import MovieUpdateForm from '@/views/admin/MovieUpdateForm'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,16 @@ const routes = [
     path: '/managemovie',
     name: 'ManageMovie',
     component: ManageMovie,
+  },
+  {
+    path: '/movieaddform',
+    name: 'MovieAddForm',
+    component: MovieAddForm,
+  },
+  {
+    path: '/movieupdateform',
+    name: 'MovieUpdateForm',
+    component: MovieUpdateForm,
   },
   {
     path: '/management',

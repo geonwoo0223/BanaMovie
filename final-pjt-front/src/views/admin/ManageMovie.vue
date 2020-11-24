@@ -1,10 +1,7 @@
 <template>
   <div>
-    <button @click="triggerAdd" :class="{ appear: !hideAdd }">영화추가</button>
-    <AddMovie :class="{ appear: hideAdd }" 
-      @triggerAdd="triggerAdd" :hideAdd="hideAdd" :movie="movie" 
-    />
-    <AdminMovieList :class="{ appear: !hideAdd }" 
+    <button @click="triggerAdd" :class="{ appear: !hideAdd || !hideUpdate }">영화추가</button>
+    <AdminMovieList :class="{ appear: !hideAdd || !hideUpdate }" 
       @triggerUpdate="triggerUpdate"
     />
   </div>
@@ -13,7 +10,6 @@
 <script>
 
 import AdminMovieList from '@/components/admin/AdminMovieList'
-import AddMovie from '@/components/admin/AddMovie'
 
 
 
@@ -21,44 +17,23 @@ export default {
   name: 'ManageMovie',
   components: {
     AdminMovieList,
-    AddMovie,
   },
   data: function () {
     return {
       hideAdd: true,
-      movie: {
-        title: null,
-        release_date: null,
-        adult: false,
-        status: false,
-        overview: null,
-        poster_path: null,
-        checked_genres: [],
-      },
+      hideUpdate: true,
     }
   },
   methods: {
     triggerAdd: function () {
-      this.hideAdd = !this.hideAdd
+      this.$router.push({name : 'MovieAddForm'})
     },
     triggerUpdate: function (movie) {
-      this.hideAdd = !this.hideAdd
-      // console.log(movie)
-      this.movie.title = movie.title
-      this.movie.release_date = movie.release_date
-      this.movie.adult = movie.adult
-      this.movie.status = movie.status
-      this.movie.overview = movie.overview
-      this.movie.poster_path = movie.poster_path
-      for (const genre of movie.genres) {
-        this.movie.checked_genres.push(genre.id)
-      }
-      console.log(this.movie)
+      this.hideUpdate = false
+      this.$store.state.temp = movie
+      console.log(this.$store.state.temp)
     }
-  }
-
-
-  
+  },
 }
 </script>
 
