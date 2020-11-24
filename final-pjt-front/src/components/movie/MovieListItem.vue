@@ -108,7 +108,7 @@
 
               <div class="col-6" id="review-content">
                 <p>{{ review.content }}</p>
-                <p>작성자 : {{ review.user.username }}</p>
+                <p>작성자 : {{ review.user.username }} | {{$moment(review.created_at).format('YYYY-MM-DD')}} </p>
               </div>
 
               <div class="col-3" id="review-button" v-if="review.user.id === login_user">
@@ -279,8 +279,8 @@
   }
 </script>
 
+<!--<style scoped src="@/assets/css/mycss.css">-->
 <style scoped>
-  /* @import './././assets/css/mycss.css'; */
 
 
   .appear {

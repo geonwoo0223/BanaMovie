@@ -5,41 +5,6 @@
 
 
 
-    <div class="main-nav">
-
-
-      <nav class="navbar navbar-expand-lg">
-        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
-        <div class="collapse navbar-collapse" id="navbarText">
-          <span v-if="login" class="navbar-text float-right">
-              <router-link @click.native="logout" to="#" class="nav-margin">Logout</router-link>
-          </span>
-
-          <span else class="navbar-text float-right">
-              <router-link :to="{ name: 'Signup' }" class="mr-auto nav-margin">Signup</router-link>
-              <router-link :to="{ name: 'Login' }" class="mr-auto nav-margin "> <button
-                  class="btn btn-primary">Login</button>
-              </router-link>
-          </span>
-          <!-- <span class="navbar-text">
-            Navbar text with an inline element
-          </span> -->
-        </div>
-      </nav>
-
-    </div>
-
-
-
-
-
-
-
-
-
 
     <div id="nav" class="p-2 main-nav">
       <b-navbar toggleable="lg" type="dark" id="navbar">
@@ -165,9 +130,5 @@
     color: #DE5078 !important;
   }
 
-  /* .btn-primary {
-    background-color: #7bc143 !important;
-    border-color: #7bc143 !important;
-    color: #FFF;
-  } */
+ 
 </style>
