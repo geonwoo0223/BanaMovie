@@ -3,7 +3,7 @@
 
     <b-container>
       <b-row>
-        <h2 class="my-3">Add Movie</h2>
+        <h2 class="my-5">Add Movie</h2>
         
       </b-row>
 

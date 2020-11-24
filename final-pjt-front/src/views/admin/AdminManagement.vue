@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class="row">
-        <h1 class="font-do">회원 목록</h1>
+        <h1 class="font-do my-3">회원 목록</h1>
         <table class="table table-hover table-dark">
           <thead>
             <tr>

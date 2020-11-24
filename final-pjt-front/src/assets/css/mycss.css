@@ -30,3 +30,24 @@
 .nav-margin{
     margin: 5px 10px;
 }
+
+.font-1em{
+    font-size: 1em;;
+}
+
+
+.font-2em{
+    font-size: 2em;;
+}
+
+.font-1-2em{
+    font-size: 1.2em;
+}
+
+.font-1-5em{
+    font-size: 1.5em;;
+}
+
+.font-1-8em{
+    font-size: 1.8em;;
+}

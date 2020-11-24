@@ -1,23 +1,36 @@
 <template>
   <div>
-    <h1>게시판</h1>
-    <button v-if="this.$store.state.login" @click="createBoard()">글 작성하기</button>
-    <p v-else>게시글을 작성하려면 로그인이 필요합니다. </p>
-    <table border=1>
-      <tr>
-        <th>No</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>작성일</th>
-      </tr>
-      <tr v-for="(board,idx) in boards" :key="idx">
-        <th>{{ board.id }}</th>
-        <!-- <th><a v-on:click.stop="boardDetail(board)">{{ board.title }}</a></th> -->
-        <th @click="boardDetail(board)">{{ board.title }}</th>
-        <th>{{ board.user.username }}</th>
-        <th>{{ $moment(board.created_at).format('YYYY-MM-DD hh:mm:ss') }}</th>
-      </tr>
-    </table>
+    <div class="container">
+      <div class="row">
+        <div class="col-3">
+          <h1 class="font-do my-3">게시판</h1>
+        </div>
+        <div class="col-9 align-middle">
+          
+          <button v-if="this.$store.state.login" @click="createBoard()" class="btn btn-light my-4">글 작성하기</button>
+          <p v-else class="my-4 float-right">게시글을 작성하려면 로그인이 필요합니다.</p>
+    
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-hover table-dark">
+          <tr>
+            <th>No</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+          </tr>
+          <tr v-for="(board,idx) in boards" :key="idx">
+            <th>{{ board.id }}</th>
+            <!-- <th><a v-on:click.stop="boardDetail(board)">{{ board.title }}</a></th> -->
+            <th @click="boardDetail(board)">{{ board.title }}</th>
+            <th>{{ board.user.username }}</th>
+            <th>{{ $moment(board.created_at).format('YYYY-MM-DD hh:mm:ss') }}</th>
+          </tr>
+        </table>
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,12 +59,19 @@
       createBoard: function () {
         this.$router.push({
           name: 'CreateBoard',
-          params: {'purpose':'create'}
+          params: {
+            'purpose': 'create'
+          }
         })
       },
       boardDetail: function (board) {
-        this.$router.push({ name: 'BoardDetail', params:{'id':board.id} })
-        
+        this.$router.push({
+          name: 'BoardDetail',
+          params: {
+            'id': board.id
+          }
+        })
+
       }
 
     },
