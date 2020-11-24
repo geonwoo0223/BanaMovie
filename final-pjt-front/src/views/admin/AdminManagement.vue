@@ -50,18 +50,21 @@
     },
     methods: {
       deleteMember: function (member) {
-        axios.post(`${SERVER_URL}/accounts/delete_members/${member.id}/`, this.admin_info)
-          .then((res) => {
-            console.log(res)
-            const targetMemberIdx = this.members.findIndex((member) => {
-              return member.id === res.data.who
-            })
-            this.members.splice(targetMemberIdx, 1)
 
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        if (confirm("이 회원을 삭제하겠습니까?")) {
+          axios.post(`${SERVER_URL}/accounts/delete_members/${member.id}/`, this.admin_info)
+            .then((res) => {
+              console.log(res)
+              const targetMemberIdx = this.members.findIndex((member) => {
+                return member.id === res.data.who
+              })
+              this.members.splice(targetMemberIdx, 1)
+  
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
       }
     },
     created: function () {
