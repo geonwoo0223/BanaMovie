@@ -49,7 +49,7 @@ export default {
     },
   },
   created: function () {
-    this.$store.dispatch('getMovie')
+    
     if (this.login && this.is_admin === false) {
       this.$store.dispatch('recommendMovie')
     }

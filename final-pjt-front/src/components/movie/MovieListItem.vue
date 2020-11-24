@@ -17,7 +17,7 @@
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
         <h5 else></h5>
         <br />
-        <h4 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview }}</h4>
+        <h4 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview | truncate(300, '...') }}</h4>
 
         <hr />
       </div>
@@ -26,7 +26,7 @@
 
 
       <!-- 리뷰부분 -->
-      <div v-if="is_admin === false" :class="{ appear: showForm }">
+      <div v-if="is_admin === false || login === true" :class="{ appear: showForm }">
         <h2 class="font-do">리뷰 작성하기</h2>
         <div id="reviewForm">
           <div>
@@ -268,6 +268,7 @@
     },
     computed: {
       ...mapState([
+        'login',
         'login_user',
         'is_admin',
         'user_movie',

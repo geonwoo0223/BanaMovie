@@ -118,18 +118,8 @@
       if (token) {
         this.login = true
       }
+      this.$store.dispatch('getMovie')
 
-      // axios.get(`${SERVER_URL}/movies/`)
-      //   .then( (res) => {
-      //     // console.log(res.data)
-      //     this.$store.dispatch('getMovie', res.data)
-
-      //   })
-      //   .catch( (err) => {
-      //     console.log(err)
-      //   })
-
-      // this.$router.push({name: 'MovieList'})
     },
     computed: {
       ...mapState([
