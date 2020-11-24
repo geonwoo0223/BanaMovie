@@ -1,9 +1,28 @@
 <template>
   <div>
-    <button @click="triggerAdd" :class="{ appear: !hideAdd || !hideUpdate }">영화추가</button>
-    <AdminMovieList :class="{ appear: !hideAdd || !hideUpdate }" 
+    <b-container>
+      <b-row>
+
+  <b-button size="lg" block pill variant="light" @click="triggerAdd" :class="{ appear: !hideAdd }" class="my-5 font-do" >영화 추가</b-button>
+    <AddMovie :class="{ appear: hideAdd }" 
+      @triggerAdd="triggerAdd" :hideAdd="hideAdd" :movie="movie" 
+    />
+      </b-row>
+
+      <!-- <b-row> -->
+        
+    <AdminMovieList :class="{ appear: !hideAdd }" 
       @triggerUpdate="triggerUpdate"
     />
+      <!-- </b-row>-->
+
+    </b-container>
+
+
+
+   
+
+
   </div>
 </template>
 

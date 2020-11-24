@@ -153,6 +153,8 @@
     text-align: center;
     color: white;
     background-color: #0B0C2A;
+    width: 100%;
+    min-height: 100vh;
   }
   
   #navbar {

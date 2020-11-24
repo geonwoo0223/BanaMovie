@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container" v-if="login && recommend_list.length > 0">
-      <h2>영화 추천 목록</h2>
+      <h1 class="font-do my-3">당신을 위한 영화 추천!</h1>
       <div class="row">
         <MovieListItem 
           v-for="(movie,idx) in recommend_list"
@@ -12,7 +12,7 @@
     </div>
     </div>
     <div>
-      <h2>전체 영화 목록</h2>
+      <h1 class="font-do my-3">영화 리스트</h1>
     </div>
     <div class="container">
       <div class="row">

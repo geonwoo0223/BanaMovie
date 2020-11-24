@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Signup</h1>
+    <h1 class="font-do my-3">Sign up</h1>
     <div>
       <label for="username">사용자 이름: </label>
       <input type="text" id="username" v-model="credentials.username">
