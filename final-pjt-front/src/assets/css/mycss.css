@@ -53,7 +53,15 @@
 }
 
 .btn-pink{
+    font-family: Jua;
     background-color: #DE5078;
     color: aliceblue;
 
 }
+
+.btn-delete{
+    background-color: gray;
+    border: 1px dotted gainsboro;
+    color: honeydew;
+    font-family: Jua;
+  }
