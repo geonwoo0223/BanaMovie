@@ -21,15 +21,21 @@ Vue.use(VModal)
 Vue.config.productionTip = false
 Vue.use(VueMoment)
 
-var filter = function(text, length, clamp){
+const truncate = function (text, length, clamp) {
   clamp = clamp || '...'
-  var node = document.createElement('div')
+  const node = document.createElement('div')
   node.innerHTML = text
-  var content = node.textContent
+  const content = node.textContent
   return content.length > length ? content.slice(0, length) + clamp : content
 }
 
-Vue.filter('truncate', filter)
+Vue.filter('truncate', truncate)
+
+const halfStar = function (rate) {
+  return rate/2
+}
+
+Vue.filter('half', halfStar)
 
 new Vue({
   router,

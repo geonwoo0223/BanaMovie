@@ -17,7 +17,7 @@
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
         <h5 else></h5>
         <br />
-        <h4 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview | truncate(300, '...') }}</h4>
+        <h4 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
 
         <hr />
       </div>
@@ -26,7 +26,7 @@
 
 
       <!-- 리뷰부분 -->
-      <div v-if="is_admin === false || login === true" :class="{ appear: showForm }">
+      <div v-if="is_admin === false && login === true" :class="{ appear: showForm }">
         <h2 class="font-do">리뷰 작성하기</h2>
         <div id="reviewForm">
           <div>
@@ -67,9 +67,6 @@
 
           <div>
             <div class="d-flex justify-content-center">
-              <!-- <b-button pill variant="warning" :class="{ appear: showAdd }" class="mr-1 ml-1" @click="addReview(movie)">확인</b-button>
-              <b-button pill variant="warning" :class="{ appear: !showAdd }" class="mr-1 ml-1" @click="updateReview(movie)">수정</b-button>
-              <b-button pill variant="outline-secondary" @click="hideDetail" class="mr-1 ml-1">취소</b-button> -->
               <button @click="hideDetail" class="btn btn-secondary font-jua mr-1 ml-1">취소</button>
               <button :class="{ appear: showAdd }" class="btn btn-pink mr-1 ml-1" @click="addReview(movie)">확인</button>
               <button :class="{ appear: !showAdd }" class="btn btn-pink font-jua mr-1 ml-1"
@@ -93,17 +90,14 @@
 
               <div class="col-3" id="review-rank">
                 <div>
-                  <b-form-rating color="#DE5078" inline size="sm" v-model="review.rate" readonly no-border>
+                  <b-form-rating color="#DE5078" inline size="sm" :value="review.rate | half() " readonly no-border>
                   </b-form-rating>
-                  <!-- <p class="mt-2">Value: {{ value }}</p> -->
                 </div>
 
                 <div>
 
                 </div>
-
-
-                <p> {{review.rate}} </p>
+                <p> {{ review.rate }} </p>
               </div>
 
               <div class="col-6" id="review-content">
@@ -155,6 +149,7 @@
         reviewId: null,
         rate_options: _.range(0, 11),
         variants: ["light", "dark"],
+        halfStar: null,
       }
     },
     methods: {
@@ -254,6 +249,8 @@
               return review.id === res.data.id
             })
             this.$store.state.review_list[idx].content = res.data.content
+            this.$store.state.review_list[idx].rate = res.data.rate
+            this.$store.state.review_list[idx].like = res.data.like
           })
           .catch((err) => {
             console.log(err)
@@ -274,7 +271,6 @@
         'user_movie',
         'review_list',
       ]),
-
     }
   }
 </script>
@@ -361,5 +357,9 @@
   .font-1-8em {
     font-size: 1.8em;
     ;
+  }
+
+  #review-rank .form-control {
+    background-color:#343a40;
   }
 </style>
