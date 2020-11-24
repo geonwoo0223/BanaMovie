@@ -82,8 +82,8 @@
       </b-row>
 
       <br>
+      <b-button variant="secondary" @click="back" class="my-5 mx-3">취소</b-button>
       <b-button variant="warning" @click="addMovie" class="my-5">추가</b-button>
-
     </b-container>
 
   </div>
@@ -119,10 +119,11 @@ export default {
       })
   },
   methods: {
-
+    back: function () {
+      this.$router.push({ name: 'ManageMovie' })
+    },
     addMovie: function () {
       const temp_number = this.$store.state.movie_count
-
       // poster_path가 공란이면
       if (this.poster_path === '') {
         this.poster_path = "qwodkqowfkoq.jpg"
@@ -149,11 +150,11 @@ export default {
           this.$store.state.movie_count++
           // 영화를 만들면 자동으로 vuex에서 관리하는 영화목록에 추가
           this.$store.state.movie_list.push(res.data)
-          
-          this.$emit('triggerAdd')
-
+          this.$router.push({ name: 'ManageMovie' })
+        
         })
         .catch((err) => {
+          alert("모든 항목을 채워주세요.")
           console.log(err)
         })
     },

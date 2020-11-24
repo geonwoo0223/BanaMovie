@@ -50,8 +50,7 @@ export default {
   name: 'AdminMovieList',
   methods: {
     updateMovie: function (movie) {
-      // console.log(movie.id)
-      this.$emit('triggerUpdate', movie)
+      this.$router.push( { name: 'MovieUpdateForm', params: {'movie': movie}})
     },
     deleteMovie: function (movie) {
       if (confirm("이 영화를 삭제하겠습니까?"))
