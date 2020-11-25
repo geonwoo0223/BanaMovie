@@ -130,6 +130,8 @@ def getAllReviews(request, movie_pk):
 
 
 
+total = [0]*1000
+
 @api_view(['GET','POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -145,7 +147,11 @@ def get_add_review(request, movie_pk):
         return Response(serializer.data)
     else:
         review = request.data
-        movie.rate += int(review['rate'])
+        add_rate = int(review['rate'])
+        total[movie_pk] += add_rate
+        count = Review.objects.all().filter(movie_id=movie_pk)
+        
+        movie.rate = total[movie_pk]/count
         if review['like']:
             movie.vote_count += 1
         movie.save()
