@@ -18,6 +18,11 @@
           </b-navbar-nav>
 
           <b-navbar-nav>
+
+            <div v-if="login">
+              <p class="mr-3">환영합니다. {{username}}님</p>
+            </div>
+
             <div v-if="is_admin">
               <router-link :to="{ name: 'ManageMovie' }" class="nav-margin">영화관리</router-link>
               <router-link :to="{ name: 'AdminManagement' }" class="nav-margin">회원관리</router-link>
@@ -40,12 +45,17 @@
 
     <router-view @login="login = true" />
 
-    <div class="jumbotron">
+
+   
+
+
+
+    <div class="jumbotron font-poor mt-5" id="footerjumbo">
       <div class="container">
-        <h2 class="display-5">영화에 반하다, 바나무비</h2>
+        <h2 class="display-5 font-color-white ">영화에 반하다, 바나무비</h2>
         <p class="lead">
           <a style="color:white; text-decoration:none" href="https://github.com/snowcuphea">김민정</a> &
-          <a style="color:white; text-decoration:none" href="https://github.com/geonwoo0223">이건우</a>        
+          <a style="color:white; text-decoration:none" href="https://github.com/geonwoo0223">이건우</a>
         </p>
         <p>Copyright © 2020 TEAM DEJAVUE. ALL RIGHTS RESERVED</p>
         <p class="lead">
@@ -75,6 +85,7 @@
     data: function () {
       return {
         login: false,
+        username: '',
       }
     },
     methods: {
@@ -84,6 +95,7 @@
         this.$store.state.login = false
         this.$store.state.is_admin = false
         this.$store.state.login_user = ''
+        this.$store.state.username = null
         this.$router.push({
           name: 'Login'
         })
@@ -98,10 +110,13 @@
       }
       this.$store.dispatch('getMovie')
 
+
+
     },
     computed: {
       ...mapState([
         'is_admin',
+        'username'
       ])
     }
   }
@@ -124,7 +139,7 @@
     width: 100%;
     min-height: 100vh;
   }
-  
+
   #navbar {
     background-color: #070720;
   }
@@ -143,5 +158,9 @@
     color: #DE5078 !important;
   }
 
- 
+  #footerjumbo {
+    background-color: #DE5078;
+    height: 250px;
+    margin-bottom: 0rem;
+  }
 </style>
