@@ -15,10 +15,8 @@
         <h2 class="font-do">{{ movie.title }}</h2>
         <h5 class="font-do">{{ movie.release_date }}</h5>
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
-        <h5 else></h5>
         <br />
-        <h4 class="font-poor" v-if="movie.overview">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
-
+        <h4 class="font-poor">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
         <hr />
       </div>
       <br>
@@ -93,11 +91,6 @@
                   <b-form-rating color="#DE5078" inline size="sm" :value="review.rate | half() " readonly no-border>
                   </b-form-rating>
                 </div>
-
-                <div>
-
-                </div>
-                <p> {{ review.rate }} </p>
               </div>
 
               <div class="col-6" id="review-content">
@@ -184,7 +177,8 @@
               movie_id: this.movie.id,
               reviewer_id: res.data.user.id
             }
-
+            console.log(this.$store.state.movie_list[this.movie.id])
+            this.$store.state.movie_list[this.movie.id].rate += this.selected_rate
             this.$store.state.review_list.unshift(res.data)
             this.$store.dispatch('checkReviewer', reviewerInfo)
             this.$store.dispatch('recommendMovie')
@@ -262,6 +256,7 @@
       if (this.user_movie[this.login_user] && this.user_movie[this.login_user].includes(this.movie.id)) {
         this.showForm = true
       }
+      this.avgRate = this.movie.rate
     },
     computed: {
       ...mapState([
@@ -271,7 +266,8 @@
         'user_movie',
         'review_list',
       ]),
-    }
+
+    },
   }
 </script>
 

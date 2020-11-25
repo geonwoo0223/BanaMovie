@@ -24,6 +24,7 @@
       <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
     </div>
     <hr :style="{'margin':'5px 30px'}">
+    
     <div>
       <CommentForm v-if="this.$store.state.login" :board="board" />
       <p v-else>댓글을 작성하려면 로그인이 필요합니다. </p>
@@ -136,6 +137,8 @@
   }
 </script>
 
-<style>
+<style scoped>
+
+
 
 </style>

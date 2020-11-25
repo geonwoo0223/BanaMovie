@@ -42,7 +42,7 @@ export default new Vuex.Store({
 
   },
   getters: {
-
+    
   },
   mutations: {
     IS_ADMIN: function (state, status) {
