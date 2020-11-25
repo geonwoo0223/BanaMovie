@@ -80,7 +80,7 @@ export default {
           })
           .catch((err) => {
             console.log(err)
-            alert("회원가입 정보가 틀렸습니다.")
+            alert("회원가입 정보가 올바르지 않습니다.")
           })
       } else {
         alert("개인정보 이용 약관에 동의해야합니다.")
