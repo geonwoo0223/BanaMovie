@@ -86,6 +86,7 @@
                 // console.log(res.data)
                 const id = res.data
                 this.$store.state.login_user = id
+                this.$store.state.username = this.credentials.username
                 this.$store.dispatch('recommendMovie', id)
                 // console.log(this.$store.state.login_user)
               })
