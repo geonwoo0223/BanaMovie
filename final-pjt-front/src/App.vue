@@ -10,13 +10,15 @@
         </b-navbar-brand>
 
 
-        <b-collapse id="nav-collapse" is-nav>
+        <b-collapse id="nav-collapse" is-nav class="d-flex justify-content-between">
+
           <b-navbar-nav>
             <router-link :to="{ name: 'MovieList' }" class="nav-margin">Movies</router-link>
             <router-link :to="{ name: 'Board' }" class="nav-margin">Board</router-link>
           </b-navbar-nav>
+
           <b-navbar-nav>
-            <div v-if="is_admin" class="float-right">
+            <div v-if="is_admin">
               <router-link :to="{ name: 'ManageMovie' }" class="nav-margin">영화관리</router-link>
               <router-link :to="{ name: 'AdminManagement' }" class="nav-margin">회원관리</router-link>
             </div>
@@ -29,21 +31,34 @@
               <router-link :to="{ name: 'Login' }" class="mr-auto nav-margin "> <button
                   class="btn btn-pink">Login</button>
               </router-link>
-
             </div>
-
           </b-navbar-nav>
+
         </b-collapse>
       </b-navbar>
+    </div>
+
+    <router-view @login="login = true" />
+
+    <div class="jumbotron">
+      <div class="container">
+        <h2 class="display-5">영화에 반하다, 바나무비</h2>
+        <p class="lead">
+          <a style="color:white; text-decoration:none" href="https://github.com/snowcuphea">김민정</a> &
+          <a style="color:white; text-decoration:none" href="https://github.com/geonwoo0223">이건우</a>        
+        </p>
+        <p>Copyright © 2020 TEAM DEJAVUE. ALL RIGHTS RESERVED</p>
+        <p class="lead">
+          <a class="btn btn-dark" href="https://www.themoviedb.org/?language=ko" role="button">TMBD</a>
+        </p>
+
+      </div>
     </div>
 
 
 
 
 
-
-
-    <router-view @login="login = true" />
   </div>
 </template>
 

@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     // 영화 관련
     movie_list: [],
+    ordered_movie_list: [],
     review_list: [],
     recommend_list: [],
     movie_count: 50000000,
@@ -54,7 +55,10 @@ export default new Vuex.Store({
           const movies = res.data
             for (const movie of movies) {
               state.movie_list.push(movie)
+              state.ordered_movie_list.push(movie)
             }
+          state.ordered_movie_list.sort( (a,b) => {
+            return parseFloat(b.vote_count) - parseFloat(a.vote_count)})
         })
         .catch( (err) => {
           console.log(err)
