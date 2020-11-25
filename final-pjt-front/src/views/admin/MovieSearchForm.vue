@@ -88,7 +88,7 @@ export default {
         .then( (res) => {
           // console.log(r동으로 vuex에서 관리하는 영화목록에 추가
           this.$store.state.movie_list.push(res.data)
-          this.$router.push({ name: 'MovieList' })
+          this.$router.push({ name: 'ManageMovie' })
 
         })
         .catch((err) => {
