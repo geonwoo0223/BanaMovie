@@ -5,108 +5,52 @@
       <div class="row">
         <h1 class="font-do my-5">글 상세보기</h1>
       </div>
-
+      <!-- <img :src="require(`@/assets/images/stooges/${item.img}.jpg`)" /> -->
       <div class="row d-flex font-poor">
         <div class="media">
-          
-          <img src="#" class="mr-3" alt="...">
+
+          <img :src="images.logo" width="50" class="mr-3" alt="...">
           <div class="media-body text-justify">
-            <p class="badge badge-pill badge-warning">No.{{board.id}}</p>
             <h2 class="mt-0">{{board.title}}</h2>
-            <p class="font-1-5em">{{boardUsername}}</p>
-              <p>작성: {{ $moment(board.created_at).format('YYYY-MM-DD hh:mm:ss') }} | 최근수정: {{ $moment(board.updated_at).format('YYYY-MM-DD hh:mm:ss') }} </p>
+            <p class="font-1-5em font-lightgray">작성자: {{boardUsername}}</p>
+            <p>작성: {{ $moment(board.created_at).format('YYYY-MM-DD hh:mm:ss') }} | 최근수정:
+              {{ $moment(board.updated_at).format('YYYY-MM-DD hh:mm:ss') }} </p>
             <p class="font-2em">
-            {{board.content}}
+              {{board.content}}
             </p>
-            <hr  :style="{'margin':'5px 30px'}">
-            <hr  :style="{'margin':'5px 30px'}">
+            <hr :style="{'margin':'5px 30px'}">
+            <hr :style="{'margin':'5px 30px'}">
+            <div class="d-flex justify-content-end">
+              <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
+              <!--단, 관리자의 경우 삭제 버튼 활성화 -->
+              <button class="btn btn-warning font-do mr-3 font-1-2em"
+                v-if="boardUsername === this.$store.state.username" @click="updateBoardForm(board)">글 수정</button>
+
+              <button class="btn btn-danger font-do mr-3 font-1-2em" v-if="this.$store.state.is_admin"
+                @click="deleteBoard(board)">글 삭제</button>
+              <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
+            </div>
+            <hr>
+            <hr>
             <div>
-            <button @click="backToBoard">목록</button>
-          </div>
-          <br>
-          <div>
-            <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
-            <!--단, 관리자의 경우 삭제 버튼 활성화 -->
-            <button v-if="boardUsername === this.$store.state.username" @click="updateBoardForm(board)">글 수정</button>
-
-            <button v-if="this.$store.state.is_admin" @click="deleteBoard(board)">글 삭제</button>
-            <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
-          </div>
-          <hr :style="{'margin':'5px 30px'}">
-
-
-            
-
-            <div class="media mt-3">
-              <a class="mr-3" href="#">
-                <img src="#" class="mr-3" alt="...">
-              </a>
-              <div class="media-body">
-                <h5 class="mt-0"></h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
-                odio,
-                vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                Donec
-                lacinia congue felis in faucibus.
-              </div>
+              <button @click="backToBoard" class="btn btn-pink">목록으로 가기</button>
+            </div>
+            <div class="mt-5">
+              <CommentForm v-if="this.$store.state.login" :board="board" />
+              <p v-else>댓글을 작성하려면 로그인이 필요합니다. </p>
             </div>
 
-            <div class="media mt-3">
-              <a class="mr-3" href="#">
-                <img src="#" class="mr-3" alt="...">
-              </a>
-              <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
-                odio,
-                vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                Donec
-                lacinia congue felis in faucibus.
-              </div>
-            </div>
-            
-          </div>
-        </div>
+            <br>
 
-      </div>
-      <div class="row">
-        <div>
-          <h1 class="font-do">글 상세보기</h1>
-          <div>
-            <p>No : {{board.id}}</p>
-            <p>제목 : {{board.title}}</p>
-            <p>내용 : {{board.content}}</p>
-            <!-- <p>작성자 : {{board.user.username}}}</p>  -->
-            <!--위와 같이 쓰면 타입을 undefined으로 인식해 오류가 날 때가 있으므로 주의  -->
-            <p>작성자 : {{boardUsername}}</p>
-            <p>작성일 : {{ $moment(board.created_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
-            <p>수정일 : {{ $moment(board.updated_at).format('YYYY-MM-DD hh:mm:ss') }}</p>
-          </div>
-          <div>
-            <button @click="backToBoard">목록</button>
-          </div>
-          <br>
-          <div>
-            <!--작성자와 접속자가 같다면, 수정/삭제 버튼 활성화-->
-            <!--단, 관리자의 경우 삭제 버튼 활성화 -->
-            <button v-if="boardUsername === this.$store.state.username" @click="updateBoardForm(board)">글 수정</button>
-
-            <button v-if="this.$store.state.is_admin" @click="deleteBoard(board)">글 삭제</button>
-            <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
-          </div>
-          <hr :style="{'margin':'5px 30px'}">
-    
-          <div>
-            <CommentForm v-if="this.$store.state.login" :board="board" />
-            <p v-else>댓글을 작성하려면 로그인이 필요합니다. </p>
-          </div>
-          <div>
-            <h3>댓글 목록</h3>
+            <hr :style="{'margin':'5px 30px'}">
             <CommentList :board="board" />
           </div>
         </div>
 
       </div>
+
+
+
     </div>
   </div>
 </template>
@@ -130,6 +74,11 @@
         boardUsername: '',
         boardItem: '',
         all_comments: '',
+        images: {
+          logo: require('@/assets/images/logo.png'),
+          flamingo: require('@/assets/images/flamingo.png')
+
+        },
 
       }
     },
