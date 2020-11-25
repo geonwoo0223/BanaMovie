@@ -14,22 +14,10 @@
              style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
             class="font-poor">
-            <!-- Text slides with image -->
-            <b-carousel-slide caption="First slide" text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-              img-src="https://picsum.photos/1024/480/?image=52">
-            </b-carousel-slide>
-
-            <!-- Slides with custom text -->
-            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-              <h1>Hello world!</h1>
-            </b-carousel-slide>
-
-            <!-- Slides with image only -->
-            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
 
             <!-- Slides with img slot -->
             <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-            <b-carousel-slide v-for="(movie,idx) in movie_list" :key="idx" :caption="movie.title"
+            <b-carousel-slide v-for="(movie,idx) in ordered_movie_list" :key="idx" :caption="movie.title"
               :text="movie.overview" img-blank-color="dark" img-height="480">
               <template #img>
                 <img class="d-block img-fluid " :src="movie.poster_path" alt="image slot">
@@ -122,6 +110,7 @@
         'login_user',
         'is_admin',
         'movie_list',
+        'ordered_movie_list',
         'recommend_list',
       ]),
     }

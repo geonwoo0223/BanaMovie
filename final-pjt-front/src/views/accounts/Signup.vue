@@ -74,8 +74,7 @@ export default {
     signup: function () {
       if (this.agree === true) {
         axios.post(`${SERVER_URL}/accounts/signup/`, this.credentials)
-          .then((res) => {
-            console.log(res)
+          .then(() => {
             this.$router.push({ name: 'Login' })
             this.agree = false
           })

@@ -5,7 +5,7 @@
 
     <div class="container">
 
-      <div class="row">
+      <div class="row justify-content-center">
 
       <form v-if="this.purpose == 'create'" v-on:submit.prevent="createBoardForm"
       class="font-poor font-1-2em">

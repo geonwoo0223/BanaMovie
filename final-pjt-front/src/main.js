@@ -28,13 +28,11 @@ const truncate = function (text, length, clamp) {
   const content = node.textContent
   return content.length > length ? content.slice(0, length) + clamp : content
 }
-
 Vue.filter('truncate', truncate)
 
 const halfStar = function (rate) {
   return rate/2
 }
-
 Vue.filter('half', halfStar)
 
 new Vue({

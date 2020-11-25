@@ -86,7 +86,6 @@
     data: function () {
       return {
         login: false,
-        username: '',
       }
     },
     methods: {
