@@ -1,4 +1,4 @@
-import requests
+import random
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
@@ -56,9 +56,8 @@ def recommendMovie(request, user_pk):
                 if genre['id'] == int(rate_sorted_list[0]):
                     recommend.append(movie)
                     continue
-            if len(recommend)==5:
-                break
-        serializer = MovieSerializer(recommend, many=True)
+        
+        serializer = MovieSerializer(random.sample(recommend,4), many=True)
         return Response(serializer.data)
     else:
         return Response({'Detail':'리뷰데이터가없음'})

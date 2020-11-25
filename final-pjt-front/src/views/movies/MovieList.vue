@@ -1,42 +1,33 @@
 <template>
   <div>
-    <b-container>
-    <b-row class="d flex justify-content-center">
-      <h1 class="font-do my-3">화제작</h1>
-       </b-row>
+    <b-container class="mb-5">
+      <b-row class="d flex justify-content-center">
+        <h1 class="font-do my-3">화제작</h1>
+      </b-row>
       <b-row>
 
-     
-        
+      
+      
         <!-- 영화 슬라이드 넣을 공간  -->
         <b-col>
           <b-carousel id="carousel-1" v-model="slide" :interval="2000" controls indicators background="#ababab"
-             style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart"
+              style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
             class="font-poor">
 
-            <!-- Slides with img slot -->
-            <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-            <b-carousel-slide v-for="(movie,idx) in ordered_movie_list" :key="idx" :caption="movie.title"
-              :text="movie.overview" img-blank-color="dark" img-height="480">
+            <b-carousel-slide v-for="(movie, idx) in ordered_movie_list" :key="idx" :caption="movie.title" 
+              img-blank-color="dark" img-height="480" style="background: #343a40;">
               <template #img>
                 <img class="d-block img-fluid " :src="movie.poster_path" alt="image slot">
               </template>
-            </b-carousel-slide>
-
-            <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-            <b-carousel-slide caption="Blank Image" img-blank img-blank-color="dark" img-alt="Blank image">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
-                a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
-              </p>
+              <p>{{ movie.overview | truncate(300, '...') }}</p>
             </b-carousel-slide>
           </b-carousel>
 
-          <p class="mt-4">
+          <!-- <p class="mt-4">
             Slide #: {{ slide }}<br>
             Sliding: {{ sliding }}
-          </p>
+          </p> -->
         </b-col>
       </b-row>
 
@@ -118,5 +109,18 @@
 </script>
 
 <style>
+
+.carousel-caption {
+  position: absolute;
+  right: 15%;
+  bottom: 20px;
+  left: 25% !important;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  /* text-align: center; */
+}
+
 
 </style>
