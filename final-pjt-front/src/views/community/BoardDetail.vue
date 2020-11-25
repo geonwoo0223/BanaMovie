@@ -28,7 +28,7 @@
 
               <button class="btn btn-danger font-do mr-3 font-1-2em" v-if="this.$store.state.is_admin"
                 @click="deleteBoard(board)">글 삭제</button>
-              <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)">글 삭제</button>
+              <button v-else-if="boardUsername === this.$store.state.username" @click="deleteBoard(board)" class="btn btn-danger font-do mr-3 font-1-2em">글 삭제</button>
             </div>
             <hr>
             <hr>
