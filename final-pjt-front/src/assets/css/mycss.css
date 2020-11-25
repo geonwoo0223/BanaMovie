@@ -69,3 +69,25 @@
 .font-color-white{
     color:aliceblue;
 }
+
+.font-color-logonavy{
+    color:#070720;
+}
+
+
+.font-color-navy{
+    color: #0B0C2A !important;
+}
+
+.font-color-dark{
+    color: #2C3E50 !important;
+}
+
+.background-darkblue{
+   background-color :  #2C3E50 !important;
+    
+}
+
+.background-dark{
+    background-color:#343A40 !important;
+}

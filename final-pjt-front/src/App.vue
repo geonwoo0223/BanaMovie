@@ -24,11 +24,12 @@
             </div>
 
             <div v-if="is_admin">
-              <router-link :to="{ name: 'ManageMovie' }" class="nav-margin">영화관리</router-link>
-              <router-link :to="{ name: 'AdminManagement' }" class="nav-margin">회원관리</router-link>
+              <router-link :to="{ name: 'ManageMovie' }" class="nav-margin"><span class="badge badge-pill badge-warning">영화관리</span></router-link>
+              <router-link :to="{ name: 'AdminManagement' }" class="nav-margin"><span class="badge badge-pill badge-warning">회원관리</span></router-link>
             </div>
             <div v-if="login" class="mr-auto">
-              <router-link @click.native="logout" to="#" class="nav-margin">Logout</router-link>
+              <router-link @click.native="logout" to="#" class="nav-margin">
+                <span class="badge badge-pill badge-info">Logout</span></router-link>
             </div>
             <div v-else class="mr-auto">
               <router-link :to="{ name: 'Signup' }" class="mr-auto nav-margin"><button
