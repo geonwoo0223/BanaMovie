@@ -3,9 +3,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-
-
-
     <div id="nav" class="p-2 main-nav">
       <b-navbar toggleable="lg" type="dark" id="navbar">
         <b-navbar-brand :style="{'font-size':'40px'}" class="nav-margin">
