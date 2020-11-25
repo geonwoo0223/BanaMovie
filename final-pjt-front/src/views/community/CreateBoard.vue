@@ -1,20 +1,28 @@
 <template>
   <div>
-    <h1 v-if="this.purpose == 'create'">글 작성하기</h1>
-    <h1 v-else-if="this.purpose == 'update'">글 수정하기</h1>
+    <h1 v-if="this.purpose == 'create'" class="font-do my-3">글 작성하기</h1>
+    <h1 v-else-if="this.purpose == 'update'" class="font-do my-3">글 수정하기</h1>
 
-    <div>
+    <div class="container">
 
-      <form v-if="this.purpose == 'create'" v-on:submit.prevent="createBoardForm">
-        <div>
-          <label for="title">Title: </label>
-          <input type="text" id="title" v-model.trim="title" >
+      <div class="row">
+
+      <form v-if="this.purpose == 'create'" v-on:submit.prevent="createBoardForm"
+      class="font-poor font-1-2em">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label" for="title">Title: </label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="title" v-model.trim="title">
+          </div>
         </div>
-        <div>
-          <label for="content">Content: </label>
-          <input type="text" id="content" v-model="content">
+
+        <div class="form-group row">
+          <label for="content" class="col-sm-3 col-form-label">Content: </label>
+          <div class="col-sm-9">
+          <textarea class="form-control" id="content" v-model="content"></textarea>
+          </div>
         </div>
-        <button type="submit">등록하기</button>
+        <button type="submit" class="btn btn-pink">등록하기</button>
       </form>
 
       <form v-if="this.purpose == 'update'" v-on:submit.prevent="updateBoard">
@@ -28,6 +36,7 @@
         </div>
         <button type="submit">등록하기</button>
       </form>
+    </div>
     </div>
 
   </div>
@@ -45,7 +54,7 @@
         title: '',
         content: '',
         purpose: '',
-        updateId:'', 
+        updateId: '',
       }
     },
     methods: {
@@ -109,7 +118,7 @@
       this.updateId = this.$route.params.id
       this.title = this.$route.params.title
       this.content = this.$route.params.content
-    
+
     }
 
   }
