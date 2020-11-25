@@ -1,10 +1,32 @@
 <template>
   <div class="col-3">
     
-    <button>
+    <!-- <card>
       <img @click="showDetail" :src="movie.poster_path" :alt="movie.title" v-if="!movie.poster_path.includes('#')"/>
       <img @click="showDetail" src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" :alt="movie.title" v-else/>
-    </button>
+      <p>{{ movie.vote_count }}</p>
+    </card> -->
+
+    
+    <b-col>
+        <b-card v-if="!movie.poster_path.includes('#')"
+        :img-src="movie.poster_path" img-alt="Image" img-top tag="article"
+          style="max-width: 20rem; max-height:25rem; min-height:25rem;" class="my-2 bg-dark" @click="showDetail">
+          <!-- <b-card-text>개봉일 : {{movie.release_date}}</b-card-text> -->
+          <b-card-text class="font-1-8em font-do font-color-white" :style="{'max-width': '20rem'}"> 👍 : {{movie.vote_count}}</b-card-text>
+
+          <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
+        </b-card>
+        <b-card v-else
+        img-src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" img-alt="Image" img-top tag="article"
+          style="max-width: 20rem; max-height:25rem; min-height:25rem;" class="my-2 bg-dark" @click="showDetail">
+          <!-- <b-card-text>개봉일 : {{movie.release_date}}</b-card-text> -->
+          <b-card-text class="font-1-8em font-do font-color-white" :style="{'max-width': '20rem'}"> 👍 : {{movie.vote_count}}</b-card-text>
+
+          <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
+        </b-card>
+    </b-col>
+
 
 
     <!-- 영화눌렀을때 이게 보이게 한다 -->
@@ -20,7 +42,7 @@
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
         <br />
         <h4 class="font-poor">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
-        <h4 class="font-poor">평점: {{ movie_list[movie.id]["rate"] }}</h4>
+        <h4 class="font-poor">평점: {{ movie_list[movie.id-1]["rate"] }}</h4>
         <hr />
       </div>
       <br>
@@ -97,7 +119,7 @@
                 </div>
               </div>
 
-              <div class="col-6" id="review-content">
+              <div class="col-6" id="review-content" style="word-break:break-all;">
                 <p>{{ review.content }}</p>
                 <p>작성자 : {{ review.user.username }} | {{$moment(review.created_at).format('YYYY-MM-DD')}} </p>
               </div>
@@ -188,7 +210,7 @@
               }
             }
             this.total[this.movie.id] += this.selected_rate
-            this.$store.state.movie_list[this.movie.id].rate = this.total[this.movie.id]/acount
+            this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/acount
             this.$store.dispatch('checkReviewer', reviewerInfo)
             this.$store.dispatch('recommendMovie')
             this.content = null
@@ -206,23 +228,23 @@
           axios.delete(`${SERVER_URL}/movies/${movie.id}/review/update/`, config)
             .then((res) => {
               console.log(res)
+              let dcount = 0
+              for (const review of this.review_list) {
+                if (review.movie.id === this.movie.id) {
+                  dcount -= 1
+                }
+              }
+              if (dcount < 0) {
+                dcount = 1
+              }
               const idx1 = this.review_list.indexOf(res.data.id)
               this.$store.state.review_list.splice(idx1, 1)
 
               const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
               this.$store.state.user_movie[this.login_user].splice(idx2, 1)
 
-              let dcount = 0
-              for (const review of this.review_list) {
-                if (review.movie.id === this.movie.id) {
-                  dcount--
-                }
-              }
-              if (dcount === 0) {
-                dcount++
-              }
               this.total[this.movie.id] -= res.data.rate
-              this.$store.state.movie_list[this.movie.id].rate = this.total[this.movie.id]/dcount
+              this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/dcount
 
 
 
@@ -279,7 +301,7 @@
               }
             }
             this.total[this.movie.id] += res.data.rate
-            this.$store.state.movie_list[this.movie.id].rate = this.total[this.movie.id]/ucount
+            this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/ucount
 
           })
           .catch((err) => {

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h1>영화 추가</h1>
+    <h1 class="font-do">영화 추가</h1>
     <div class="mb-5 mt-3">
-      <label for="search" class="mx-3">Search: </label>
+      <label for="search" class="mx-3 font-do">Search: </label>
       <input type="text" id="search" v-model.trim="search" 
         @keypress.enter="searchMovie">
     </div>
 
     <div class="row" v-if="movies.length">
       <div class="col-3 h-50 w-100 my-3" v-for="(movie,idx) in movies" :key="idx">
-        <div class="card">
+        <div class="card bg-dark">
           <img class="card-img-top" :src="movie.poster_path" :alt="movie.title">
           <div class="card-body">
-            <h5 class="card-text text-dark"> {{movie.title}} </h5>
-            <button @click="addMovie(movie)">이 영화 추가</button>
+            <h5 class="card-text text-white font-poor"> {{movie.title}} </h5>
+            <button @click="addMovie(movie)" class="btn btn-pink">이 영화 추가</button>
           </div>
         </div>
       </div>

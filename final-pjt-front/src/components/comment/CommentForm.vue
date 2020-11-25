@@ -9,7 +9,7 @@
         <input type="text" class="form-control" id="content" v-model="content">
         </div>
         <div class="col-4 d-flex align-items-center">
-        <button type="submit" class="btn btn-pink font-1-2em">댓글등록</button>
+        <button type="submit" class="btn btn-pink font-1-2em">등록</button>
         </div>
       </div>
     </form>

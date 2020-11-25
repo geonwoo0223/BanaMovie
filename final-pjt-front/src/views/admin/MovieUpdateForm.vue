@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="font-poor">
     <b-container>
       <b-row class="d-flex justify-content-center">
-        <h1 class="my-5 font-do">영화 추가</h1>
+        <h1 class="my-5 font-do">영화 수정</h1>
         
       </b-row>
 
@@ -81,8 +81,8 @@
       </b-col>
 
       <br>
-      <b-button variant="secondary" @click="back" class="my-5 mx-3">취소</b-button>
-      <b-button variant="warning" @click="updateMovie" class="my-5">수정</b-button>
+      <b-button variant="secondary" @click="back" class="my-5 mx-3 font-jua">취소</b-button>
+      <b-button @click="updateMovie" class="my-5 btn btn-pink">수정</b-button>
     </b-container>
 
   </div>

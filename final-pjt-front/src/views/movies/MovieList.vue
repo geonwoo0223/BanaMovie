@@ -44,7 +44,7 @@
 
     
     <div>
-      <h1 class="font-do my-3">영화 리스트</h1>
+      <h1 class="font-do my-5">영화 리스트</h1>
     </div>
     <div class="container">
       <!-- <div class="row justify-content-end mb-4">

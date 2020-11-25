@@ -59,7 +59,7 @@
         <img :src="images.logo" width="190" alt="logo">
         </div>
         <div class="col-9">
-        <h2 class="display-5 font-color-white ">영화에 반하다, 바나무비</h2>
+        <h2 class="display-5 font-color-white ">영화에 반하다, 바나무비(✿◡‿◡)</h2>
         <p class="lead">
           <a style="color:white; text-decoration:none" href="https://github.com/snowcuphea">김민정</a> &
           <a style="color:white; text-decoration:none" href="https://github.com/geonwoo0223">이건우</a>

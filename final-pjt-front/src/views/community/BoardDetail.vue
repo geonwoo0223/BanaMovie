@@ -7,7 +7,7 @@
       </div>
       <!-- <img :src="require(`@/assets/images/stooges/${item.img}.jpg`)" /> -->
       <div class="row d-flex font-poor">
-        <div class="media">
+        <div class="media" style="width: 100%; word-break:break-all;">
 
           <img :src="images.logo" width="50" class="mr-3" alt="...">
           <div class="media-body text-justify">

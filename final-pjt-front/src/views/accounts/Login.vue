@@ -114,7 +114,7 @@
           })
           .catch((err) => {
             console.log(err)
-            alert("로그인 정보가 틀렸습니다.")
+            alert("로그인 정보가 일치하지 않습니다.")
           })
       }
     },

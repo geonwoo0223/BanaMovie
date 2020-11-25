@@ -27,8 +27,8 @@
               <th>{{ $moment(movie.release_date).format('YYYY-MM-DD') }}</th>
               <th>{{ movie.vote_count }}</th>
               <th>{{ movie.rate }}</th>
-              <th><button @click="updateMovie(movie)">수정</button></th>
-              <th><button @click="deleteMovie(movie)">삭제</button></th>
+              <th><button @click="updateMovie(movie)" class="btn btn-warning font-jua">수정</button></th>
+              <th><button @click="deleteMovie(movie)" class="btn btn-secondary font-jua">삭제</button></th>
             </tr>
           </tbody>
 

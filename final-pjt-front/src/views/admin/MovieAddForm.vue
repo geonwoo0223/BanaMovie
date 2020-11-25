@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="font-poor">
     <b-container>
       <b-row class="d-flex justify-content-center">
         <h1 class="my-5 font-do">영화 추가</h1>
@@ -54,7 +54,7 @@
           <label for="overview">Overview: </label>
         </b-col>
         <b-col sm="6">
-          <input type="text" id="overview" v-model.trim="overview">
+          <b-form-input type="text" id="overview" v-model.trim="overview"></b-form-input>
         </b-col>
       </b-row>
 
@@ -63,7 +63,7 @@
           <label for="poster_path">Poster path: </label>
         </b-col>
         <b-col sm="6">
-          <input type="text" id="poster_path" v-model.trim="poster_path" placeholder="이미지 없으면 # 입력">
+          <b-form-input type="text" id="poster_path" v-model.trim="poster_path" placeholder="이미지 없으면 # 입력"></b-form-input>
         </b-col>
       </b-row>
       <b-row class="my-3">
@@ -81,8 +81,8 @@
       </b-col>
 
       <br>
-      <b-button variant="secondary" @click="back" class="my-5 mx-3">취소</b-button>
-      <b-button variant="warning" @click="addMovie" class="my-5">추가</b-button>
+      <b-button variant="secondary" @click="back" class="my-5 mx-3 font-jua">취소</b-button>
+      <b-button  @click="addMovie" class="my-5 btn btn-pink">추가</b-button>
     </b-container>
 
   </div>

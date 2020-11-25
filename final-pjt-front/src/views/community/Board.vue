@@ -7,7 +7,7 @@
         </div>
         <div class="col-9 align-middle">
           
-          <button v-if="this.$store.state.login" @click="createBoard()" class="btn btn-light my-4">글 작성하기</button>
+          <button v-if="this.$store.state.login" @click="createBoard()" class="btn btn-pink font-1-5em my-4">글 작성하기</button>
           <p v-else class="my-4 float-right">게시글을 작성하려면 로그인이 필요합니다.</p>
     
         </div>
