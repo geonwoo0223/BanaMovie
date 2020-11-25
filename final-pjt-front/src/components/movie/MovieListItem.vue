@@ -1,7 +1,9 @@
 <template>
   <div class="col-3">
+    
     <button>
-      <img @click="showDetail" :src="movie.poster_path" :alt="movie.title" />
+      <img @click="showDetail" :src="movie.poster_path" :alt="movie.title" v-if="!movie.poster_path.includes('#')"/>
+      <img @click="showDetail" src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" :alt="movie.title" v-else/>
     </button>
 
 
@@ -11,13 +13,14 @@
       footer-text-variant="dark">
       <!-- 영화디테일 부분 -->
       <div class="detail-box">
-        <img :src="movie.poster_path" alt="movie poster" id="movie-poster">
+        <img :src="movie.poster_path" alt="movie poster" id="movie-poster" v-if="!movie.poster_path.includes('#')">
+        <img src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" alt="movie poster" id="movie-poster" v-else/>
         <h2 class="font-do">{{ movie.title }}</h2>
         <h5 class="font-do">{{ movie.release_date }}</h5>
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
         <br />
         <h4 class="font-poor">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
-        <h4 class="font-poor">평점: {{ movie_list[movie.id]["rate"]  }}</h4>
+        <h4 class="font-poor">평점: {{ movie_list[movie.id]["rate"] }}</h4>
         <hr />
       </div>
       <br>
@@ -130,7 +133,7 @@
   export default {
     name: 'MovieListItem',
     props: {
-      movie: Object
+      movie: Object,
     },
     data: function () {
       return {
@@ -143,7 +146,6 @@
         reviewId: null,
         rate_options: _.range(0, 11),
         variants: ["light", "dark"],
-        halfStar: null,
       }
     },
     methods: {

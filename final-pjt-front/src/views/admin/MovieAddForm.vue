@@ -63,7 +63,7 @@
           <label for="poster_path">Poster path: </label>
         </b-col>
         <b-col sm="6">
-          <input type="text" id="poster_path" v-model.trim="poster_path">
+          <input type="text" id="poster_path" v-model.trim="poster_path" placeholder="이미지 없으면 # 입력">
         </b-col>
       </b-row>
       <b-row class="my-3">
@@ -124,9 +124,6 @@ export default {
     addMovie: function () {
       const temp_number = this.$store.state.movie_count
       // poster_path가 공란이면
-      if (this.poster_path === '') {
-        this.poster_path = "qwodkqowfkoq.jpg"
-      }
 
       const movieItem = {
         movieInfo: {

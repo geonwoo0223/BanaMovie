@@ -42,13 +42,17 @@
       </div>
     </div>
 
-
+    
     <div>
       <h1 class="font-do my-3">영화 리스트</h1>
     </div>
     <div class="container">
+      <!-- <div class="row justify-content-end mb-4">
+        <label class="h2 mr-3" for="">Search: </label>
+        <input style="width: 300px;" class="form-control" type="text" v-model.trim='search'>
+      </div> -->
       <div class="row">
-        <MovieListItem v-for="(movie,idx) in movie_list" :key="idx" :movie="movie" class="col-3" />
+        <MovieListItem v-for="(movie,idx) in movie_list" :key="idx" :movie="movie" class="col-3" :search="search"/>
       </div>
     </div>
 
@@ -67,7 +71,8 @@
     data: function () {
       return {
         slide: 0,
-        sliding: null
+        sliding: null,
+        search: '',
       }
     },
     components: {
@@ -87,7 +92,7 @@
       },
       onSlideEnd() {
         this.sliding = false
-      }
+      },
     },
     created: function () {
 

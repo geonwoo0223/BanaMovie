@@ -54,7 +54,7 @@
           <label for="overview">Overview: </label>
         </b-col>
         <b-col sm="6">
-          <input type="text" id="overview" v-model.trim="overview">
+          <b-form-input type="text" id="overview" v-model.trim="overview"></b-form-input>
         </b-col>
       </b-row>
 
@@ -63,7 +63,7 @@
           <label for="poster_path">Poster path: </label>
         </b-col>
         <b-col sm="6">
-          <input type="text" id="poster_path" v-model.trim="poster_path">
+          <b-form-input type="text" id="poster_path" v-model.trim="poster_path"></b-form-input>
         </b-col>
       </b-row>
       <b-row class="my-3">
@@ -118,7 +118,7 @@ export default {
     this.adult = movie.adult
     this.status = movie.status
     this.overview = movie.overview
-    this.poster_path = movie.poster_path.substr(30,200)
+    this.poster_path = movie.poster_path
     for (const genre of movie.genres) {
       this.checked_genres.push(genre.id)
       this.original_genres.push(genre.name)
