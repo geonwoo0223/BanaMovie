@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-container>
-    <b-row>
+    <b-row class="d flex justify-content-center">
       <h1 class="font-do my-3">화제작</h1>
        </b-row>
       <b-row>
@@ -12,7 +12,8 @@
         <b-col>
           <b-carousel id="carousel-1" v-model="slide" :interval="2000" controls indicators background="#ababab"
              style="text-shadow: 1px 1px 2px #333;" @sliding-start="onSlideStart"
-            @sliding-end="onSlideEnd">
+            @sliding-end="onSlideEnd"
+            class="font-poor">
             <!-- Text slides with image -->
             <b-carousel-slide caption="First slide" text="Nulla vitae elit libero, a pharetra augue mollis interdum."
               img-src="https://picsum.photos/1024/480/?image=52">
@@ -29,14 +30,14 @@
             <!-- Slides with img slot -->
             <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
             <b-carousel-slide v-for="(movie,idx) in movie_list" :key="idx" :caption="movie.title"
-              :text="movie.overview">
+              :text="movie.overview" img-blank-color="dark" img-height="480">
               <template #img>
                 <img class="d-block img-fluid " :src="movie.poster_path" alt="image slot">
               </template>
             </b-carousel-slide>
 
             <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-            <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
+            <b-carousel-slide caption="Blank Image" img-blank img-blank-color="dark" img-alt="Blank image">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
                 a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
