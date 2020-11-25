@@ -1,11 +1,17 @@
 <template>
-  <div>
+  <div class="container">
     <form v-on:submit.prevent="createComment">
-      <div>
-        <label for="content">Content: </label>
-        <input type="text" id="content" v-model="content">
+      <div class="row">
+        <div class="col-2 d-flex align-items-center">
+        <label for="content" class="font-1-5em">댓글달기: </label>
+        </div>
+        <div class="col-6 d-flex align-items-center">
+        <input type="text" class="form-control" id="content" v-model="content">
+        </div>
+        <div class="col-4 d-flex align-items-center">
+        <button type="submit" class="btn btn-pink font-1-2em">댓글등록</button>
+        </div>
       </div>
-      <button type="submit">댓글등록</button>
     </form>
   </div>
 </template>

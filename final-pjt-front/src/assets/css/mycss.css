@@ -41,7 +41,7 @@
 }
 
 .font-1-2em{
-    font-size: 1.2em;
+    font-size: 1.2em !important;
 }
 
 .font-1-5em{
@@ -74,6 +74,10 @@
     color:#070720;
 }
 
+.font-lightgray{
+    color: lightgray;
+}
+
 
 .font-color-navy{
     color: #0B0C2A !important;
@@ -90,4 +94,8 @@
 
 .background-dark{
     background-color:#343A40 !important;
+}
+
+.font-dark{
+    color:#343A40 !important;
 }

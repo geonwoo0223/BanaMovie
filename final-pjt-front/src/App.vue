@@ -6,6 +6,7 @@
     <div id="nav" class="p-2 main-nav">
       <b-navbar toggleable="lg" type="dark" id="navbar">
         <b-navbar-brand :style="{'font-size':'40px'}" class="nav-margin">
+          <img :src="images.logo" width="80" alt="logo">
           <router-link :to="{ name: 'MovieList' }" id="logo" class="font-weight-bold">바나무비</router-link>
         </b-navbar-brand>
 
@@ -53,6 +54,11 @@
 
     <div class="jumbotron font-poor mt-5" id="footerjumbo">
       <div class="container">
+        <div class="row">
+          <div class="col-3">
+        <img :src="images.logo" width="190" alt="logo">
+        </div>
+        <div class="col-9">
         <h2 class="display-5 font-color-white ">영화에 반하다, 바나무비</h2>
         <p class="lead">
           <a style="color:white; text-decoration:none" href="https://github.com/snowcuphea">김민정</a> &
@@ -62,6 +68,8 @@
         <p class="lead">
           <a class="btn btn-dark" href="https://www.themoviedb.org/?language=ko" role="button">TMBD</a>
         </p>
+        </div>
+        </div>
 
       </div>
     </div>
@@ -86,6 +94,11 @@
     data: function () {
       return {
         login: false,
+        images: {
+          logo: require('@/assets/images/logo.png'),
+          flamingo: require('@/assets/images/flamingo.png')
+
+        },
       }
     },
     methods: {

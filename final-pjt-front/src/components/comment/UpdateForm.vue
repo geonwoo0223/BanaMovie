@@ -1,13 +1,26 @@
 <template>
-  <div>
+  <div class="container">
+    <div class="row">
+    <hr>
+    </div>
+
+    
     <form v-on:submit.prevent="updateComment">
-      <div id="updateDiv">
-        <label for="content">Content: </label>
-        <input type="text" id="content" v-model="content">
+      <div class="row">
+      <div class="col-2 d-flex align-items-center" id="updateDiv">
+        <label for="content">댓글 수정: </label>
       </div>
-      <button type="submit" @click="updateComment(board)">수정완료</button>
+      <div class="col-6 d-flex align-items-center">
+        <input type="text" class="form-control" id="content" v-model="content">
+        </div>
+      <div class="col-4 d-flex align-items-center">
+      <button type="submit" @click="updateComment(board)" class="btn btn-pink">수정완료</button>
+      </div>
+      </div>
     </form>
+    
   </div>
+
 </template>
 
 <script>
