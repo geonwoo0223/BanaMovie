@@ -149,9 +149,8 @@ def get_add_review(request, movie_pk):
         review = request.data
         add_rate = int(review['rate'])
         total[movie_pk] += add_rate
-        count = Review.objects.all().filter(movie_id=movie_pk)
-        
-        movie.rate = total[movie_pk]/count
+        count = Review.objects.all().filter(movie_id=movie_pk).count()
+        movie.rate = total[movie_pk]/int(count+1)
         if review['like']:
             movie.vote_count += 1
         movie.save()
@@ -227,10 +226,13 @@ def update_delete_review(request, movie_pk):
 
     if request.method == 'PUT':
         review = get_object_or_404(Review, pk=request.data['id'])
+        count = Review.objects.all().filter(movie_id=movie_pk).count()
 
+        total[movie_pk] -= review.rate
+        total[movie_pk] += int(request.data['rate'])
 
-        movie.rate -= review.rate
-        movie.rate += int(request.data['rate'])
+        movie.rate = total[movie_pk]/int(count+1)
+
         if review.like:
             if not request.data['like']:
                 movie.vote_count -= 1
@@ -310,8 +312,13 @@ def update_delete_review(request, movie_pk):
             print("----update error", serializer.errors)
     else : 
         review = Review.objects.filter(movie_id=movie_pk).filter(user_id=request.user.id)
+        count = Review.objects.all().filter(movie_id=movie_pk).count()
+        if count == 1:
+            count += 1
         new = list(review.values())[0]
-        movie.rate -= new['rate']
+        
+        total[movie_pk] -= new['rate']
+        movie.rate = total[movie_pk]/int(count-1)
         movie.save()
 
         for genre in genres:

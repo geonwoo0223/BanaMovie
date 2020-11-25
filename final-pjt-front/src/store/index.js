@@ -14,15 +14,8 @@ export default new Vuex.Store({
     recommend_list: [],
     movie_count: 50000000,
     user_movie: {},
-    temp: {
-      title: '',
-      release_date: '',
-      adult: false,
-      status: false,
-      overview: '',
-      poster_path: '',
-      genres: [],
-    },
+    total: new Array(1000).fill(0),
+
 
     // 리뷰 관련
     content: null,
@@ -42,7 +35,7 @@ export default new Vuex.Store({
 
   },
   getters: {
-    
+
   },
   mutations: {
     IS_ADMIN: function (state, status) {

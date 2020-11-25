@@ -49,10 +49,8 @@ export default {
     triggerSearch: function () {
       this.$router.push({name : 'MovieSearchForm'})
     },
-    triggerUpdate: function (movie) {
+    triggerUpdate: function () {
       this.hideUpdate = false
-      this.$store.state.temp = movie
-      console.log(this.$store.state.temp)
     }
   },
 }

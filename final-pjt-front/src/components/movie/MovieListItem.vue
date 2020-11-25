@@ -17,6 +17,7 @@
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
         <br />
         <h4 class="font-poor">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
+        <h4 class="font-poor">평점: {{ movie_list[movie.id]["rate"]  }}</h4>
         <hr />
       </div>
       <br>
@@ -177,9 +178,15 @@
               movie_id: this.movie.id,
               reviewer_id: res.data.user.id
             }
-            console.log(this.$store.state.movie_list[this.movie.id])
-            this.$store.state.movie_list[this.movie.id].rate += this.selected_rate
             this.$store.state.review_list.unshift(res.data)
+            let acount = 0
+            for (const review of this.review_list) {
+              if (review.movie.id === this.movie.id) {
+                acount++
+              }
+            }
+            this.total[this.movie.id] += this.selected_rate
+            this.$store.state.movie_list[this.movie.id].rate = this.total[this.movie.id]/acount
             this.$store.dispatch('checkReviewer', reviewerInfo)
             this.$store.dispatch('recommendMovie')
             this.content = null
@@ -202,6 +209,22 @@
 
               const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
               this.$store.state.user_movie[this.login_user].splice(idx2, 1)
+
+              let dcount = 0
+              for (const review of this.review_list) {
+                if (review.movie.id === this.movie.id) {
+                  dcount--
+                }
+              }
+              if (dcount === 0) {
+                dcount++
+              }
+              this.total[this.movie.id] -= res.data.rate
+              this.$store.state.movie_list[this.movie.id].rate = this.total[this.movie.id]/dcount
+
+
+
+
               this.showForm = false
               this.showAdd = false
             })
@@ -242,9 +265,20 @@
             const idx = this.review_list.findIndex((review) => {
               return review.id === res.data.id
             })
+            this.total[this.movie.id] -= this.$store.state.review_list[idx].rate
             this.$store.state.review_list[idx].content = res.data.content
             this.$store.state.review_list[idx].rate = res.data.rate
             this.$store.state.review_list[idx].like = res.data.like
+
+            let ucount = 0
+            for (const review of this.review_list) {
+              if (review.movie.id === this.movie.id) {
+                ucount++
+              }
+            }
+            this.total[this.movie.id] += res.data.rate
+            this.$store.state.movie_list[this.movie.id].rate = this.total[this.movie.id]/ucount
+
           })
           .catch((err) => {
             console.log(err)
@@ -264,7 +298,9 @@
         'login_user',
         'is_admin',
         'user_movie',
+        'movie_list',
         'review_list',
+        'total'
       ]),
 
     },
