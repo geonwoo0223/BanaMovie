@@ -48,6 +48,9 @@ export default {
       this.$router.push({name : 'MovieSearchForm'})
     },
   },
+  mounted() {
+      window.scrollTo(0,0)
+  }
 }
 </script>
 

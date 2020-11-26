@@ -95,6 +95,9 @@ export default {
           console.log(err)
         })
     }
+  },
+  mounted() {
+      window.scrollTo(0,0)
   }
   
 }

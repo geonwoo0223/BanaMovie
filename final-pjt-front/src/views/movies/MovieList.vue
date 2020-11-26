@@ -15,7 +15,7 @@
             @sliding-end="onSlideEnd"
             class="font-poor">
 
-            <b-carousel-slide v-for="(movie, idx) in ordered_movie_list" :key="idx" :caption="movie.title" 
+            <b-carousel-slide v-for="(movie, idx) in ordered" :key="idx" :caption="movie.title" 
               img-blank-color="dark" img-height="480" style="background: #343a40;">
               <template #img>
                 <img class="d-block img-fluid " :src="movie.poster_path" alt="image slot">
@@ -73,6 +73,7 @@
         slide: 0,
         sliding: null,
         search: '',
+        i: 0,
       }
     },
     components: {
@@ -95,7 +96,7 @@
       },
     },
     created: function () {
-
+      this.i = 0
       if (this.login && this.is_admin === false) {
         this.$store.dispatch('recommendMovie')
       }
@@ -116,7 +117,18 @@
             return movie
           }
         })
+      },
+      ordered: function () {
+        return this.ordered_movie_list.filter( (movie) => {
+          this.i ++
+          if (this.i<=8) {
+            return movie
+          }
+        })
       }
+    },
+    mounted() {
+      window.scrollTo(0,0)
     }
   }
 </script>
