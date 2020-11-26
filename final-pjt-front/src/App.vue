@@ -116,6 +116,8 @@
     },
     created: function () {
       // 로그인
+
+      
       const token = localStorage.getItem('jwt')
 
       if (token) {
@@ -123,6 +125,7 @@
       }
       this.$store.dispatch('getMovie')
 
+      this.$router.push({name: 'MovieList' })
 
 
     },
