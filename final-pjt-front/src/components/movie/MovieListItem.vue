@@ -208,6 +208,9 @@
             console.log('총점수:', this.total[this.movie.id])
             this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/acount
             console.log('평균:',this.$store.state.movie_list[this.movie.id-1].rate)
+            if (this.like) {
+              this.$store.state.movie_list[this.movie.id-1].vote_count += 1
+            }
             this.$store.dispatch('checkReviewer', reviewerInfo)
             this.$store.dispatch('recommendMovie')
             this.content = null
@@ -250,7 +253,10 @@
 
               this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/dcount
               console.log('평균',this.$store.state.movie_list[this.movie.id-1].rate)
-
+              
+              if (res.data.like) {
+                this.$store.state.movie_list[this.movie.id-1].vote_count -= 1
+              }
 
 
 
@@ -297,6 +303,15 @@
             this.total[this.movie.id] -= this.$store.state.review_list[idx].rate
             this.$store.state.review_list[idx].content = res.data.content
             this.$store.state.review_list[idx].rate = res.data.rate
+
+
+            if (this.$store.state.review_list[idx].like) {
+              if (res.data.like === false) {
+                this.$store.state.movie_list[this.movie.id-1].vote_count -= 1
+              }
+            }
+
+
             this.$store.state.review_list[idx].like = res.data.like
 
             let ucount = 0
@@ -312,6 +327,8 @@
 
             this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/ucount
             console.log('평균',this.$store.state.movie_list[this.movie.id-1].rate)
+
+            
 
           })
           .catch((err) => {
