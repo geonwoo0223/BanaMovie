@@ -21,7 +21,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(movie,idx) in movie_list" :key="idx">
+            <tr v-for="(movie,idx) in movies" :key="idx">
               <th>{{ movie.movie_no }}</th>
               <th>{{ movie.title }}</th>
               <th>{{ $moment(movie.release_date).format('YYYY-MM-DD') }}</th>
@@ -59,7 +59,7 @@ export default {
           const idx = this.movie_list.findIndex((movie) => {
             return movie.id === res.data.id
           })
-          this.movie_list.splice(idx,1)
+          this.movie_list[idx].movie_no = 0
 
         })
         .catch( (err) => {
@@ -70,7 +70,15 @@ export default {
   computed: {
     ...mapState([
       'movie_list',
-    ])
+    ]),
+
+    movies: function () {
+      return this.movie_list.filter( (movie) => {
+        if (movie.movie_no) {
+          return movie
+        }
+      })
+    }
   }
 }
 </script>

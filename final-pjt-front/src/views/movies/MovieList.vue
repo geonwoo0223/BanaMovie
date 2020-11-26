@@ -52,7 +52,7 @@
         <input style="width: 300px;" class="form-control" type="text" v-model.trim='search'>
       </div> -->
       <div class="row">
-        <MovieListItem v-for="(movie,idx) in movie_list" :key="idx" :movie="movie" class="col-3" :search="search"/>
+        <MovieListItem v-for="(movie,idx) in movies" :key="idx" :movie="movie" class="col-3" :search="search"/>
       </div>
     </div>
 
@@ -109,6 +109,14 @@
         'ordered_movie_list',
         'recommend_list',
       ]),
+
+      movies: function () {
+        return this.movie_list.filter( (movie) => {
+          if (movie.movie_no) {
+            return movie
+          }
+        })
+      }
     }
   }
 </script>
