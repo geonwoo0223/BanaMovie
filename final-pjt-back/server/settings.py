@@ -62,6 +62,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
+    'http://localhost:8081',
+    'http://localhost:8082',
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -139,6 +141,11 @@ FIXTURE_DIRS = (
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+import datetime
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+}
 
 
 AUTH_USER_MODEL = 'accounts.User'

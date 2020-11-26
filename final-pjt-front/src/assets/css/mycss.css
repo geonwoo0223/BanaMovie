@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Poor+Story&family=Slabo+27px&display=swap');
+    /* Do Hyeon Jua Poor Story */
+
+.padding-30{
+    padding: 30px;
+}
+
+.nav-dark{
+   background-color: #070720;
+}
+
+.font-jua{
+    font-family: 'Jua';
+}
+
+.font-do{
+    font-family: 'Do Hyeon';
+}
+
+.font-poor{
+    font-family: 'Poor Story';
+}
+
+.main-nav{
+    background-color: #070720;
+    font-family: 'Poor Story';
+    font-size: 30px;
+}
+
+.nav-margin{
+    margin: 5px 10px;
+}
+
+.font-1em{
+    font-size: 1em !important;
+}
+
+
+.font-2em{
+    font-size: 2em !important;
+}
+
+.font-1-2em{
+    font-size: 1.2em !important;
+}
+
+.font-1-5em{
+    font-size: 1.5em !important;
+}
+
+.font-1-8em{
+    font-size: 1.8em;;
+}
+
+.btn-pink{
+    font-family: Jua;
+    background-color: #DE5078 !important;
+    color: aliceblue !important;
+
+}
+
+.btn-delete{
+    background-color: gray;
+    border: 1px dotted gainsboro;
+    color: honeydew;
+    font-family: Jua;
+  }
+
+.font-color-white{
+    color:aliceblue;
+}
+
+.font-color-logonavy{
+    color:#070720;
+}
+
+.font-lightgray{
+    color: lightgray;
+}
+
+
+.font-color-navy{
+    color: #0B0C2A !important;
+}
+
+.font-color-dark{
+    color: #2C3E50 !important;
+}
+
+.background-darkblue{
+   background-color :  #2C3E50 !important;
+    
+}
+
+.background-dark{
+    background-color:#343A40 !important;
+}
+
+.font-dark{
+    color:#343A40 !important;
+}
