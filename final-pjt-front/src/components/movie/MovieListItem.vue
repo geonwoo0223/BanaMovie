@@ -1,30 +1,24 @@
 <template>
   <div class="col-3">
     
-    <!-- <card>
-      <img @click="showDetail" :src="movie.poster_path" :alt="movie.title" v-if="!movie.poster_path.includes('#')"/>
-      <img @click="showDetail" src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" :alt="movie.title" v-else/>
-      <p>{{ movie.vote_count }}</p>
-    </card> -->
-
     
     <b-col>
-        <b-card v-if="!movie.poster_path.includes('#')"
-        :img-src="movie.poster_path" img-alt="Image" img-top tag="article"
-          style="max-width: 20rem; max-height:25rem; min-height:25rem;" class="my-2 bg-dark" @click="showDetail">
-          <!-- <b-card-text>개봉일 : {{movie.release_date}}</b-card-text> -->
-          <b-card-text class="font-1-8em font-do font-color-white" :style="{'max-width': '20rem'}"> 👍 : {{movie.vote_count}}</b-card-text>
+      <b-card v-if="!movie.poster_path.includes('#')"
+      :img-src="movie.poster_path" img-alt="Image" img-top tag="article"
+        style="max-width: 20rem; max-height:25rem; min-height:25rem;" class="my-2 bg-dark" @click="showDetail">
+        <!-- <b-card-text>개봉일 : {{movie.release_date}}</b-card-text> -->
+        <b-card-text class="font-1-8em font-do font-color-white" :style="{'max-width': '20rem'}"> 👍 : {{movie.vote_count}}</b-card-text>
 
-          <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
-        </b-card>
-        <b-card v-else
-        img-src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" img-alt="Image" img-top tag="article"
-          style="max-width: 20rem; max-height:25rem; min-height:25rem;" class="my-2 bg-dark" @click="showDetail">
-          <!-- <b-card-text>개봉일 : {{movie.release_date}}</b-card-text> -->
-          <b-card-text class="font-1-8em font-do font-color-white" :style="{'max-width': '20rem'}"> 👍 : {{movie.vote_count}}</b-card-text>
+        <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
+      </b-card>
+      <b-card v-else
+      img-src="https://image.tmdb.org/t/p/w185/g3gpHLUuQLGI9gRmfraSQCN1TYk.jpg" img-alt="Image" img-top tag="article"
+        style="max-width: 20rem; max-height:25rem; min-height:25rem;" class="my-2 bg-dark" @click="showDetail">
+        <!-- <b-card-text>개봉일 : {{movie.release_date}}</b-card-text> -->
+        <b-card-text class="font-1-8em font-do font-color-white" :style="{'max-width': '20rem'}"> 👍 : {{movie.vote_count}}</b-card-text>
 
-          <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
-        </b-card>
+        <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
+      </b-card>
     </b-col>
 
 
@@ -42,7 +36,7 @@
         <h5 class="font-do" v-if="movie.adult">19세 관람가</h5>
         <br />
         <h4 class="font-poor">줄거리: {{ movie.overview | truncate(100, '...') }}</h4>
-        <h4 class="font-poor">평점: {{ movie_list[movie.id-1]["rate"] }}</h4>
+        <h4 class="font-poor">평점: {{ movie_list[movie.id-1]["rate"].toFixed(1) }}</h4>
         <hr />
       </div>
       <br>
@@ -91,7 +85,7 @@
 
           <div>
             <div class="d-flex justify-content-center">
-              <button @click="hideDetail" class="btn btn-secondary font-jua mr-1 ml-1">취소</button>
+              <button @click="hideDetail" :class="{ appear: showAdd }" class="btn btn-secondary font-jua mr-1 ml-1">취소</button>
               <button :class="{ appear: showAdd }" class="btn btn-pink mr-1 ml-1" @click="addReview(movie)">확인</button>
               <button :class="{ appear: !showAdd }" class="btn btn-pink font-jua mr-1 ml-1"
                 @click="updateReview(movie)">수정</button>
@@ -125,8 +119,8 @@
               </div>
 
               <div class="col-3" id="review-button" v-if="review.user.id === login_user">
-                <button @click="updateReady(review)" class="btn btn-pink mr-1 ml-1">수정</button>
-                <button @click="deleteReview(movie)" class="btn btn-delete mr-1 ml-1">삭제</button>
+                <button @click="updateReady(review)" :class="{ appear: showAdd }" class="btn btn-pink mr-1 ml-1">수정</button>
+                <button @click="deleteReview(movie)" :class="{ appear: showAdd }" class="btn btn-delete mr-1 ml-1">삭제</button>
               </div>
 
             </div>
@@ -209,8 +203,11 @@
                 acount++
               }
             }
+            console.log("리뷰수:", acount)
             this.total[this.movie.id] += this.selected_rate
+            console.log('총점수:', this.total[this.movie.id])
             this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/acount
+            console.log('평균:',this.$store.state.movie_list[this.movie.id-1].rate)
             this.$store.dispatch('checkReviewer', reviewerInfo)
             this.$store.dispatch('recommendMovie')
             this.content = null
@@ -228,23 +225,31 @@
           axios.delete(`${SERVER_URL}/movies/${movie.id}/review/update/`, config)
             .then((res) => {
               console.log(res)
+              const idx1 = this.review_list.findIndex( (review) => {
+                return review.id === res.data.id
+              })
+              this.$store.state.review_list.splice(idx1, 1)
               let dcount = 0
               for (const review of this.review_list) {
                 if (review.movie.id === this.movie.id) {
-                  dcount -= 1
+                  dcount++
                 }
               }
-              if (dcount < 0) {
+              if (dcount <= 0) {
                 dcount = 1
               }
-              const idx1 = this.review_list.indexOf(res.data.id)
-              this.$store.state.review_list.splice(idx1, 1)
+              console.log("리뷰수:", dcount)
 
-              const idx2 = this.user_movie[this.login_user].indexOf(movie.id)
+              const idx2 = this.user_movie[this.login_user].findIndex( (user) => {
+                return user.id === movie.id
+              })
               this.$store.state.user_movie[this.login_user].splice(idx2, 1)
 
               this.total[this.movie.id] -= res.data.rate
+              console.log('총점수:', this.total[this.movie.id])
+
               this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/dcount
+              console.log('평균',this.$store.state.movie_list[this.movie.id-1].rate)
 
 
 
@@ -300,8 +305,13 @@
                 ucount++
               }
             }
+            console.log("리뷰수:", ucount)
+
             this.total[this.movie.id] += res.data.rate
+            console.log('총점수:', this.total[this.movie.id])
+
             this.$store.state.movie_list[this.movie.id-1].rate = this.total[this.movie.id]/ucount
+            console.log('평균',this.$store.state.movie_list[this.movie.id-1].rate)
 
           })
           .catch((err) => {

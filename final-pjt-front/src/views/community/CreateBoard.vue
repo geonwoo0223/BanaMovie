@@ -119,6 +119,9 @@
       this.title = this.$route.params.title
       this.content = this.$route.params.content
 
+    },
+    mounted() {
+      window.scrollTo(0,0)
     }
 
   }

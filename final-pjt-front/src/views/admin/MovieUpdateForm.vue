@@ -177,6 +177,9 @@ export default {
     ...mapState([
       'movie_list'
     ])
+  },
+  mounted() {
+      window.scrollTo(0,0)
   }
 }
 </script>

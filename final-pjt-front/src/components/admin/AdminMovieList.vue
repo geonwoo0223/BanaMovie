@@ -5,35 +5,36 @@
       <div class="row">
         <h1 class="font-do">영화 리스트</h1>
       </div>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        align="center"
+        aria-controls="movieTable"  
+      ></b-pagination>
       <div class="row">
-        <!-- <div class="col "> -->
-
-        <table class="table table-hover table-dark">
-          <thead>
-            <tr>
-              <th>코드</th>
-              <th>제목</th>
-              <th>개봉일</th>
-              <th>추천</th>
-              <th>총평점</th>
-              <th>수정</th>
-              <th>삭제</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(movie,idx) in movies" :key="idx">
-              <th>{{ movie.movie_no }}</th>
-              <th>{{ movie.title }}</th>
-              <th>{{ $moment(movie.release_date).format('YYYY-MM-DD') }}</th>
-              <th>{{ movie.vote_count }}</th>
-              <th>{{ movie.rate }}</th>
-              <th><button @click="updateMovie(movie)" class="btn btn-warning font-jua">수정</button></th>
-              <th><button @click="deleteMovie(movie)" class="btn btn-secondary font-jua">삭제</button></th>
-            </tr>
-          </tbody>
 
 
-        </table>
+      <b-table name="movieTable"
+        striped hover :items="movies" :fields="fields" head-variant="dark"
+        table-variant="light" :current-page="currentPage" :per-page="perPage" :fixed="true"
+        stacked="md" sort-icon
+        >
+        
+        <template #cell(name)="row">
+          {{ row.value.first }} {{ row.value.last }}
+        </template>
+
+        <template #cell(actions)>
+          <b-button @click="updateMovie(movie)" class="mr-1 btn btn-warning font-jua">
+            수정
+          </b-button>
+          <b-button @click="deleteMovie(movie)" class="btn btn-secondary font-jua">
+            삭제
+          </b-button>
+        </template>
+      
+      </b-table>
       </div>
     </div>
 
@@ -48,6 +49,21 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'AdminMovieList',
+  data: function () {
+    return {
+      perPage: 10,
+      currentPage: 1,
+      fields: [
+        { key: 'movie_no', label: '코드' },
+        { key: 'title', label: '제목', sortable: true, sortDirection: 'desc' },
+        { key: 'release_date', label: '개봉일', sortable: true, sortDirection: 'desc' },
+        { key: 'vote_count', label: '추천', sortable: true, sortDirection: 'desc' },
+        { key: 'rate', label: '총평점', sortable: true, sortDirection: 'desc' },
+        { key: 'actions', label: '관리'}
+      ],
+
+    }
+  },
   methods: {
     updateMovie: function (movie) {
       this.$router.push( { name: 'MovieUpdateForm', params: {'movie': movie}})
@@ -78,6 +94,10 @@ export default {
           return movie
         }
       })
+    },
+
+    rows: function () {
+      return this.movies.length
     }
   }
 }
