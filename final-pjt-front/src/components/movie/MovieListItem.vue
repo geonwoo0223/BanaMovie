@@ -309,6 +309,10 @@
               if (res.data.like === false) {
                 this.$store.state.movie_list[this.movie.id-1].vote_count -= 1
               }
+            } else {
+              if (res.data.like === true) {
+                this.$store.state.movie_list[this.movie.id-1].vote_count += 1
+              }
             }
 
 
