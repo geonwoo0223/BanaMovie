@@ -60,6 +60,9 @@
               })
               this.members.splice(targetMemberIdx, 1)
   
+              console.log(this.$store.state.user_movie[`${res.data.who}`])
+
+
             })
             .catch((err) => {
               console.log(err)
