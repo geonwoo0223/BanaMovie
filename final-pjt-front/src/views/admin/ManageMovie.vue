@@ -12,9 +12,7 @@
 
       <!-- <b-row> -->
         
-    <AdminMovieList :class="{ appear: !hideAdd }" 
-      @triggerUpdate="triggerUpdate"
-    />
+    <AdminMovieList/>
       <!-- </b-row>-->
 
     </b-container>
@@ -49,9 +47,6 @@ export default {
     triggerSearch: function () {
       this.$router.push({name : 'MovieSearchForm'})
     },
-    triggerUpdate: function () {
-      this.hideUpdate = false
-    }
   },
 }
 </script>
