@@ -1,4 +1,24 @@
-# Movie
+# 종합 프로젝트
+
+**필수** 사전 생성 파일
+
+*  `.env.local` 
+
+  * 생성 경로 : final-pjt-front/.env./local
+
+  ```
+  VUE_APP_SERVER_URL=서버주소
+  
+  VUE_APP_SEARCH_URL=https://api.themoviedb.org/3/search/movie?api_key
+  
+  VUE_APP_API_KEY=TMDB키값
+  ```
+
+  * 예시
+
+  ![image-20201126141952996](images/image-20201126141952996.png)
+
+  
 
 
 
@@ -7,9 +27,9 @@
 ### A. 언어
 
 * Python 3.7.7
-* Django 3.X
+* Django 3.1.3
 * Node 14.15.0
-* Vue.js 2.6+
+* Vue.js @vue/cli 4.5.8 
 
 
 
