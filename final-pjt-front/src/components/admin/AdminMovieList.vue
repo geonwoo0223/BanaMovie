@@ -20,16 +20,21 @@
         table-variant="light" :current-page="currentPage" :per-page="perPage" :fixed="true"
         stacked="md" sort-icon
         >
-        
+
+        <template #cell(index)="data">
+          {{ data.index + 1 }}
+        </template>     
+
+
         <template #cell(name)="row">
           {{ row.value.first }} {{ row.value.last }}
         </template>
 
-        <template #cell(actions)>
-          <b-button @click="updateMovie(movie)" class="mr-1 btn btn-warning font-jua">
+        <template #cell(actions)="data">
+          <b-button @click="updateMovie(data.item)" class="mr-1 btn btn-warning font-jua">
             수정
           </b-button>
-          <b-button @click="deleteMovie(movie)" class="btn btn-secondary font-jua">
+          <b-button @click="deleteMovie(data.item)" class="btn btn-secondary font-jua">
             삭제
           </b-button>
         </template>
@@ -54,6 +59,7 @@ export default {
       perPage: 10,
       currentPage: 1,
       fields: [
+        'index',
         { key: 'movie_no', label: '코드' },
         { key: 'title', label: '제목', sortable: true, sortDirection: 'desc' },
         { key: 'release_date', label: '개봉일', sortable: true, sortDirection: 'desc' },
